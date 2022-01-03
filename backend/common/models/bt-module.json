@@ -1,0 +1,26 @@
+{
+  "name": "BTModule",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "macAddress": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "area": {
+      "type": "belongsTo",
+      "model": "Area",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

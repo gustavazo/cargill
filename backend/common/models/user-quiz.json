@@ -1,0 +1,36 @@
+{
+  "name": "UserQuiz",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "scope": {
+    "include": ["quiz", "customUser", "userAnswers"]
+  },
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "observations": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "quiz": {
+      "type": "belongsTo",
+      "model": "Quiz",
+      "foreignKey": ""
+    },
+    "customUser": {
+      "type": "belongsTo",
+      "model": "CustomUser",
+      "foreignKey": ""
+    },
+    "userAnswers": {
+      "type": "hasMany",
+      "model": "UserAnswer",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

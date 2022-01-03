@@ -1,0 +1,23 @@
+{
+  "name": "UserAnswer",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "date": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "answer": {
+      "type": "belongsTo",
+      "model": "Answer",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

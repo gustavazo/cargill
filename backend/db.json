@@ -1,0 +1,48 @@
+{
+  "ids": {
+    "User": 1,
+    "AccessToken": 1,
+    "ACL": 1,
+    "RoleMapping": 1,
+    "Role": 1,
+    "CustomUser": 2,
+    "Area": 1,
+    "BTModule": 1,
+    "Quiz": 3,
+    "Question": 3,
+    "Answer": 3,
+    "UserQuiz": 2,
+    "UserAnswer": 3
+  },
+  "models": {
+    "User": {},
+    "AccessToken": {},
+    "ACL": {},
+    "RoleMapping": {},
+    "Role": {},
+    "CustomUser": {
+      "1": "{\"type\":\"string\",\"firstName\":\"string\",\"lastName\":\"string\",\"gender\":\"string\",\"legajo\":\"string\",\"email\":\"voidhmaster@gmail.com\",\"password\":\"admin1234\",\"id\":1}"
+    },
+    "Area": {},
+    "BTModule": {},
+    "Quiz": {
+      "1": "{\"id\":1}",
+      "2": "{\"title\":\"string\",\"description\":\"string\",\"id\":2}"
+    },
+    "Question": {
+      "1": "{\"statement\":\"string\",\"quizId\":2,\"id\":1}",
+      "2": "{\"statement\":\"string 2\",\"quizId\":2,\"id\":2}"
+    },
+    "Answer": {
+      "1": "{\"type\":\"string\",\"isCorrect\":true,\"excluding\":true,\"questionId\":1,\"id\":1}",
+      "2": "{\"type\":\"string\",\"isCorrect\":false,\"excluding\":true,\"questionId\":2,\"id\":2}"
+    },
+    "UserQuiz": {
+      "1": "{\"observations\":\"string\",\"quizId\":2,\"customUserId\":1,\"id\":1}"
+    },
+    "UserAnswer": {
+      "1": "{\"date\":\"2022-01-03T04:34:35.937Z\",\"answerId\":1,\"userQuizId\":2,\"id\":1}",
+      "2": "{\"date\":\"2022-01-03T04:34:35.937Z\",\"answerId\":1,\"userQuizId\":1,\"id\":2}"
+    }
+  }
+}

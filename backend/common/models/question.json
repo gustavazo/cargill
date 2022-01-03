@@ -1,0 +1,26 @@
+{
+  "name": "Question",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "scope": {
+    "include": ["answers"]
+  },
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "statement": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "answers": {
+      "type": "hasMany",
+      "model": "Answer",
+      "foreignKey": ""
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
