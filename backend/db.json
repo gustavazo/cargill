@@ -6,7 +6,7 @@
     "RoleMapping": 1,
     "Role": 1,
     "CustomUser": 2,
-    "Area": 1,
+    "Area": 2,
     "BTModule": 1,
     "Quiz": 3,
     "Question": 3,
@@ -23,7 +23,9 @@
     "CustomUser": {
       "1": "{\"type\":\"string\",\"firstName\":\"string\",\"lastName\":\"string\",\"gender\":\"string\",\"legajo\":\"string\",\"email\":\"voidhmaster@gmail.com\",\"password\":\"admin1234\",\"id\":1}"
     },
-    "Area": {},
+    "Area": {
+      "1": "{\"type\":\"string\",\"description\":\"string\",\"tagCode\":\"string\",\"id\":1}"
+    },
     "BTModule": {},
     "Quiz": {
       "1": "{\"id\":1}",
