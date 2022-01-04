@@ -2,7 +2,7 @@ import { List, Datagrid, TextField } from 'react-admin';
 
 import { ShowButton, EditButton, Edit, SimpleForm, TextInput } from 'react-admin';
 import { Create } from 'react-admin';
-
+import QuizEdition from '../components/quiz/edition'
 
 export const QuizCreate = (props) => (
     <Create {...props}>
@@ -15,10 +15,7 @@ export const QuizCreate = (props) => (
 
 export const QuizEdit = (props) => (
     <Edit {...props}>
-        <SimpleForm>
-        <TextInput source="title" />
-            <TextInput source="description" />
-        </SimpleForm>
+        <QuizEdition {...props}/>
     </Edit>
 );
 
