@@ -11,7 +11,9 @@ import {
 } from "@material-ui/core";
 
 const QuestionAnswer = (props) => {
-    console.log(props, 'respuestasbro')
+
+    console.log(props.questionSelected.answers,'props de answer')
+
     return (
         <div>
             {props.questionSelected.answers.map((a) => {

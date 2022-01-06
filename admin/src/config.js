@@ -1,3 +1,3 @@
 export default {
-    backendUrl: "https://pulsofitness.club/"
+    backendUrl: "http://localhost:3000/api/"
 };
