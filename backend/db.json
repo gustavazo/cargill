@@ -9,8 +9,8 @@
     "Area": 2,
     "BTModule": 1,
     "Quiz": 3,
-    "Question": 13,
-    "Answer": 3,
+    "Question": 15,
+    "Answer": 8,
     "UserQuiz": 2,
     "UserAnswer": 3
   },
@@ -32,14 +32,16 @@
       "2": "{\"title\":\"string\",\"description\":\"string\",\"id\":2}"
     },
     "Question": {
-      "1": "{\"statement\":\"string\",\"quizId\":2,\"id\":1}",
-      "2": "{\"statement\":\"string 2\",\"quizId\":2,\"id\":2}",
-      "8": "{\"statement\":\"hola fede\",\"quizId\":2,\"id\":8}",
-      "12": "{\"statement\":\"asspdkasodasod\",\"quizId\":2,\"id\":12}"
+      "14": "{\"statement\":\"Chasis\",\"quizId\":2,\"id\":14}"
     },
     "Answer": {
       "1": "{\"type\":\"string\",\"isCorrect\":true,\"excluding\":true,\"questionId\":1,\"id\":1}",
-      "2": "{\"type\":\"string\",\"isCorrect\":false,\"excluding\":true,\"questionId\":2,\"id\":2}"
+      "2": "{\"type\":\"string\",\"isCorrect\":false,\"excluding\":true,\"questionId\":2,\"id\":2}",
+      "3": "{\"value\":true,\"label\":\"\",\"questionId\":1,\"id\":3}",
+      "4": "{\"value\":true,\"label\":\"\",\"questionId\":12,\"id\":4}",
+      "5": "{\"value\":true,\"label\":\"\",\"questionId\":12,\"id\":5}",
+      "6": "{\"value\":true,\"label\":\"Estado de los neumaticos\",\"questionId\":13,\"id\":6}",
+      "7": "{\"value\":true,\"label\":\"Estado de los neumaticos\",\"questionId\":14,\"id\":7}"
     },
     "UserQuiz": {
       "1": "{\"observations\":\"string\",\"quizId\":2,\"customUserId\":1,\"id\":1}"

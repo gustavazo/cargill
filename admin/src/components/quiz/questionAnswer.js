@@ -1,24 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import {
-    TableBody,
-    TableContainer,
-    TableHead,
     TableRow,
     TableCell,
-    Table,
-    IconButton,
-    Button
+    Switch
 } from "@material-ui/core";
 
 const QuestionAnswer = (props) => {
 
-    console.log(props.questionSelected.answers,'props de answer')
+    const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
     return (
         <div>
             {props.questionSelected.answers.map((a) => {
                 return (<TableRow>
-                    <TableCell>hola</TableCell>
+                    <TableCell>{a.label}</TableCell>
+                    <TableCell><Switch {...label} /></TableCell>
                 </TableRow>)
             })}
         </div>

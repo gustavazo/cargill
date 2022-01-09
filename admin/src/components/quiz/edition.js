@@ -13,8 +13,7 @@ import {
 import QuestionAnswer from './questionAnswer';
 import QuestionService from '../../services/QuestionService';
 import QuizService from '../../services/QuizService';
-import answerService from '../../services/AnswerService';
-import CRUDService from "../../services/CRUDService";
+import AnswerService from '../../services/AnswerService'
 
 const Edition = (props) => {
     const [questionSelected, setQuestionSelected] = useState(null)
@@ -24,7 +23,8 @@ const Edition = (props) => {
         ''
     )
     const [newAnswer, setNewAnswer] = useState({
-        answer:''
+        answer:'',
+        value:true
     })
     const [quiz, setQuiz] = useState(props.record)
     const [question, setQuestion] = useState()
@@ -62,7 +62,10 @@ const Edition = (props) => {
         setNewQuestion(e.target.value)
     }
     const handleChangeA = (e) => {
-        setNewAnswer(e.target.value)
+        setNewAnswer({
+            ...newAnswer,
+            answer: e.target.value
+            })
         
     }
 
@@ -75,11 +78,12 @@ const Edition = (props) => {
     }
 
     const sendAnswer = async () => {
-        // const res = await AnswerService.create({
-            
-        // })
-        // getQuestion()
-        console.log('trolo')
+        const res = await AnswerService.create({
+            label:newAnswer.answer,
+            value:newAnswer.value,
+            questionId:question.id
+        })
+        getQuiz()
     }
     
     const getQuiz = async () => {
