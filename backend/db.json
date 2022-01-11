@@ -9,8 +9,8 @@
     "Area": 2,
     "BTModule": 1,
     "Quiz": 3,
-    "Question": 19,
-    "Answer": 25,
+    "Question": 20,
+    "Answer": 27,
     "UserQuiz": 2,
     "UserAnswer": 3
   },
@@ -33,7 +33,8 @@
     },
     "Question": {
       "14": "{\"statement\":\"Chasis\",\"quizId\":2,\"id\":14}",
-      "18": "{\"statement\":\"si\",\"quizId\":1,\"id\":18}"
+      "18": "{\"statement\":\"si\",\"quizId\":1,\"id\":18}",
+      "19": "{\"statement\":\"ola\",\"quizId\":2,\"id\":19}"
     },
     "Answer": {
       "1": "{\"type\":\"string\",\"isCorrect\":true,\"excluding\":true,\"questionId\":1,\"id\":1}",
@@ -51,11 +52,11 @@
       "14": "{\"id\":14,\"nicolas\":\"\"}",
       "16": "{\"id\":16,\"bhola que tal\":\"\"}",
       "17": "{\"id\":17,\"sdasda\":\"\"}",
-      "18": "{\"value\":true,\"label\":\"adios\",\"questionId\":14,\"id\":18}",
-      "19": "{\"value\":true,\"label\":\"camio\",\"questionId\":14,\"id\":19}",
       "20": "{\"value\":true,\"label\":\"adios\",\"questionId\":14,\"id\":20}",
       "23": "{\"value\":true,\"label\":\"se\",\"questionId\":17,\"id\":23}",
-      "24": "{\"value\":true,\"label\":\"o si\",\"questionId\":14,\"id\":24}"
+      "24": "{\"value\":true,\"label\":\"o si\",\"questionId\":14,\"id\":24}",
+      "25": "{\"value\":true,\"label\":\"fede\",\"questionId\":14,\"id\":25}",
+      "26": "{\"value\":true,\"label\":\"p;a\",\"questionId\":19,\"id\":26}"
     },
     "UserQuiz": {
       "1": "{\"observations\":\"string\",\"quizId\":2,\"customUserId\":1,\"id\":1}"

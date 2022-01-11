@@ -52,6 +52,7 @@ const Edition = (props) => {
     const openModalA = (q) => {
         setOpenA(true)
         setQuestion(q)
+        setQuestionSelected(null)
     }
     
     const closeModalA = () => {
