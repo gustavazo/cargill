@@ -148,12 +148,12 @@ const Edition = (props) => {
                         {quiz.questions.map((q) => (
                             <>
                                 <TableRow>
-                                    <TableCell>
+                                    <TableCell onClick={() => onRowClick(q)}>
                                         <div>
                                             <div>{q.statement}</div>
                                         </div>
                                     </TableCell>
-                                    <TableCell><Button variant="text" onClick={() => onRowClick(q)} variant="contained" color='primary'>Respuestas</Button></TableCell>
+                                    <TableCell onClick={() => onRowClick(q)}></TableCell>
                                     <TableCell><Button onClick={() => openModalA(q)} variant="contained" color='primary'>Agregar Respuesta</Button></TableCell>
                                     <TableCell><Button onClick={() => deleteQ(q)}variant="contained" color='secondary'>Borrar</Button></TableCell>
                                     
