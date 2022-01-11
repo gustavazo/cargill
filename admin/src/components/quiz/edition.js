@@ -77,6 +77,11 @@ const Edition = (props) => {
         })
         getQuiz()
     }
+    
+    const getQuiz = async () => {
+        const res = await QuizService.findById(props.record.id)
+        setQuiz(res.data)
+    }
 
     const sendAnswer = async () => {
         const res = await AnswerService.create({
@@ -84,12 +89,8 @@ const Edition = (props) => {
             value:newAnswer.value,
             questionId:question.id
         })
+        setOpenA(false)
         getQuiz()
-    }
-    
-    const getQuiz = async () => {
-        const res = await QuizService.findById(props.record.id)
-        setQuiz(res.data)
     }
 
     const deleteQ = async (q) => {
