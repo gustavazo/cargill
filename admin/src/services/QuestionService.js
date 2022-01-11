@@ -9,7 +9,7 @@ class QuestionService extends CRUDService {
     return this.api.get(`/${id}/answers`)
   }
 
-  async deleteAnswer(id) {
+  async deleteQuestion(id) {
     return this.api.delete(`/${id}`)
   }
 }

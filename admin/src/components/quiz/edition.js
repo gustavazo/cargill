@@ -56,6 +56,7 @@ const Edition = (props) => {
     
     const closeModalA = () => {
         setOpenA(false)
+        getQuiz()
     }
 
     const handleChangeQ = (e) => {
@@ -92,7 +93,7 @@ const Edition = (props) => {
     }
 
     const deleteQ = async (q) => {
-        const res = await QuestionService.deleteAnswer(q.id)
+        const res = await QuestionService.deleteQuestion(q.id)
         getQuiz()
     }
 
@@ -103,21 +104,21 @@ const Edition = (props) => {
         <div>
             <h1>Title</h1>
             <h3>Description</h3>
-            <Button onClick={openModalQ}>Add question</Button>
+            <Button onClick={openModalQ}  variant="contained" color='primary'>Agregar Preguntas</Button>
             <Modal
             show={openQ}
             onClose={closeModalQ}
             >
                 <form>
                     <TextField
-                        label="Question"
+                        label="Pregunta"
                         margin="normal"
                         variant="filled"
                         name="question"
                         onChange={handleChangeQ}
                     />
                 </form>
-                <Button onClick={sendQuestion}>Send</Button>
+                <Button onClick={sendQuestion}>Enviar</Button>
             </Modal>
             <Modal
             show={openA}
@@ -125,20 +126,20 @@ const Edition = (props) => {
             >
                 <form>
                     <TextField
-                        label="Answer"
+                        label="Respuesta"
                         margin="normal"
                         variant="filled"
                         name="answer"
                         onChange={handleChangeA}
                     />
                 </form>
-                <Button onClick={sendAnswer}>Send</Button>
+                <Button onClick={sendAnswer}>Enviar</Button>
             </Modal>
             <TableContainer >
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Questions</TableCell>
+                            <TableCell>Preguntas</TableCell>
 
                         </TableRow>
                     </TableHead>
@@ -151,9 +152,9 @@ const Edition = (props) => {
                                             <div>{q.statement}</div>
                                         </div>
                                     </TableCell>
-                                    <TableCell><Button variant="text" onClick={() => onRowClick(q)}>Answer</Button></TableCell>
-                                    <TableCell><Button onClick={() => openModalA(q)}>Add answer</Button></TableCell>
-                                    <TableCell><Button onClick={() => deleteQ(q)}>Delete</Button></TableCell>
+                                    <TableCell><Button variant="text" onClick={() => onRowClick(q)} variant="contained" color='primary'>Respuestas</Button></TableCell>
+                                    <TableCell><Button onClick={() => openModalA(q)} variant="contained" color='primary'>Agregar Respuesta</Button></TableCell>
+                                    <TableCell><Button onClick={() => deleteQ(q)}variant="contained" color='secondary'>Borrar</Button></TableCell>
                                     
                                 </TableRow>
                                 {q.id === questionSelected?.id ? <QuestionAnswer questionSelected={questionSelected} /> : null}
