@@ -7,6 +7,9 @@ import AnswerService from '../../services/AnswerService';
 import Modal from "simple-react-modal";
 import QuestionService from '../../services/QuestionService';
 import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+
 
 const QuestionAnswer = (props) => {
 
@@ -71,19 +74,23 @@ const QuestionAnswer = (props) => {
                 </form>
                 <Button variant='contained' color='primary'onClick={edition}>Editar</Button>
             </Modal>
-            <TableRow>
+            <div>
                 {answers.answers.map((a) => {
                     return (
                         <>
-                        <div style={{ display:'flex', textAlign:'center', alignContent: 'center', alignItems: 'center', flexDirection:'column', border: '1px solid black' }}>
-                            <span style={{margin: 5}}>{a.label}</span>
-                            <Button color='error' style={{margin: 5}} onClick={() => deleteAns(a)} variant='contained'>Borrar respuesta</Button>
-                            <Button color='primary' style={{margin: 5}} variant='contained'onClick={() => openModal(a)}>Editar respuesta</Button>
+                        <div style={{ display:'flex', alignItems: 'center', justifyContent:'space-between', flexDirection: 'row' }}>
+                            <div>
+                                <span style={{margin: 5}}>{a.label}</span>
+                            </div>
+                            <div>
+                                <Button color='primary' style={{margin: 5}} variant='contained'onClick={() => openModal(a)}><EditIcon/></Button>
+                                <Button color='error' style={{margin: 5}} onClick={() => deleteAns(a)} variant='contained'><DeleteIcon/></Button>
+                            </div>
                         </div>
                         </>
                     )
                 })}
-            </TableRow>
+            </div>
         </div>
     )
 }

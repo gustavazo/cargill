@@ -7,13 +7,17 @@ import {
     TableRow,
     TableCell,
     Table,
-    Button,
     TextField
 } from "@material-ui/core";
 import QuestionAnswer from './questionAnswer';
 import QuestionService from '../../services/QuestionService';
 import QuizService from '../../services/QuizService';
 import AnswerService from '../../services/AnswerService'
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
+
 
 const Edition = (props) => {
     const [questionSelected, setQuestionSelected] = useState(null)
@@ -138,39 +142,31 @@ const Edition = (props) => {
                 </form>
                 <Button onClick={sendAnswer}>Enviar</Button>
             </Modal>
-            <TableContainer >
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell align="center" style={{fontSize: 25, fontWeight:'bold'}}>Preguntas</TableCell>
-                            <TableCell align="center" style={{fontSize: 25, fontWeight:'bold'}}>Acciones</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {quiz.questions.map((q) => (
+                    <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                        <div align="center" style={{fontSize: 25, fontWeight:'bold', marginLeft: 25}}>Preguntas</div>
+                        <div align="center" style={{fontSize: 25, fontWeight:'bold', marginRight: 25}}>Acciones</div>
+                    </div>
+                    <div>
+                        {quiz.questions?.map((q) => (
                             <>
-                                <TableRow style={{cursor:'pointer'}} onClick={() => onRowClick(q)}>
-                                    <TableCell align="center">
+                                <div style={{cursor:'pointer'}} onClick={() => onRowClick(q)}>
+                                    <div style={{fontSize:20, display: 'flex', justifyContent:'space-between', margin: 10}}>
                                         <div>
-                                            <div style={{fontSize:20}}>{q.statement}</div>
+                                            {q.statement}
                                         </div>
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        <Button onClick={() => openModalA(q)} variant="contained" color='primary'>Agregar Respuesta</Button>
-                                        <Button onClick={() => deleteQ(q)}variant="contained" color='secondary'>Borrar</Button>
-                                    </TableCell>
-                                </TableRow>
-                                <TableRow align="center">
-
-                                {q.id === questionSelected?.id ? <QuestionAnswer questionSelected={questionSelected} /> : null}
-                                
-                                    </TableRow>
+                                        <div>
+                                            <Button onClick={() => openModalA(q)} variant="contained" color='primary' style={{marginRight: 5}}><AddIcon/></Button>
+                                            <Button onClick={() => deleteQ(q)}variant="contained" color='error' style={{marginLeft: 5}}><DeleteIcon/></Button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style={{background: '#f5f5f4'}}>
+                                  {q.id === questionSelected?.id ? <QuestionAnswer questionSelected={questionSelected} /> : null}
+                                </div>
 
                             </>
                         ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                    </div>
         </div>
 
     )
