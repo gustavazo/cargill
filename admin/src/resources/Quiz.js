@@ -7,8 +7,8 @@ import QuizEdition from '../components/quiz/edition'
 export const QuizCreate = (props) => (
     <Create {...props}>
         <SimpleForm>
-            <TextInput source="title" />
-            <TextInput source="description" />
+            <TextInput source="title" label="Título" />
+            <TextInput source="description" label="Descripción" />
         </SimpleForm>
     </Create>
 );
@@ -22,10 +22,10 @@ export const QuizEdit = (props) => (
 export const QuizList = (props) => (
     <List {...props}>
       <Datagrid>
+        <TextField source="title" label="Título" />
+        <TextField source="description" label="Descripción" />
         <ShowButton />
         <EditButton />
-        <TextField source="title" />
-        <TextField source="description" />
       </Datagrid>
     </List>
   );
