@@ -104,9 +104,10 @@ const Edition = (props) => {
     return (
 
         <div>
-            <h1>Title</h1>
-            <h3>Description</h3>
+            <h1>Test de autoelevadores</h1>
+            <h3>Agregar descripción</h3>
             <Button onClick={openModalQ}  variant="contained" color='primary'>Agregar Preguntas</Button>
+            <hr></hr>
             <Modal
             show={openQ}
             onClose={closeModalQ}
@@ -141,25 +142,29 @@ const Edition = (props) => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell>Preguntas</TableCell>
-
+                            <TableCell align="center" style={{fontSize: 25, fontWeight:'bold'}}>Preguntas</TableCell>
+                            <TableCell align="center" style={{fontSize: 25, fontWeight:'bold'}}>Acciones</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {quiz.questions.map((q) => (
                             <>
-                                <TableRow>
-                                    <TableCell onClick={() => onRowClick(q)}>
+                                <TableRow style={{cursor:'pointer'}} onClick={() => onRowClick(q)}>
+                                    <TableCell align="center">
                                         <div>
-                                            <div>{q.statement}</div>
+                                            <div style={{fontSize:20}}>{q.statement}</div>
                                         </div>
                                     </TableCell>
-                                    <TableCell onClick={() => onRowClick(q)}></TableCell>
-                                    <TableCell><Button onClick={() => openModalA(q)} variant="contained" color='primary'>Agregar Respuesta</Button></TableCell>
-                                    <TableCell><Button onClick={() => deleteQ(q)}variant="contained" color='secondary'>Borrar</Button></TableCell>
-                                    
+                                    <TableCell align="center">
+                                        <Button onClick={() => openModalA(q)} variant="contained" color='primary'>Agregar Respuesta</Button>
+                                        <Button onClick={() => deleteQ(q)}variant="contained" color='secondary'>Borrar</Button>
+                                    </TableCell>
                                 </TableRow>
+                                <TableRow align="center">
+
                                 {q.id === questionSelected?.id ? <QuestionAnswer questionSelected={questionSelected} /> : null}
+                                
+                                    </TableRow>
 
                             </>
                         ))}

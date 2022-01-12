@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import {
     TableRow,
-    Button,
     TextField
 } from "@material-ui/core";
 import AnswerService from '../../services/AnswerService';
 import Modal from "simple-react-modal";
 import QuestionService from '../../services/QuestionService';
+import Button from '@mui/material/Button';
 
 const QuestionAnswer = (props) => {
 
@@ -74,11 +74,13 @@ const QuestionAnswer = (props) => {
             <TableRow>
                 {answers.answers.map((a) => {
                     return (
-                        <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                            {a.label}
-                            <Button style={{ backgroundColor: 'red' }} onClick={() => deleteAns(a)} variant='contained'>Borrar</Button>
-                            <Button color='primary' variant='contained'onClick={() => openModal(a)}>Editar</Button>
+                        <>
+                        <div style={{ display:'flex', textAlign:'center', alignContent: 'center', alignItems: 'center', flexDirection:'column', border: '1px solid black' }}>
+                            <span style={{margin: 5}}>{a.label}</span>
+                            <Button color='error' style={{margin: 5}} onClick={() => deleteAns(a)} variant='contained'>Borrar respuesta</Button>
+                            <Button color='primary' style={{margin: 5}} variant='contained'onClick={() => openModal(a)}>Editar respuesta</Button>
                         </div>
+                        </>
                     )
                 })}
             </TableRow>
