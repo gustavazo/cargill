@@ -24,6 +24,12 @@ import {
   QuizList
 } from './resources/Quiz';
 
+import {
+  UserCreate,
+  UserEdit,
+  UserList
+} from './resources/User';
+
 import UserQuiz from "./resources/UserQuiz";
 
 const messages = {
@@ -43,8 +49,9 @@ function App() {
     <div className="App">
       <Admin layout={MyLayout} dataProvider={dataProvider} customRoutes={customRoutes} locale="es" i18nProvider={i18nProvider}>
         <Resource name="Areas" options={{ label: 'Areas' }} create={AreaCreate} edit={AreaEdit} list={AreaList} />
-        <Resource name="Quizzes" options={{ label: 'Cuestionarios' }} create={QuizCreate} edit={QuizEdit} list={QuizList} />
+        <Resource name="Quizzes" options={{ label: 'Encuestas' }} create={QuizCreate} edit={QuizEdit} list={QuizList} />
         <Resource name="BTModules" options={{ label: 'Módulos BT' }} create={BTModuleCreate} edit={BTModuleEdit} list={BTModuleList} />
+        <Resource name="CustomUsers" options={{ label: 'Usuarios' }} create={UserCreate} edit={UserEdit} list={UserList} />
         
       </Admin>
     </div>
