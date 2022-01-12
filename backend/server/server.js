@@ -11,6 +11,7 @@ const boot = require('loopback-boot');
 const app = module.exports = loopback();
 
 app.start = function() {
+  app.models.CustomUser.settings.acls = require('../common/models/custom-user.json').acls;
   // start the web server
   return app.listen(function() {
     app.emit('started');

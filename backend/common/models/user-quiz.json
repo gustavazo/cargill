@@ -11,6 +11,9 @@
   "properties": {
     "observations": {
       "type": "string"
+    },
+    "date": {
+      "type": "date"
     }
   },
   "validations": [],
