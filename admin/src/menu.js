@@ -6,7 +6,7 @@ import DefaultIcon from '@material-ui/icons/ViewList';
 
 const customRoutes = [
     {
-        name: 'User quiz',
+        name: 'Resultados',
         path: 'userQuiz'
     }
 ];

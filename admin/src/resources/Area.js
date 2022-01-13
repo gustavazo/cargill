@@ -7,9 +7,10 @@ import { Create } from 'react-admin';
 export const AreaCreate = (props) => (
     <Create {...props}>
         <SimpleForm>
-            <TextField source="type" label="Tipo" />
-            <TextField source="description" label="Descripción" />
-            <TextField source="tagCode" label="Código QR" />
+            <TextInput source="name" label="Nombre" />
+            <TextInput source="description" label="Descripción" />
+            <TextInput source="type" label="Tipo" />
+            <TextInput source="tagCode" label="Código QR" />
         </SimpleForm>
     </Create>
 );
@@ -17,9 +18,10 @@ export const AreaCreate = (props) => (
 export const AreaEdit = (props) => (
     <Edit {...props}>
         <SimpleForm>
-            <TextField source="type" label="Tipo" />
-            <TextField source="description" label="Descripción" />
-            <TextField source="tagCode" label="Código QR" />
+            <TextInput source="name" label="Nombre" />
+            <TextInput source="description" label="Descripción" />
+            <TextInput source="type" label="Tipo" />
+            <TextInput source="tagCode" label="Código QR" />
         </SimpleForm>
     </Edit>
 );
@@ -27,8 +29,9 @@ export const AreaEdit = (props) => (
 export const AreaList = (props) => (
     <List {...props}>
         <Datagrid>
-            <TextField source="type" label="Tipo" />
+            <TextField source="name" label="Nombre" />
             <TextField source="description" label="Descripción" />
+            <TextField source="type" label="Tipo" />
             <TextField source="tagCode" label="Código QR" />
             <ShowButton />
             <EditButton />
