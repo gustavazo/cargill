@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
@@ -19,6 +19,12 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+
+import { IconButton } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import { styled } from '@mui/material/styles';
+
 
 const style = {
     position: 'absolute',
@@ -120,6 +126,46 @@ export default function UserQuiz() {
     console.log('filter', filter)
     console.log('date', dateSelected)
 
+    //////////////////////////////////////
+    //     REVISAR ANTES DE PUSHEAR     //
+    //////////////////////////////////////
+
+    function createData(name, calories, fat, carbs, protein) {
+        return { name, calories, fat, carbs, protein };
+    }
+    
+    const rows = [
+        createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
+        createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
+        createData('Eclair', 262, 16.0, 24, 6.0),
+        createData('Cupcake', 305, 3.7, 67, 4.3),
+        createData('Gingerbread', 356, 16.0, 49, 3.9),
+    ];
+
+    const StyledTableCell = styled(TableCell)(({ theme }) => ({
+        [`&.${tableCellClasses.head}`]: {
+          backgroundColor: theme.palette.common.black,
+          color: theme.palette.common.white,
+        },
+        [`&.${tableCellClasses.body}`]: {
+          fontSize: 14,
+        },
+      }));
+      
+      const StyledTableRow = styled(TableRow)(({ theme }) => ({
+        '&:nth-of-type(odd)': {
+          backgroundColor: theme.palette.action.hover,
+        },
+        // hide last border
+        '&:last-child td, &:last-child th': {
+          border: 0,
+        },
+      }));
+
+    //////////////////////////////////////
+    //     REVISAR ANTES DE PUSHEAR     //
+    //////////////////////////////////////
+
     return (
         <div>
             <div>
@@ -129,13 +175,35 @@ export default function UserQuiz() {
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={style}>
-                        <Typography id="modal-modal-title" variant="h6" component="h2">
-                            Text in a modal
-                        </Typography>
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                        </Typography>
+                    <Box sx={style} style={{width: 'auto', height: 'auto'}}>
+                    <TableContainer component={Paper}>
+                        <Table aria-label="customized table">
+                            <TableHead>
+                                <TableRow><TableCell>S</TableCell></TableRow>
+                            <TableRow>
+                                <StyledTableCell align="center" style={{fontWeight: 'bold'}}>1</StyledTableCell>
+                                <StyledTableCell align="center" style={{fontWeight: 'bold'}}>*CHASIS*</StyledTableCell>
+                                <StyledTableCell align="center" style={{fontWeight: 'bold'}}>CUMPLE</StyledTableCell>
+                                <StyledTableCell align="center" style={{fontWeight: 'bold'}}>NO CUMPLE</StyledTableCell>
+                            </TableRow>
+                            </TableHead>
+                            <TableBody>
+                            {rows.map((row) => (
+                                <StyledTableRow 
+                                key={row.name}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                <StyledTableCell  component="th" scope="row">
+                                    {/* Empty TableCell */}
+                                </StyledTableCell >
+                                <StyledTableCell align="center">Estados de los neumaticos</StyledTableCell>
+                                <StyledTableCell align="center">✔</StyledTableCell>
+                                <StyledTableCell align="center">❌</StyledTableCell>
+                                </StyledTableRow>
+                            ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                     </Box>
                 </Modal>
             </div>
@@ -144,10 +212,10 @@ export default function UserQuiz() {
 
             <div style={{ display: "flex", justifyContent: "space-evenly" }}>
                 <h1>usersQuizzes</h1>
-                <Button onClick={onClickRefresh}>Refrescar</Button>
             </div>
             <br />
-            <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+            <div style={{ display: "flex", justifyContent: "space-evenly", border: '1px solid black', borderBottom: 0, borderRadius: 5, borderBottomLeftRadius: 0, borderBottomRightRadius: 0, paddingTop: 10 }}>
+                {/* AGREGAR COLOR AL FILTRO, CAMBIAR COLOR DE BORDE AL COLOR DEL FONDO */}
                 <Stack spacing={2} sx={{ width: 300 }}>
                     <Autocomplete
                         id="free-solo-demo"
@@ -158,21 +226,36 @@ export default function UserQuiz() {
                         value={userSelected.firstName}
                     />
                 </Stack>
-                <br />
-                <TextField
-                    id="date"
-                    label="Fecha"
-                    type="date"
-                    onChange={handleFecha}
-                    defaultValue={getDateTime()}
-                    // value={dateSelected}
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                />
-                <Button onClick={handleClick}>Buscar</Button>
+                <div>
+                    <TextField
+                        id="date"
+                        label="Fecha"
+                        type="date"
+                        onChange={handleFecha}
+                        defaultValue={getDateTime()}
+                        // value={dateSelected}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                    />
+                    <IconButton
+                        variant="contained"
+                        color="primary"
+
+                        onClick={onClickRefresh}
+                    >
+                        <RefreshIcon />
+                    </IconButton>
+                    <IconButton
+                        variant="contained"
+                        color="primary"
+
+                        onClick={handleClick}
+                    >
+                        <SearchIcon  />
+                    </IconButton>
+                </div>
             </div>
-            <br /><br />
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
