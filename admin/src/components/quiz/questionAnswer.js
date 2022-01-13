@@ -62,6 +62,7 @@ const QuestionAnswer = (props) => {
             show={open}
             onClose={closeModal}
             >
+                <div style={{background:'#2E7D32', color: 'white', fontWeight: 'bold', fontSize: 30, padding: 10}}>Editar respuesta</div>
                 <form>
                     <TextField
                         label="Nueva Respuesta"
@@ -83,8 +84,8 @@ const QuestionAnswer = (props) => {
                                 <span style={{margin: 5}}>{a.label}</span>
                             </div>
                             <div>
-                                <Button color='primary' style={{margin: 5}} variant='contained'onClick={() => openModal(a)}><EditIcon/></Button>
-                                <Button color='error' style={{margin: 5}} onClick={() => deleteAns(a)} variant='contained'><DeleteIcon/></Button>
+                                <Button color='primary' style={{margin: 5, maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px'}} variant='contained'onClick={() => openModal(a)}><EditIcon style={{fontSize: 20}}/></Button>
+                                <Button color='error' style={{margin: 5, maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px'}} onClick={() => deleteAns(a)} variant='contained'><DeleteIcon style={{fontSize: 20}}/></Button>
                             </div>
                         </div>
                         </>

@@ -16,7 +16,7 @@ import AnswerService from '../../services/AnswerService'
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
-import Paper from '@mui/material/Paper';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 
 const Edition = (props) => {
@@ -108,10 +108,9 @@ const Edition = (props) => {
     return (
 
         <div>
-            <h1>Test de autoelevadores</h1>
-            <h3>Agregar descripción</h3>
-            <Button onClick={openModalQ}  variant="contained" color='primary'>Agregar Preguntas</Button>
-            <hr></hr>
+            <div style={{fontSize: 35, margin: 20, marginBottom: 0, fontWeight:'bold'}}>{quiz?.title}</div>
+            <div style={{fontSize: 30, margin: 20, marginTop: 0, fontWeight: 'lighter'}}>{quiz?.description}</div>
+            <Button style={{position:'absolute', top:100, right: 40}}onClick={openModalQ}  variant="contained" color='primary'>Agregar Preguntas</Button>
             <Modal
             show={openQ}
             onClose={closeModalQ}
@@ -142,25 +141,24 @@ const Edition = (props) => {
                 </form>
                 <Button onClick={sendAnswer}>Enviar</Button>
             </Modal>
-                    <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                        <div align="center" style={{fontSize: 25, fontWeight:'bold', marginLeft: 25}}>Preguntas</div>
-                        <div align="center" style={{fontSize: 25, fontWeight:'bold', marginRight: 25}}>Acciones</div>
+                    <div style={{display: 'flex', justifyContent: 'space-between', background: '#2E7D32', color: 'white', padding: 5}}>
+                        <div align="center" style={{fontSize: 22, fontWeight:'bold', marginLeft: 15}}>Preguntas</div>
                     </div>
                     <div>
                         {quiz.questions?.map((q) => (
                             <>
                                 <div style={{cursor:'pointer'}} onClick={() => onRowClick(q)}>
-                                    <div style={{fontSize:20, display: 'flex', justifyContent:'space-between', margin: 10}}>
+                                    <div style={{fontSize:18, display: 'flex', justifyContent:'space-between', margin: 10, marginLeft: 20}}>
                                         <div>
-                                            {q.statement}
+                                            {q.statement}<ArrowDropDownIcon/>
                                         </div>
                                         <div>
-                                            <Button onClick={() => openModalA(q)} variant="contained" color='primary' style={{marginRight: 5}}><AddIcon/></Button>
+                                            <Button onClick={() => openModalA(q)} variant="contained" color='success' style={{marginRight: 5}}><AddIcon/></Button>
                                             <Button onClick={() => deleteQ(q)}variant="contained" color='error' style={{marginLeft: 5}}><DeleteIcon/></Button>
                                         </div>
                                     </div>
                                 </div>
-                                <div style={{background: '#f5f5f4'}}>
+                                <div style={{background: '#f5f5f4', paddingLeft: 20}}>
                                   {q.id === questionSelected?.id ? <QuestionAnswer questionSelected={questionSelected} /> : null}
                                 </div>
 
