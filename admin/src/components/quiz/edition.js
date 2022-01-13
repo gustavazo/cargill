@@ -19,15 +19,22 @@ const Edition = (props) => {
     const [questionSelected, setQuestionSelected] = useState(null)
     const [openQ, setOpenQ] = useState(false)
     const [openA, setOpenA] = useState(false)
+    const [openE, setOpenE] = useState(false)
     const [newQuestion, setNewQuestion] = useState(
         ''
     )
+    const [editQ, setEditQ] = useState({
+        statement: '',
+        id:0
+    })
     const [newAnswer, setNewAnswer] = useState({
         answer:'',
         value:true
     })
     const [quiz, setQuiz] = useState(props.record)
     const [question, setQuestion] = useState()
+
+    console.log(quiz,'e logi')
 
     const onRowClick = (q) => {
         if (questionSelected === null) {
@@ -60,6 +67,18 @@ const Edition = (props) => {
         getQuiz()
     }
 
+    const openModalE = (q) => {
+        setOpenE(true)
+        setEditQ({
+            statement: q.statement,
+            id: q.id
+        })
+    }
+
+    const closeModalE = () => {
+        setOpenE(false)
+    }
+
     const handleChangeQ = (e) => {
         setNewQuestion(e.target.value)
     }
@@ -67,8 +86,14 @@ const Edition = (props) => {
         setNewAnswer({
             ...newAnswer,
             answer: e.target.value
-            })
-        
+            })  
+    }
+
+    const handleChangeE = (e) => {
+        setEditQ({
+            ...editQ,
+            statement: e.target.value
+        })
     }
 
     const sendQuestion = async () => {
@@ -99,6 +124,11 @@ const Edition = (props) => {
         getQuiz()
     }
 
+    const editedQ = async () => {
+        const res = await QuestionService.editQuestion(editQ.id,{statement: editQ.statement})
+        getQuiz()
+    }
+
     
 
     return (
@@ -108,6 +138,22 @@ const Edition = (props) => {
             <h3>Agregar descripción</h3>
             <Button onClick={openModalQ}  variant="contained" color='primary'>Agregar Preguntas</Button>
             <hr></hr>
+            <Modal
+            show={openE}
+            onClose={closeModalE}
+            >
+                <form>
+                    <TextField
+                        label="Pregunta"
+                        margin="normal"
+                        variant="filled"
+                        name="statement"
+                        value={editQ.statement}
+                        onChange={handleChangeE}
+                    />
+                </form>
+                <Button onClick={editedQ}>Enviar</Button>
+            </Modal>
             <Modal
             show={openQ}
             onClose={closeModalQ}
@@ -157,7 +203,8 @@ const Edition = (props) => {
                                     </TableCell>
                                     <TableCell align="center">
                                         <Button onClick={() => openModalA(q)} variant="contained" color='primary'>Agregar Respuesta</Button>
-                                        <Button onClick={() => deleteQ(q)}variant="contained" color='secondary'>Borrar</Button>
+                                        <Button onClick={() => deleteQ(q)}variant="contained" color='secondary'>Borrar Pregunta</Button>
+                                        <Button onClick={() => openModalE(q)} variant="contained" color='primary'>Editar pregunta</Button>
                                     </TableCell>
                                 </TableRow>
                                 <TableRow align="center">

@@ -12,6 +12,10 @@ class QuestionService extends CRUDService {
   async deleteQuestion(id) {
     return this.api.delete(`/${id}`)
   }
+
+  async editQuestion(id,que) {
+    return this.api.patch(`/${id}`, que)
+  }
 }
 
 export default new QuestionService();
