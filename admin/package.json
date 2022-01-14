@@ -11,6 +11,8 @@
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.24.0",
+    "moment": "^2.29.1",
+    "momentjs": "^2.0.0",
     "prop-types": "^15.8.0",
     "ra-data-json-server": "^3.19.5",
     "ra-i18n-polyglot": "^3.19.6",
