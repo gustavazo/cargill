@@ -24,7 +24,8 @@ import { IconButton } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { styled } from '@mui/material/styles';
-
+import { Title } from 'react-admin';
+import moment from 'moment';
 
 const style = {
     position: 'absolute',
@@ -44,11 +45,12 @@ export default function UserQuiz() {
     const [userSelected, setUserSelected] = React.useState({});
     const [dateSelected, setDateSelected] = React.useState("");
     const [filter, setFilter] = React.useState({});
+    const [quizSelected, setQuizSelected] = React.useState(null)
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = (q) => () => {
+        setQuizSelected(q)
         setOpen(true);
-        console.log('q', q)
     };
     const handleClose = () => setOpen(false);
 
@@ -60,12 +62,9 @@ export default function UserQuiz() {
     const fetchUsers = async () => {
         const allUsers = await UserService.find();
         setUsers(allUsers.data);
-        console.log('allUsers', allUsers);
     };
 
     function pickerUser(evt, value) {
-        console.log('pickerUSre', evt.target.value);
-        console.log('pickerValue', value);
         for (let i = 0; i < users.length; i++) {
             const user = users[i];
 
@@ -121,26 +120,9 @@ export default function UserQuiz() {
         fetchUsers();
     }, []);
 
-    // console.log('usersQuizzes', usersQuizzes);
-    console.log('userSelected', userSelected);
-    console.log('filter', filter)
-    console.log('date', dateSelected)
-
     //////////////////////////////////////
     //     REVISAR ANTES DE PUSHEAR     //
     //////////////////////////////////////
-
-    function createData(name, calories, fat, carbs, protein) {
-        return { name, calories, fat, carbs, protein };
-    }
-    
-    const rows = [
-        createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-        createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-        createData('Eclair', 262, 16.0, 24, 6.0),
-        createData('Cupcake', 305, 3.7, 67, 4.3),
-        createData('Gingerbread', 356, 16.0, 49, 3.9),
-    ];
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -162,13 +144,17 @@ export default function UserQuiz() {
         },
       }));
 
+      console.log(quizSelected)
+
     //////////////////////////////////////
     //     REVISAR ANTES DE PUSHEAR     //
     //////////////////////////////////////
 
     return (
         <div>
-            <div>
+            <Paper>
+            <div style={{margin: 25}}>
+                <Title title="Pruebas de los usuarios" />
                 <Modal
                     open={open}
                     onClose={handleClose}
@@ -176,46 +162,54 @@ export default function UserQuiz() {
                     aria-describedby="modal-modal-description"
                 >
                     <Box sx={style} style={{width: 'auto', height: 'auto'}}>
+                    <div style={{fontSize: 35, margin: 0, marginTop: -20, fontWeight:'bold', display: 'flex', justifyContent: 'center'}}>{quizSelected?.quiz?.title}</div>
+                    <div style={{display: 'flex', justifyContent:'space-between', fontSize: 30, marginTop: -15, fontWeight: 'lighter', display: 'flex', justifyContent: 'center'}}>{quizSelected?.quiz?.description}</div>
+                    <span style={{ display: 'flex', justifyContent: 'center', fontWeight: 'lighter', fontSize: 20, margin: 5}}>Fecha de realizacion del test: {moment().format('DD/MM/YYYY HH:mm')}</span>
                     <TableContainer component={Paper}>
                         <Table aria-label="customized table">
-                            <TableHead>
-                                <TableRow><TableCell>S</TableCell></TableRow>
-                            <TableRow>
-                                <StyledTableCell align="center" style={{fontWeight: 'bold'}}>1</StyledTableCell>
-                                <StyledTableCell align="center" style={{fontWeight: 'bold'}}>*CHASIS*</StyledTableCell>
-                                <StyledTableCell align="center" style={{fontWeight: 'bold'}}>CUMPLE</StyledTableCell>
-                                <StyledTableCell align="center" style={{fontWeight: 'bold'}}>NO CUMPLE</StyledTableCell>
-                            </TableRow>
-                            </TableHead>
-                            <TableBody>
-                            {rows.map((row) => (
-                                <StyledTableRow 
-                                key={row.name}
-                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
-                                <StyledTableCell  component="th" scope="row">
-                                    {/* Empty TableCell */}
-                                </StyledTableCell >
-                                <StyledTableCell align="center">Estados de los neumaticos</StyledTableCell>
-                                <StyledTableCell align="center">✔</StyledTableCell>
-                                <StyledTableCell align="center">❌</StyledTableCell>
-                                </StyledTableRow>
-                            ))}
-                            </TableBody>
+                        {quizSelected?.quiz?.questions?.map((question, index) => (
+                            <>
+                                <TableHead>
+                                    <TableRow>
+                                        <StyledTableCell align="center" style={{fontWeight: 'bold'}}>{index+1}</StyledTableCell>
+                                        <StyledTableCell align="center" style={{fontWeight: 'bold'}}>{question?.statement}</StyledTableCell>
+                                        <StyledTableCell align="center" style={{fontWeight: 'bold'}}>CUMPLE</StyledTableCell>
+                                        <StyledTableCell align="center" style={{fontWeight: 'bold'}}>NO CUMPLE</StyledTableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                {question?.answers?.map((answer) => (
+                                    <StyledTableRow 
+                                    key={answer?.id}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <StyledTableCell  component="th" scope="row">
+                                            {/* Empty TableCell */}
+                                        </StyledTableCell >
+                                        <StyledTableCell align="center">{answer?.label}</StyledTableCell>
+                                        <StyledTableCell align="center">✔</StyledTableCell>
+                                        <StyledTableCell align="center">❌</StyledTableCell>
+                                    </StyledTableRow>
+                                ))}
+                                </TableBody>
+                            </>
+                        ))}
                         </Table>
                     </TableContainer>
+                    <br/>
+                    <TextField
+                    id="outlined-read-only-input"
+                    label="Observaciones"
+                    defaultValue={quizSelected?.observations}
+                    InputProps={{
+                        readOnly: true,
+                    }}
+                    fullWidth
+                    />
                     </Box>
                 </Modal>
             </div>
-
-
-
-            <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-                <h1>usersQuizzes</h1>
-            </div>
-            <br />
-            <div style={{ display: "flex", justifyContent: "space-evenly", border: '1px solid black', borderBottom: 0, borderRadius: 5, borderBottomLeftRadius: 0, borderBottomRightRadius: 0, paddingTop: 10 }}>
-                {/* AGREGAR COLOR AL FILTRO, CAMBIAR COLOR DE BORDE AL COLOR DEL FONDO */}
+            <div style={{ display: "flex", justifyContent: "flex-end", border: '1px solid #2196F3', borderBottom: 0, borderRadius: 5, borderBottomLeftRadius: 0, borderBottomRightRadius: 0, paddingTop: 10,background: '#2196F3' }}>
                 <Stack spacing={2} sx={{ width: 300 }}>
                     <Autocomplete
                         id="free-solo-demo"
@@ -224,6 +218,7 @@ export default function UserQuiz() {
                         renderInput={(params) => <TextField {...params} label="Seleccionar usuario" />}
                         onChange={pickerUser}
                         value={userSelected.firstName}
+                        style={{background:'white', borderRadius: 5, border: '1px solid black', marginBottom: 10, marginRight: 10}}
                     />
                 </Stack>
                 <div>
@@ -233,27 +228,15 @@ export default function UserQuiz() {
                         type="date"
                         onChange={handleFecha}
                         defaultValue={getDateTime()}
+                        style={{background:'white', borderRadius: 5, border: '1px solid black', marginBottom: 10, marginRight: 10}}
+                        variant="filled" 
                         // value={dateSelected}
                         InputLabelProps={{
                             shrink: true,
                         }}
                     />
-                    <IconButton
-                        variant="contained"
-                        color="primary"
-
-                        onClick={onClickRefresh}
-                    >
-                        <RefreshIcon />
-                    </IconButton>
-                    <IconButton
-                        variant="contained"
-                        color="primary"
-
-                        onClick={handleClick}
-                    >
-                        <SearchIcon  />
-                    </IconButton>
+                    <Button style={{margin: 5, maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px', background: '#f5f5f5', color: 'gray', marginBottom: 10}} variant='contained'onClick={onClickRefresh}><RefreshIcon style={{fontSize: 20}}/></Button>
+                    <Button style={{margin: 5, maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px', background: '#f4f4f4', color: 'gray', marginRight: 10, marginBottom: 10}} variant='contained'onClick={handleClick}><SearchIcon style={{fontSize: 20}}/></Button>
                 </div>
             </div>
             <TableContainer component={Paper}>
@@ -281,6 +264,7 @@ export default function UserQuiz() {
                     </TableBody>
                 </Table>
             </TableContainer>
+            </Paper>
         </div>
     )
 };

@@ -62,8 +62,8 @@ const QuestionAnswer = (props) => {
             show={open}
             onClose={closeModal}
             >
-                <div style={{background:'#2E7D32', color: 'white', fontWeight: 'bold', fontSize: 30, padding: 10}}>Editar respuesta</div>
-                <form>
+                <div style={{display: 'flex', justifyContent: 'center', color: 'black', fontWeight: 'bold', fontSize: 20, padding: 10}}>Editar respuesta</div>
+                <form style={{display: 'flex', justifyContent: 'center'}}>
                     <TextField
                         label="Nueva Respuesta"
                         margin="normal"
@@ -73,7 +73,9 @@ const QuestionAnswer = (props) => {
                         onChange={handleChange}
                     />
                 </form>
-                <Button variant='contained' color='primary'onClick={edition}>Editar</Button>
+                <div style={{display: 'flex', justifyContent: 'center'}}>
+                  <Button variant='contained' color='primary'onClick={edition}>Editar</Button>
+                </div>
             </Modal>
             <div>
                 {answers.answers.map((a) => {

@@ -115,7 +115,8 @@ const Edition = (props) => {
             show={openQ}
             onClose={closeModalQ}
             >
-                <form>
+                <div style={{display: 'flex', justifyContent: 'center', color: 'black', fontWeight: 'bold', fontSize: 20, padding: 10}}>Agregar pregunta</div>
+                <form style={{display: 'flex', justifyContent: 'center'}}>
                     <TextField
                         label="Pregunta"
                         margin="normal"
@@ -124,13 +125,16 @@ const Edition = (props) => {
                         onChange={handleChangeQ}
                     />
                 </form>
-                <Button onClick={sendQuestion}>Enviar</Button>
+                <div style={{display: 'flex', justifyContent: 'center'}}>
+                   <Button variant='contained' color='primary' onClick={sendQuestion}>Enviar</Button>
+                </div>
             </Modal>
             <Modal
             show={openA}
             onClose={closeModalA}
             >
-                <form>
+                <div style={{display: 'flex', justifyContent: 'center', color: 'black', fontWeight: 'bold', fontSize: 20, padding: 10}}>Agregar respuesta</div>
+                <form style={{display: 'flex', justifyContent: 'center'}}>
                     <TextField
                         label="Respuesta"
                         margin="normal"
@@ -139,7 +143,9 @@ const Edition = (props) => {
                         onChange={handleChangeA}
                     />
                 </form>
-                <Button onClick={sendAnswer}>Enviar</Button>
+                <div style={{display: 'flex', justifyContent: 'center'}}>
+                    <Button variant='contained' color='primary' onClick={sendAnswer}>Enviar</Button>
+                </div>
             </Modal>
                     <div style={{display: 'flex', justifyContent: 'space-between', background: '#2E7D32', color: 'white', padding: 5}}>
                         <div align="center" style={{fontSize: 22, fontWeight:'bold', marginLeft: 15}}>Preguntas</div>
