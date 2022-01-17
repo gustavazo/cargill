@@ -7,11 +7,11 @@ import { Create } from 'react-admin';
 export const UserCreate = (props) => (
     <Create {...props}>
         <SimpleForm>
-            <TextField source="type" label="Tipo" />
-            <TextField source="firstName" label="Nombre" />
-            <TextField source="lastName" label="Apellido" />
-            <TextField source="gender" label="Género" />
-            <TextField source="legajo" label="Legajo" />
+            <TextInput source="type" label="Tipo" />
+            <TextInput source="firstName" label="Nombre" />
+            <TextInput source="lastName" label="Apellido" />
+            <TextInput source="gender" label="Género" />
+            <TextInput source="legajo" label="Legajo" />
         </SimpleForm>
     </Create>
 );
@@ -19,11 +19,11 @@ export const UserCreate = (props) => (
 export const UserEdit = (props) => (
     <Edit {...props}>
         <SimpleForm>
-            <TextField source="type" label="Tipo" />
-            <TextField source="firstName" label="Nombre" />
-            <TextField source="lastName" label="Apellido" />
-            <TextField source="gender" label="Género" />
-            <TextField source="legajo" label="Legajo" />
+            <TextInput source="type" label="Tipo" />
+            <TextInput source="firstName" label="Nombre" />
+            <TextInput source="lastName" label="Apellido" />
+            <TextInput source="gender" label="Género" />
+            <TextInput source="legajo" label="Legajo" />
         </SimpleForm>
     </Edit>
 );

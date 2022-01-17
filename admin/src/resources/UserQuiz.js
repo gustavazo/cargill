@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
@@ -19,6 +19,13 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+
+import { IconButton } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import { styled } from '@mui/material/styles';
+import { Title } from 'react-admin';
+import moment from 'moment';
 
 const style = {
     position: 'absolute',
@@ -38,11 +45,12 @@ export default function UserQuiz() {
     const [userSelected, setUserSelected] = React.useState({});
     const [dateSelected, setDateSelected] = React.useState("");
     const [filter, setFilter] = React.useState({});
+    const [quizSelected, setQuizSelected] = React.useState(null)
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = (q) => () => {
+        setQuizSelected(q)
         setOpen(true);
-        console.log('q', q)
     };
     const handleClose = () => setOpen(false);
 
@@ -54,12 +62,9 @@ export default function UserQuiz() {
     const fetchUsers = async () => {
         const allUsers = await UserService.find();
         setUsers(allUsers.data);
-        console.log('allUsers', allUsers);
     };
 
     function pickerUser(evt, value) {
-        console.log('pickerUSre', evt.target.value);
-        console.log('pickerValue', value);
         for (let i = 0; i < users.length; i++) {
             const user = users[i];
 
@@ -115,39 +120,96 @@ export default function UserQuiz() {
         fetchUsers();
     }, []);
 
-    // console.log('usersQuizzes', usersQuizzes);
-    console.log('userSelected', userSelected);
-    console.log('filter', filter)
-    console.log('date', dateSelected)
+    //////////////////////////////////////
+    //     REVISAR ANTES DE PUSHEAR     //
+    //////////////////////////////////////
+
+    const StyledTableCell = styled(TableCell)(({ theme }) => ({
+        [`&.${tableCellClasses.head}`]: {
+          backgroundColor: theme.palette.common.black,
+          color: theme.palette.common.white,
+        },
+        [`&.${tableCellClasses.body}`]: {
+          fontSize: 14,
+        },
+      }));
+      
+      const StyledTableRow = styled(TableRow)(({ theme }) => ({
+        '&:nth-of-type(odd)': {
+          backgroundColor: theme.palette.action.hover,
+        },
+        // hide last border
+        '&:last-child td, &:last-child th': {
+          border: 0,
+        },
+      }));
+
+      console.log(quizSelected)
+
+    //////////////////////////////////////
+    //     REVISAR ANTES DE PUSHEAR     //
+    //////////////////////////////////////
 
     return (
         <div>
-            <div>
+            <Paper>
+            <div style={{margin: 25}}>
+                <Title title="Pruebas de los usuarios" />
                 <Modal
                     open={open}
                     onClose={handleClose}
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={style}>
-                        <Typography id="modal-modal-title" variant="h6" component="h2">
-                            Text in a modal
-                        </Typography>
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                        </Typography>
+                    <Box sx={style} style={{width: 'auto', height: 'auto'}}>
+                    <div style={{fontSize: 35, margin: 0, marginTop: -20, fontWeight:'bold', display: 'flex', justifyContent: 'center'}}>{quizSelected?.quiz?.title}</div>
+                    <div style={{display: 'flex', justifyContent:'space-between', fontSize: 30, marginTop: -15, fontWeight: 'lighter', display: 'flex', justifyContent: 'center'}}>{quizSelected?.quiz?.description}</div>
+                    <span style={{ display: 'flex', justifyContent: 'center', fontWeight: 'lighter', fontSize: 20, margin: 5}}>Fecha de realizacion del test: {moment().format('DD/MM/YYYY HH:mm')}</span>
+                    <TableContainer component={Paper}>
+                        <Table aria-label="customized table">
+                        {quizSelected?.quiz?.questions?.map((question, index) => (
+                            <>
+                                <TableHead>
+                                    <TableRow>
+                                        <StyledTableCell align="center" style={{fontWeight: 'bold'}}>{index+1}</StyledTableCell>
+                                        <StyledTableCell align="center" style={{fontWeight: 'bold'}}>{question?.statement}</StyledTableCell>
+                                        <StyledTableCell align="center" style={{fontWeight: 'bold'}}>CUMPLE</StyledTableCell>
+                                        <StyledTableCell align="center" style={{fontWeight: 'bold'}}>NO CUMPLE</StyledTableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                {question?.answers?.map((answer) => (
+                                    <StyledTableRow 
+                                    key={answer?.id}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                    >
+                                        <StyledTableCell  component="th" scope="row">
+                                            {/* Empty TableCell */}
+                                        </StyledTableCell >
+                                        <StyledTableCell align="center">{answer?.label}</StyledTableCell>
+                                        <StyledTableCell align="center">✔</StyledTableCell>
+                                        <StyledTableCell align="center">❌</StyledTableCell>
+                                    </StyledTableRow>
+                                ))}
+                                </TableBody>
+                            </>
+                        ))}
+                        </Table>
+                    </TableContainer>
+                    <br/>
+                    <TextField
+                    id="outlined-read-only-input"
+                    label="Observaciones"
+                    defaultValue={quizSelected?.observations}
+                    InputProps={{
+                        readOnly: true,
+                    }}
+                    fullWidth
+                    />
                     </Box>
                 </Modal>
             </div>
-
-
-
-            <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-                <h1>usersQuizzes</h1>
-                <Button onClick={onClickRefresh}>Refrescar</Button>
-            </div>
-            <br />
-            <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+            <div style={{ display: "flex", justifyContent: "flex-end", border: '1px solid #2196F3', borderBottom: 0, borderRadius: 5, borderBottomLeftRadius: 0, borderBottomRightRadius: 0, paddingTop: 10,background: '#2196F3' }}>
                 <Stack spacing={2} sx={{ width: 300 }}>
                     <Autocomplete
                         id="free-solo-demo"
@@ -156,23 +218,27 @@ export default function UserQuiz() {
                         renderInput={(params) => <TextField {...params} label="Seleccionar usuario" />}
                         onChange={pickerUser}
                         value={userSelected.firstName}
+                        style={{background:'white', borderRadius: 5, border: '1px solid black', marginBottom: 10, marginRight: 10}}
                     />
                 </Stack>
-                <br />
-                <TextField
-                    id="date"
-                    label="Fecha"
-                    type="date"
-                    onChange={handleFecha}
-                    defaultValue={getDateTime()}
-                    // value={dateSelected}
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                />
-                <Button onClick={handleClick}>Buscar</Button>
+                <div>
+                    <TextField
+                        id="date"
+                        label="Fecha"
+                        type="date"
+                        onChange={handleFecha}
+                        defaultValue={getDateTime()}
+                        style={{background:'white', borderRadius: 5, border: '1px solid black', marginBottom: 10, marginRight: 10}}
+                        variant="filled" 
+                        // value={dateSelected}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                    />
+                    <Button style={{margin: 5, maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px', background: '#f5f5f5', color: 'gray', marginBottom: 10}} variant='contained'onClick={onClickRefresh}><RefreshIcon style={{fontSize: 20}}/></Button>
+                    <Button style={{margin: 5, maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px', background: '#f4f4f4', color: 'gray', marginRight: 10, marginBottom: 10}} variant='contained'onClick={handleClick}><SearchIcon style={{fontSize: 20}}/></Button>
+                </div>
             </div>
-            <br /><br />
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
@@ -198,6 +264,7 @@ export default function UserQuiz() {
                     </TableBody>
                 </Table>
             </TableContainer>
+            </Paper>
         </div>
     )
 };

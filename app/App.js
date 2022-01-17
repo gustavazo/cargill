@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   Linking,
+  PermissionsAndroid
 } from 'react-native';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
@@ -13,21 +14,68 @@ import {RNCamera} from 'react-native-camera';
 import {View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import { BleManager } from 'react-native-ble-plx';
+import {BleManager} from 'react-native-ble-plx';
+import RNBluetoothClassic, {
+  BluetoothEventType,
+} from 'react-native-bluetooth-classic';
 
 export const manager = new BleManager();
 class Scan extends Component {
   onSuccess = e => {
-    Linking.openURL(e.data).catch(err =>
-      console.error('An error occured', err),
-    );
+    console.log('ACA', e);
+    this.isAvailalble(e.data)
   };
+
+  isAvailalble = async (mac) => {
+    try {
+      const available = await RNBluetoothClassic.isBluetoothAvailable();
+      console.log('Available', available);
+      this.requestAccessFineLocationPermission();
+      this.startDiscovery(mac);
+    } catch (err) {
+      // Handle accordingly
+      console.log('ERR', err);
+    }
+  };
+
+  async requestAccessFineLocationPermission() {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      {
+        title: 'Access fine location required for discovery',
+        message:
+          'In order to perform discovery, you must enable/allow ' +
+          'fine location access.',
+        buttonNeutral: 'Ask Me Later"',
+        buttonNegative: 'Cancel',
+        buttonPositive: 'OK',
+      },
+    );
+    console.log("PERMISSION")
+    return granted === PermissionsAndroid.RESULTS.GRANTED;
+  }
+
+  startDiscovery = async (mac) => {
+    try {
+      const paired = await RNBluetoothClassic.getBondedDevices();
+      console.log("Paired", paired);
+      const device = paired.find(p => p.address === mac);
+      console.log("DEVICE", device);
+      const connection = await device.connect();
+      const a = await device.write("a");
+    } catch (err) {
+      console.log("ERROR", err)
+    }
+  };
+
+  componentDidMount() {
+    // this.isAvailalble();
+  }
 
   render() {
     return (
       <QRCodeScanner
         onRead={this.onSuccess}
-        flashMode={RNCamera.Constants.FlashMode.torch}
         topContent={
           <Text style={styles.centerText}>
             Go to{' '}
@@ -67,15 +115,10 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   const scanAndConnect = () => {
     manager.startDeviceScan(null, null, (error, device) => {
-      console.log("ACA")
-      console.log("err", error)
       if (error) {
         // Handle error (scanning will be stopped automatically)
         return;
       }
-
-      console.log("DEVICE", device)
-      manager.stopDeviceScan();
 
       // Check if it is a device you are looking for based on advertisement data
       // or other criteria.
@@ -97,6 +140,7 @@ export default function App() {
   }, true);
 
   }, []);
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
