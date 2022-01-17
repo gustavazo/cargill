@@ -7,6 +7,9 @@ import AnswerService from '../../services/AnswerService';
 import Modal from "simple-react-modal";
 import QuestionService from '../../services/QuestionService';
 import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+
 
 const QuestionAnswer = (props) => {
 
@@ -59,6 +62,7 @@ const QuestionAnswer = (props) => {
             show={open}
             onClose={closeModal}
             >
+                <div style={{background:'#2E7D32', color: 'white', fontWeight: 'bold', fontSize: 30, padding: 10}}>Editar respuesta</div>
                 <form>
                     <TextField
                         label="Nueva Respuesta"
@@ -71,19 +75,23 @@ const QuestionAnswer = (props) => {
                 </form>
                 <Button variant='contained' color='primary'onClick={edition}>Editar</Button>
             </Modal>
-            <TableRow>
+            <div>
                 {answers.answers.map((a) => {
                     return (
                         <>
-                        <div style={{ display:'flex', textAlign:'center', alignContent: 'center', alignItems: 'center', flexDirection:'column', border: '1px solid black' }}>
-                            <span style={{margin: 5}}>{a.label}</span>
-                            <Button color='error' style={{margin: 5}} onClick={() => deleteAns(a)} variant='contained'>Borrar respuesta</Button>
-                            <Button color='primary' style={{margin: 5}} variant='contained'onClick={() => openModal(a)}>Editar respuesta</Button>
+                        <div style={{ display:'flex', alignItems: 'center', justifyContent:'space-between', flexDirection: 'row' }}>
+                            <div>
+                                <span style={{margin: 5}}>{a.label}</span>
+                            </div>
+                            <div>
+                                <Button color='primary' style={{margin: 5, maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px'}} variant='contained'onClick={() => openModal(a)}><EditIcon style={{fontSize: 20}}/></Button>
+                                <Button color='error' style={{margin: 5, maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px'}} onClick={() => deleteAns(a)} variant='contained'><DeleteIcon style={{fontSize: 20}}/></Button>
+                            </div>
                         </div>
                         </>
                     )
                 })}
-            </TableRow>
+            </div>
         </div>
     )
 }

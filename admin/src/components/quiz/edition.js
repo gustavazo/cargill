@@ -7,13 +7,17 @@ import {
     TableRow,
     TableCell,
     Table,
-    Button,
     TextField
 } from "@material-ui/core";
 import QuestionAnswer from './questionAnswer';
 import QuestionService from '../../services/QuestionService';
 import QuizService from '../../services/QuizService';
 import AnswerService from '../../services/AnswerService'
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Button from '@mui/material/Button';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+
 
 const Edition = (props) => {
     const [questionSelected, setQuestionSelected] = useState(null)
@@ -134,10 +138,9 @@ const Edition = (props) => {
     return (
 
         <div>
-            <h1>Test de autoelevadores</h1>
-            <h3>Agregar descripción</h3>
-            <Button onClick={openModalQ}  variant="contained" color='primary'>Agregar Preguntas</Button>
-            <hr></hr>
+            <div style={{fontSize: 35, margin: 20, marginBottom: 0, fontWeight:'bold'}}>{quiz?.title}</div>
+            <div style={{fontSize: 30, margin: 20, marginTop: 0, fontWeight: 'lighter'}}>{quiz?.description}</div>
+            <Button style={{position:'absolute', top:100, right: 40}}onClick={openModalQ}  variant="contained" color='primary'>Agregar Preguntas</Button>
             <Modal
             show={openE}
             onClose={closeModalE}
@@ -184,40 +187,31 @@ const Edition = (props) => {
                 </form>
                 <Button onClick={sendAnswer}>Enviar</Button>
             </Modal>
-            <TableContainer >
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell align="center" style={{fontSize: 25, fontWeight:'bold'}}>Preguntas</TableCell>
-                            <TableCell align="center" style={{fontSize: 25, fontWeight:'bold'}}>Acciones</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {quiz.questions.map((q) => (
+                    <div style={{display: 'flex', justifyContent: 'space-between', background: '#2E7D32', color: 'white', padding: 5}}>
+                        <div align="center" style={{fontSize: 22, fontWeight:'bold', marginLeft: 15}}>Preguntas</div>
+                    </div>
+                    <div>
+                        {quiz.questions?.map((q) => (
                             <>
-                                <TableRow style={{cursor:'pointer'}} onClick={() => onRowClick(q)}>
-                                    <TableCell align="center">
+                                <div style={{cursor:'pointer'}} onClick={() => onRowClick(q)}>
+                                    <div style={{fontSize:18, display: 'flex', justifyContent:'space-between', margin: 10, marginLeft: 20}}>
                                         <div>
-                                            <div style={{fontSize:20}}>{q.statement}</div>
+                                            {q.statement}<ArrowDropDownIcon/>
                                         </div>
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        <Button onClick={() => openModalA(q)} variant="contained" color='primary'>Agregar Respuesta</Button>
-                                        <Button onClick={() => deleteQ(q)}variant="contained" color='secondary'>Borrar Pregunta</Button>
-                                        <Button onClick={() => openModalE(q)} variant="contained" color='primary'>Editar pregunta</Button>
-                                    </TableCell>
-                                </TableRow>
-                                <TableRow align="center">
-
-                                {q.id === questionSelected?.id ? <QuestionAnswer questionSelected={questionSelected} /> : null}
-                                
-                                    </TableRow>
+                                        <div>
+                                            <Button onClick={() => openModalA(q)} variant="contained" color='success' style={{marginRight: 5}}><AddIcon/></Button>
+                                            <Button onClick={() => deleteQ(q)}variant="contained" color='error' style={{marginLeft: 5}}><DeleteIcon/></Button>
+                                            <Button onClick={() => openModalE(q)} variant="contained" color='primary' style={{marginLeft: 5}}>Editar pregunta</Button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style={{background: '#f5f5f4', paddingLeft: 20}}>
+                                  {q.id === questionSelected?.id ? <QuestionAnswer questionSelected={questionSelected} /> : null}
+                                </div>
 
                             </>
                         ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                    </div>
         </div>
 
     )
