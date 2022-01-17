@@ -1,4 +1,5 @@
 import { List, Datagrid, TextField } from 'react-admin';
+import { ReferenceInput, SelectInput } from 'react-admin';
 
 import { ShowButton, EditButton, Edit, SimpleForm, TextInput } from 'react-admin';
 import { Create } from 'react-admin';
@@ -9,6 +10,9 @@ export const BTModuleCreate = (props) => (
         <SimpleForm>
             <TextInput source="name" label="Nombre" />
             <TextInput source="macAddress" label="Dirección MAC" />
+            <ReferenceInput label="Area" source="areaId" reference="areas">
+                <SelectInput optionText="id" />
+            </ReferenceInput>
         </SimpleForm>
     </Create>
 );
