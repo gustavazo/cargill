@@ -53,6 +53,7 @@ const QuestionAnswer = (props) => {
     const edition = async () => {
         const res = await AnswerService.editAnswer(editA.id, {label: editA.label})
         getAnswers()
+        closeModal()
     }
 
 

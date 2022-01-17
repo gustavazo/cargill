@@ -106,6 +106,7 @@ const Edition = (props) => {
             quizId: quiz.id
         })
         getQuiz()
+        closeModalQ()
     }
     
     const getQuiz = async () => {
@@ -131,6 +132,7 @@ const Edition = (props) => {
     const editedQ = async () => {
         const res = await QuestionService.editQuestion(editQ.id,{statement: editQ.statement})
         getQuiz()
+        closeModalE()
     }
 
     
