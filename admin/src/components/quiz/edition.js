@@ -109,7 +109,7 @@ const Edition = (props) => {
         })
         getQuiz()
         closeModalQ()
-        notify('La pregunta ha sido creada')
+        notify('La categoría ha sido creada')
     }
     
     const getQuiz = async () => {
@@ -125,20 +125,20 @@ const Edition = (props) => {
         })
         setOpenA(false)
         getQuiz()
-        notify('La respuesta ha sido creada')
+        notify('La consigna ha sido creada')
     }
 
     const deleteQ = async (q) => {
         const res = await QuestionService.deleteQuestion(q.id)
         getQuiz()
-        notify('La pregunta ha sido borrada')
+        notify('La categoría ha sido borrada')
     }
 
     const editedQ = async () => {
         const res = await QuestionService.editQuestion(editQ.id,{statement: editQ.statement})
         getQuiz()
         closeModalE()
-        notify('La pregunta ha sido editada')
+        notify('La categoría ha sido editada')
         
     }
 
@@ -149,14 +149,14 @@ const Edition = (props) => {
         <div>
             <div style={{fontSize: 35, margin: 20, marginBottom: 0, fontWeight:'bold'}}>{quiz?.title}</div>
             <div style={{fontSize: 30, margin: 20, marginTop: 0, fontWeight: 'lighter'}}>{quiz?.description}</div>
-            <Button style={{position:'absolute', top:100, right: 40}}onClick={openModalQ}  variant="contained" color='primary'>Agregar Preguntas</Button>
+            <Button style={{position:'absolute', top:100, right: 40}}onClick={openModalQ}  variant="contained" color='primary'>Agregar Categoría</Button>
             <Modal
             show={openE}
             onClose={closeModalE}
             >
                 <form>
                     <TextField
-                        label="Pregunta"
+                        label="Cateogría"
                         margin="normal"
                         variant="filled"
                         name="statement"
@@ -170,10 +170,10 @@ const Edition = (props) => {
             show={openQ}
             onClose={closeModalQ}
             >
-                <div style={{display: 'flex', justifyContent: 'center', color: 'black', fontWeight: 'bold', fontSize: 20, padding: 10}}>Agregar pregunta</div>
+                <div style={{display: 'flex', justifyContent: 'center', color: 'black', fontWeight: 'bold', fontSize: 20, padding: 10}}>Agregar Categoría</div>
                 <form style={{display: 'flex', justifyContent: 'center'}}>
                     <TextField
-                        label="Pregunta"
+                        label="Categoría"
                         margin="normal"
                         variant="filled"
                         name="question"
@@ -188,10 +188,10 @@ const Edition = (props) => {
             show={openA}
             onClose={closeModalA}
             >
-                <div style={{display: 'flex', justifyContent: 'center', color: 'black', fontWeight: 'bold', fontSize: 20, padding: 10}}>Agregar respuesta</div>
+                <div style={{display: 'flex', justifyContent: 'center', color: 'black', fontWeight: 'bold', fontSize: 20, padding: 10}}>Agregar Consigna</div>
                 <form style={{display: 'flex', justifyContent: 'center'}}>
                     <TextField
-                        label="Respuesta"
+                        label="Consigna"
                         margin="normal"
                         variant="filled"
                         name="answer"
@@ -203,7 +203,7 @@ const Edition = (props) => {
                 </div>
             </Modal>
                     <div style={{display: 'flex', justifyContent: 'space-between', background: '#2E7D32', color: 'white', padding: 5}}>
-                        <div align="center" style={{fontSize: 22, fontWeight:'bold', marginLeft: 15}}>Preguntas</div>
+                        <div align="center" style={{fontSize: 22, fontWeight:'bold', marginLeft: 15}}>Categorías</div>
                     </div>
                     <div>
                         {quiz.questions?.map((q) => (
@@ -214,9 +214,9 @@ const Edition = (props) => {
                                             {q.statement}<ArrowDropDownIcon/>
                                         </div>
                                         <div>
-                                            <Button onClick={() => openModalA(q)} variant="contained" color='success' style={{marginRight: 5}}><AddIcon/></Button>
+                                            <Button onClick={() => openModalA(q)} variant="contained" color='success' style={{marginRight: 5}}>Agregar Consigna</Button>
+                                            <Button onClick={() => openModalE(q)} variant="contained" color='primary' style={{marginLeft: 5}}>Renombrar Categoría</Button>
                                             <Button onClick={() => deleteQ(q)}variant="contained" color='error' style={{marginLeft: 5}}><DeleteIcon/></Button>
-                                            <Button onClick={() => openModalE(q)} variant="contained" color='primary' style={{marginLeft: 5}}>Editar pregunta</Button>
                                         </div>
                                     </div>
                                 </div>

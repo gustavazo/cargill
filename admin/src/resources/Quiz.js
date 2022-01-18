@@ -24,7 +24,6 @@ export const QuizList = (props) => (
       <Datagrid>
         <TextField source="title" label="Título" />
         <TextField source="description" label="Descripción" />
-        <ShowButton />
         <EditButton />
       </Datagrid>
     </List>

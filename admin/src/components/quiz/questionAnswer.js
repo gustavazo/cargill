@@ -49,14 +49,14 @@ const QuestionAnswer = (props) => {
     const deleteAns = async (ans) => {
         const res = await AnswerService.deleteAnswer(ans.id)
         getAnswers()
-        notify('La respuesta ha sido borrada')
+        notify('La consigna ha sido borrada')
     }
     
     const edition = async () => {
         const res = await AnswerService.editAnswer(editA.id, {label: editA.label})
         getAnswers()
         closeModal()
-        notify('La respuesta ha sido editada')
+        notify('La consigna ha sido editada')
     }
 
 
@@ -66,10 +66,10 @@ const QuestionAnswer = (props) => {
             show={open}
             onClose={closeModal}
             >
-                <div style={{display: 'flex', justifyContent: 'center', color: 'black', fontWeight: 'bold', fontSize: 20, padding: 10}}>Editar respuesta</div>
+                <div style={{display: 'flex', justifyContent: 'center', color: 'black', fontWeight: 'bold', fontSize: 20, padding: 10}}>Editar Consigna</div>
                 <form style={{display: 'flex', justifyContent: 'center'}}>
                     <TextField
-                        label="Nueva Respuesta"
+                        label="Consigna"
                         margin="normal"
                         variant="filled"
                         name="label"
