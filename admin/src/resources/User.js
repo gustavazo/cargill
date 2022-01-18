@@ -1,5 +1,5 @@
 import { List, Datagrid, TextField } from 'react-admin';
-
+import { SelectInput } from 'react-admin';
 import { ShowButton, EditButton, Edit, SimpleForm, TextInput } from 'react-admin';
 import { Create } from 'react-admin';
 
@@ -7,7 +7,13 @@ import { Create } from 'react-admin';
 export const UserCreate = (props) => (
     <Create {...props}>
         <SimpleForm>
-            <TextInput source="type" label="Tipo" />
+            <SelectInput
+                source="type"
+                label="Tipo"
+                choices={[
+                    { id: 'operador', name: 'Operador' },
+                    { id: 'admin', name: 'Admin' }
+            ]} />
             <TextInput source="firstName" label="Nombre" />
             <TextInput source="lastName" label="Apellido" />
             <TextInput source="gender" label="Género" />
@@ -19,7 +25,13 @@ export const UserCreate = (props) => (
 export const UserEdit = (props) => (
     <Edit {...props}>
         <SimpleForm>
-            <TextInput source="type" label="Tipo" />
+            <SelectInput
+                source="type"
+                label="Tipo"
+                choices={[
+                    { id: 'operador', name: 'Operador' },
+                    { id: 'admin', name: 'Admin' }
+            ]} />
             <TextInput source="firstName" label="Nombre" />
             <TextInput source="lastName" label="Apellido" />
             <TextInput source="gender" label="Género" />
