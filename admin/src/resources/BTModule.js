@@ -29,10 +29,9 @@ export const BTModuleEdit = (props) => (
 export const BTModuleList = (props) => (
     <List {...props}>
       <Datagrid>
-        <ShowButton />
-        <EditButton />
         <TextField source="name" label="Nombre" />
         <TextField source="macAddress" label="Dirección MAC" />
+        <EditButton />
       </Datagrid>
     </List>
   );
