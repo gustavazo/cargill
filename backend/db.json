@@ -6,11 +6,11 @@
     "RoleMapping": 1,
     "Role": 1,
     "CustomUser": 2,
-    "Area": 2,
+    "Area": 3,
     "BTModule": 1,
-    "Quiz": 3,
-    "Question": 20,
-    "Answer": 27,
+    "Quiz": 4,
+    "Question": 22,
+    "Answer": 29,
     "UserQuiz": 2,
     "UserAnswer": 3
   },
@@ -24,17 +24,21 @@
       "1": "{\"type\":\"string\",\"firstName\":\"string\",\"lastName\":\"string\",\"gender\":\"string\",\"legajo\":\"string\",\"email\":\"voidhmaster@gmail.com\",\"password\":\"admin1234\",\"id\":1}"
     },
     "Area": {
-      "1": "{\"type\":\"string\",\"description\":\"string\",\"tagCode\":\"string\",\"id\":1}"
+      "1": "{\"type\":\"string\",\"description\":\"string\",\"tagCode\":\"string\",\"id\":1}",
+      "2": "{\"name\":\"dasd\",\"id\":2}"
     },
     "BTModule": {},
     "Quiz": {
       "1": "{\"id\":1}",
-      "2": "{\"title\":\"string\",\"description\":\"string\",\"id\":2}"
+      "2": "{\"title\":\"string\",\"description\":\"string\",\"id\":2}",
+      "3": "{\"title\":\"Uno\",\"description\":\"Descripción\",\"id\":3}"
     },
     "Question": {
       "14": "{\"statement\":\"Chasis\",\"quizId\":2,\"id\":14}",
       "18": "{\"statement\":\"si\",\"quizId\":1,\"id\":18}",
-      "19": "{\"statement\":\"ola\",\"quizId\":2,\"id\":19}"
+      "19": "{\"statement\":\"ola\",\"quizId\":2,\"id\":19}",
+      "20": "{\"statement\":\"Chasis funciona\",\"quizId\":3,\"id\":20}",
+      "21": "{\"statement\":\"Motor\",\"quizId\":3,\"id\":21}"
     },
     "Answer": {
       "1": "{\"type\":\"string\",\"isCorrect\":true,\"excluding\":true,\"questionId\":1,\"id\":1}",
@@ -56,7 +60,9 @@
       "23": "{\"value\":true,\"label\":\"se\",\"questionId\":17,\"id\":23}",
       "24": "{\"value\":true,\"label\":\"o si\",\"questionId\":14,\"id\":24}",
       "25": "{\"value\":true,\"label\":\"fede\",\"questionId\":14,\"id\":25}",
-      "26": "{\"value\":true,\"label\":\"p;a\",\"questionId\":19,\"id\":26}"
+      "26": "{\"value\":true,\"label\":\"p;a\",\"questionId\":19,\"id\":26}",
+      "27": "{\"value\":true,\"label\":\"Estado de los neumáticos\",\"questionId\":20,\"id\":27}",
+      "28": "{\"value\":true,\"label\":\"Control nivel batería\",\"questionId\":21,\"id\":28}"
     },
     "UserQuiz": {
       "1": "{\"observations\":\"string\",\"quizId\":2,\"customUserId\":1,\"id\":1}"
