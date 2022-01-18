@@ -11,12 +11,18 @@ export const UserCreate = (props) => (
                 source="type"
                 label="Tipo"
                 choices={[
-                    { id: 'operador', name: 'Operador' },
-                    { id: 'admin', name: 'Admin' }
+                    { id: 'Operador', name: 'Operador' },
+                    { id: 'Admin', name: 'Admin' }
             ]} />
             <TextInput source="firstName" label="Nombre" />
             <TextInput source="lastName" label="Apellido" />
-            <TextInput source="gender" label="Género" />
+            <SelectInput
+                source="gender"
+                label="Género"
+                choices={[
+                    { id: 'Masculino', name: 'Masculino' },
+                    { id: 'Femenino', name: 'Femenino' }
+            ]} />
             <TextInput source="legajo" label="Legajo" />
         </SimpleForm>
     </Create>
@@ -29,12 +35,18 @@ export const UserEdit = (props) => (
                 source="type"
                 label="Tipo"
                 choices={[
-                    { id: 'operador', name: 'Operador' },
-                    { id: 'admin', name: 'Admin' }
+                    { id: 'Operador', name: 'Operador' },
+                    { id: 'Admin', name: 'Admin' }
             ]} />
             <TextInput source="firstName" label="Nombre" />
             <TextInput source="lastName" label="Apellido" />
-            <TextInput source="gender" label="Género" />
+            <SelectInput
+                source="gender"
+                label="Género"
+                choices={[
+                    { id: 'Masculino', name: 'Masculino' },
+                    { id: 'Femenino', name: 'Femenino' }
+            ]} />
             <TextInput source="legajo" label="Legajo" />
         </SimpleForm>
     </Edit>

@@ -18,7 +18,7 @@ export const AreaCreate = (props) => (
       <SelectInput
         source="type"
         label="Tipo"
-        choices={[{ id: "vehiculo", name: "Vehículo" }]}
+        choices={[{ id: "Vehículo", name: "Vehículo" }]}
       />
       <TextInput source="tagCode" label="Código QR" />
     </SimpleForm>
@@ -33,7 +33,7 @@ export const AreaEdit = (props) => (
       <SelectInput
         source="type"
         label="Tipo"
-        choices={[{ id: "vehiculo", name: "Vehículo" }]}
+        choices={[{ id: "Vehículo", name: "Vehículo" }]}
       />
       <TextInput source="tagCode" label="Código QR" />
     </SimpleForm>
