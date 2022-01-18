@@ -9,10 +9,11 @@ import QuestionService from '../../services/QuestionService';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import { useNotify } from 'react-admin';
 
 
 const QuestionAnswer = (props) => {
-
+    const notify = useNotify();
     const [open, setOpen] = useState(false)
     const [editA, setEditA] = useState({
         label:'',
@@ -48,12 +49,14 @@ const QuestionAnswer = (props) => {
     const deleteAns = async (ans) => {
         const res = await AnswerService.deleteAnswer(ans.id)
         getAnswers()
+        notify('La respuesta ha sido borrada')
     }
     
     const edition = async () => {
         const res = await AnswerService.editAnswer(editA.id, {label: editA.label})
         getAnswers()
         closeModal()
+        notify('La respuesta ha sido editada')
     }
 
 

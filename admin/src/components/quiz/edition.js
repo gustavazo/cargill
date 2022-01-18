@@ -17,9 +17,11 @@ import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { useNotify } from 'react-admin';
 
 
 const Edition = (props) => {
+    const notify = useNotify();
     const [questionSelected, setQuestionSelected] = useState(null)
     const [openQ, setOpenQ] = useState(false)
     const [openA, setOpenA] = useState(false)
@@ -107,6 +109,7 @@ const Edition = (props) => {
         })
         getQuiz()
         closeModalQ()
+        notify('La pregunta ha sido creada')
     }
     
     const getQuiz = async () => {
@@ -122,17 +125,21 @@ const Edition = (props) => {
         })
         setOpenA(false)
         getQuiz()
+        notify('La respuesta ha sido creada')
     }
 
     const deleteQ = async (q) => {
         const res = await QuestionService.deleteQuestion(q.id)
         getQuiz()
+        notify('La pregunta ha sido borrada')
     }
 
     const editedQ = async () => {
         const res = await QuestionService.editQuestion(editQ.id,{statement: editQ.statement})
         getQuiz()
         closeModalE()
+        notify('La pregunta ha sido editada')
+        
     }
 
     
