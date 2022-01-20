@@ -263,7 +263,7 @@ export default function UserQuiz() {
                                 <TableCell>{q?.quiz?.title}</TableCell>
                                 <TableCell>{q?.customUser?.firstName}</TableCell>
                                 <TableCell>{q?.date}</TableCell>
-                                <TableCell>{q?.isValid ? <span>✔</span> : <span>❌</span>}</TableCell>
+                                <TableCell>{q?.valid ? <span>✔</span> : <span>❌</span>}</TableCell>
                                 <TableCell><Button variant="contained" onClick={handleOpen(q)}>Ver</Button></TableCell>
                             </TableRow>
                         ))}
