@@ -73,7 +73,7 @@ const create = (props) => {
 
   return (
     <div>
-      <h1 style={{ marginLeft: 15 }}>Crear módulo bluetooth</h1>
+      <h1 style={{ marginLeft: 15 }}>{props.record.id ? "Crear módulo bluetooth" : "Editar módulo bluetooth"}</h1>
       <Box
         component="form"
         sx={{
