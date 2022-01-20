@@ -23,10 +23,7 @@ export const BTModuleCreate = (props) => (
 
 export const BTModuleEdit = (props) => (
     <Edit {...props}>
-        <SimpleForm>
-            <TextInput source="name" label="Nombre" />
-            <TextInput source="macAddress" label="Dirección MAC" />
-        </SimpleForm>
+        <BTcreate {...props} />
     </Edit>
 );
 

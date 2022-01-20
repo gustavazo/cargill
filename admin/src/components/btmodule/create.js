@@ -4,8 +4,8 @@
 // tenes que traer las areas del backend y que esas sean las opciones para seleccionar
 // el valor del select deberia ser el id del area
 
-
-{/* <FormControl fullWidth>
+{
+  /* <FormControl fullWidth>
   <InputLabel id="demo-simple-select-label">Area</InputLabel>
   <Select
     labelId="demo-simple-select-label"
@@ -20,89 +20,103 @@
         ))
     }
   </Select>
-</FormControl> */}
-import { Box, Button, MenuItem, Select, TextField } from '@mui/material'
-import React, { useState, useEffect } from 'react'
+</FormControl> */
+}
+import { Box, Button, MenuItem, Select, TextField } from "@mui/material";
+import React, { useState, useEffect } from "react";
 import { useNotify } from "react-admin";
-import AreaService from '../../services/AreaService'
-import BTModuleService from '../../services/BTModuleService'
+import AreaService from "../../services/AreaService";
+import BTModuleService from "../../services/BTModuleService";
 
 const create = (props) => {
+  console.log("PROPS", props);
   const notify = useNotify();
   const [BTmod, setBTmod] = useState({
-    name: '',
-    adress: '',
-    id: 0
-  })
+    name: props.record.name || "",
+    macAddress: props.record.macAddress || "",
+    areaId: props.record.areaId || 0,
+  });
 
-  const [areas, setAreas] = useState([])
+  const [areas, setAreas] = useState([]);
 
   useEffect(() => {
-    getAreas()
-  }, [])
+    getAreas();
+  }, []);
 
   const getAreas = async () => {
-    const res = await AreaService.find({})
-    setAreas(res.data)
-  }
+    const res = await AreaService.find({});
+    setAreas(res.data);
+  };
 
   const handleChange = (e) => {
     setBTmod({
       ...BTmod,
-      [e.target.name]: e.target.value
-    }) 
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const postModule = async () => {
-    const res = await BTModuleService.create({
-      name: BTmod.name,
-      macAddress: BTmod.adress,
-      areaId: BTmod.id
-    })
+    const res = props.record.id
+      ? await BTModuleService.update(props.record.id, {
+          name: BTmod.name,
+          macAddress: BTmod.macAddress,
+          areaId: BTmod.areaId,
+        })
+      : await BTModuleService.create({
+          name: BTmod.name,
+          macAddress: BTmod.macAddress,
+          areaId: BTmod.areaId,
+        });
     notify("Creado");
-    window.location.href = "/btmodules";
-  }
+    window.location.href = "/#/BTModules";
+  };
 
   return (
     <div>
-      <h1 style={{marginLeft: 15 }}>Crear módulo bluetooth</h1>
+      <h1 style={{ marginLeft: 15 }}>Crear módulo bluetooth</h1>
       <Box
         component="form"
         sx={{
-          '& > :not(style)': { m: 1, width: '25ch' },
-          flexDirection: "column"
+          "& > :not(style)": { m: 1, width: "25ch" },
+          flexDirection: "column",
         }}
         noValidate
-        autoComplete="off">
+        autoComplete="off"
+      >
         <TextField
           label="Nombre"
           margin="normal"
           variant="filled"
-          name='name'
-          onChange={handleChange} />
+          name="name"
+          value={BTmod.name}
+          onChange={handleChange}
+        />
         <TextField
           label="Direccion"
           margin="normal"
-          name='adress'
-          onChange={handleChange} />
+          value={BTmod.macAddress}
+          name="macAddress"
+          onChange={handleChange}
+        />
         <Select
-          margin='normal'
-          value={BTmod.id}
+          margin="normal"
+          value={BTmod.areaId}
           label="Area"
           onChange={handleChange}
-          name='id'>
-            {
-              areas.length? areas.map(a => {
-                return (
-                  <MenuItem value={a.id}>{a.name}</MenuItem>
-                )
-              }) : null
-            }
+          name="areaId"
+        >
+          {areas.length
+            ? areas.map((a) => {
+                return <MenuItem value={a.id}>{a.name}</MenuItem>;
+              })
+            : null}
         </Select>
-        <Button variant='contained' color='primary' onClick={postModule}>Enviar</Button>
+        <Button variant="contained" color="primary" onClick={postModule}>
+          Enviar
+        </Button>
       </Box>
     </div>
-  )
-}
+  );
+};
 
-export default create
+export default create;
