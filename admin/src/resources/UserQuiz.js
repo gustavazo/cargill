@@ -255,9 +255,9 @@ export default function UserQuiz() {
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row">
-                                    {q.quiz.description}
+                                    {q?.quiz?.description}
                                 </TableCell>
-                                <TableCell>{q.quiz.title}</TableCell>
+                                <TableCell>{q?.quiz?.title}</TableCell>
                                 <TableCell><Button onClick={handleOpen(q)}>Detalles</Button></TableCell>
                             </TableRow>
                         ))}
