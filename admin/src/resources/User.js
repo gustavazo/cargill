@@ -3,10 +3,11 @@ import { SelectInput } from 'react-admin';
 import { ShowButton, EditButton, Edit, SimpleForm, TextInput } from 'react-admin';
 import { Create } from 'react-admin';
 
+const redirect = () => `/CustomUsers/`;
 
 export const UserCreate = (props) => (
     <Create {...props}>
-        <SimpleForm>
+        <SimpleForm redirect={redirect}>
             <SelectInput
                 source="type"
                 label="Tipo"

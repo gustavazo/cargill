@@ -10,9 +10,11 @@ import {
 } from "react-admin";
 import { Create } from "react-admin";
 
+const redirect = () => `/Areas/`;
+
 export const AreaCreate = (props) => (
   <Create {...props}>
-    <SimpleForm>
+    <SimpleForm redirect={redirect}>
       <TextInput source="name" label="Nombre" />
       <TextInput source="description" label="Descripción" />
       <SelectInput

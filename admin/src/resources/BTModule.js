@@ -5,9 +5,11 @@ import { ShowButton, EditButton, Edit, SimpleForm, TextInput } from 'react-admin
 import { Create } from 'react-admin';
 
 
+const redirect = () => `/BTModules/`;
+
 export const BTModuleCreate = (props) => (
     <Create {...props}>
-        <SimpleForm>
+        <SimpleForm redirect={redirect}>
             <TextInput source="name" label="Nombre" />
             <TextInput source="macAddress" label="Dirección MAC" />
             <ReferenceInput label="Area" source="areaId" reference="areas">
