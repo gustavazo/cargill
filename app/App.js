@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 import {
   AppRegistry,
@@ -10,14 +10,16 @@ import {
 } from 'react-native';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import {RNCamera} from 'react-native-camera';
-import {View} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {BleManager} from 'react-native-ble-plx';
+import { RNCamera } from 'react-native-camera';
+import { View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { BleManager } from 'react-native-ble-plx';
 import RNBluetoothClassic, {
   BluetoothEventType,
 } from 'react-native-bluetooth-classic';
+import Home from '../app/screens/home';
+
 
 export const manager = new BleManager();
 class Scan extends Component {
@@ -78,14 +80,11 @@ class Scan extends Component {
         onRead={this.onSuccess}
         topContent={
           <Text style={styles.centerText}>
-            Go to{' '}
-            <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on
-            your computer and scan the QR code.
+            <Text style={styles.textBold}>Scan</Text>
           </Text>
         }
         bottomContent={
           <TouchableOpacity style={styles.buttonTouchable}>
-            <Text style={styles.buttonText}>OK. Got it!</Text>
           </TouchableOpacity>
         }
       />
@@ -95,7 +94,7 @@ class Scan extends Component {
 
 function HomeScreen() {
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Home Screen</Text>
       <Scan />
     </View>
@@ -104,8 +103,8 @@ function HomeScreen() {
 
 function DetailsScreen() {
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Details Screen</Text>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Scan />
     </View>
   );
 }
@@ -137,17 +136,17 @@ export default function App() {
       if (state === 'PoweredOn') {
         scanAndConnect()
       }
-  }, true);
+    }, true);
 
   }, []);
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Details" component={DetailsScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="Details" component={DetailsScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
   );
 }
 

@@ -17,6 +17,7 @@
     "react-native-ble-plx": "^2.0.3",
     "react-native-bluetooth-classic": "^1.60.0-rc.20",
     "react-native-camera": "^4.2.1",
+    "react-native-paper": "^4.11.2",
     "react-native-permissions": "^3.2.0",
     "react-native-qrcode-scanner": "^1.5.4",
     "react-native-safe-area-context": "^3.3.2",
