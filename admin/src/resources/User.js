@@ -60,7 +60,6 @@ export const UserList = (props) => (
             <TextField source="lastName" label="Apellido" />
             <TextField source="gender" label="Género" />
             <TextField source="legajo" label="Legajo" />
-            <ShowButton />
             <EditButton />
         </Datagrid>
     </List>

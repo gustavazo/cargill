@@ -47,7 +47,6 @@ export const AreaList = (props) => (
       <TextField source="description" label="Descripción" />
       <TextField source="type" label="Tipo" />
       <TextField source="tagCode" label="Código QR" />
-      <ShowButton />
       <EditButton />
     </Datagrid>
   </List>
