@@ -165,7 +165,7 @@ const Edition = (props) => {
                     />
                 </form>
                 <div style={{display: 'flex', justifyContent: 'center'}}>
-                <Button onClick={editedQ}>Enviar</Button>
+                <Button  variant='contained' color='primary' onClick={editedQ}>Enviar</Button>
                 </div>
             </Modal>
             <Modal
