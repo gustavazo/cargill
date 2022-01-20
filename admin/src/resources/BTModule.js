@@ -1,5 +1,5 @@
 import { List, Datagrid, TextField } from 'react-admin';
-import { ReferenceInput, SelectInput } from 'react-admin';
+import { ReferenceField, ReferenceInput, SelectInput } from 'react-admin';
 
 import { ShowButton, EditButton, Edit, SimpleForm, TextInput } from 'react-admin';
 import { Create } from 'react-admin';
@@ -32,6 +32,9 @@ export const BTModuleList = (props) => (
       <Datagrid>
         <TextField source="name" label="Nombre" />
         <TextField source="macAddress" label="Dirección MAC" />
+        <ReferenceField label="Area" source="areaId" reference="Areas">
+            <TextField source="name" />
+        </ReferenceField>
         <EditButton />
       </Datagrid>
     </List>
