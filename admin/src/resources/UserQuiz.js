@@ -243,8 +243,8 @@ export default function UserQuiz() {
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Observaciones</TableCell>
                             <TableCell>Encuesta</TableCell>
+                            <TableCell>Descripción</TableCell>
                             <TableCell>Usuario</TableCell>
                             <TableCell>Fecha</TableCell>
                             <TableCell>Aprobado</TableCell>
@@ -257,11 +257,11 @@ export default function UserQuiz() {
                                 key={q.id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
+                                <TableCell>{q?.quiz?.title}</TableCell>
                                 <TableCell component="th" scope="row">
                                     {q?.quiz?.description}
                                 </TableCell>
-                                <TableCell>{q?.quiz?.title}</TableCell>
-                                <TableCell>{q?.customUser?.firstName}</TableCell>
+                                <TableCell>{q?.customUser?.lastName + ", " + q?.customUser?.firstName}</TableCell>
                                 <TableCell>{q?.date}</TableCell>
                                 <TableCell>{q?.valid ? <span>✔</span> : <span>❌</span>}</TableCell>
                                 <TableCell><Button variant="contained" onClick={handleOpen(q)}>Ver</Button></TableCell>
