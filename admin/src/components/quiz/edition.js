@@ -16,7 +16,6 @@ import AnswerService from '../../services/AnswerService'
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useNotify } from 'react-admin';
 
 
@@ -211,7 +210,7 @@ const Edition = (props) => {
                                 <div style={{cursor:'pointer'}} onClick={() => onRowClick(q)}>
                                     <div style={{fontSize:18, display: 'flex', justifyContent:'space-between', margin: 10, marginLeft: 20}}>
                                         <div>
-                                            {q.statement}<ArrowDropDownIcon/>
+                                            {q.statement}
                                         </div>
                                         <div>
                                             <Button onClick={() => openModalA(q)} variant="contained" color='success' style={{marginRight: 5}}>Agregar Consigna</Button>
