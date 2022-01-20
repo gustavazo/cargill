@@ -15,9 +15,8 @@
     "date": {
       "type": "date"
     },
-    "isValid": {
-      "type": "boolean",
-      "default": false
+    "valid": {
+      "type": "boolean"
     }
   },
   "validations": [],
