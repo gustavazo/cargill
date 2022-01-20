@@ -14,7 +14,7 @@ export const BTModuleCreate = (props) => (
             <TextInput source="name" label="Nombre" />
             <TextInput source="macAddress" label="Dirección MAC" />
             <ReferenceInput label="Area" source="areaId" reference="areas">
-                <SelectInput optionText="id" />
+                <SelectInput optionText=""/>
             </ReferenceInput>
         </SimpleForm> */}
         <BTcreate {...props} />

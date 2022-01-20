@@ -243,9 +243,11 @@ export default function UserQuiz() {
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Observation</TableCell>
-                            <TableCell>Tittle</TableCell>
-                            <TableCell>Boton</TableCell>
+                            <TableCell>Observaciones</TableCell>
+                            <TableCell>Encuesta</TableCell>
+                            <TableCell>Usuario</TableCell>
+                            <TableCell>Fecha</TableCell>
+                            <TableCell>Acciones</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -258,7 +260,9 @@ export default function UserQuiz() {
                                     {q?.quiz?.description}
                                 </TableCell>
                                 <TableCell>{q?.quiz?.title}</TableCell>
-                                <TableCell><Button onClick={handleOpen(q)}>Detalles</Button></TableCell>
+                                <TableCell>{q?.customUser?.firstName}</TableCell>
+                                <TableCell>{q?.date}</TableCell>
+                                <TableCell><Button variant="contained" onClick={handleOpen(q)}>Ver</Button></TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

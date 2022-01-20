@@ -23,11 +23,12 @@
 </FormControl> */}
 import { Box, Button, MenuItem, Select, TextField } from '@mui/material'
 import React, { useState, useEffect } from 'react'
+import { useNotify } from "react-admin";
 import AreaService from '../../services/AreaService'
 import BTModuleService from '../../services/BTModuleService'
 
 const create = (props) => {
-
+  const notify = useNotify();
   const [BTmod, setBTmod] = useState({
     name: '',
     adress: '',
@@ -58,14 +59,18 @@ const create = (props) => {
       macAddress: BTmod.adress,
       areaId: BTmod.id
     })
+    notify("Creado");
+    window.location.href = "/btmodules";
   }
 
   return (
     <div>
+      <h1 style={{marginLeft: 15 }}>Crear módulo bluetooth</h1>
       <Box
         component="form"
         sx={{
           '& > :not(style)': { m: 1, width: '25ch' },
+          flexDirection: "column"
         }}
         noValidate
         autoComplete="off">
