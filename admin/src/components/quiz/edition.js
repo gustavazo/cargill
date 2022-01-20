@@ -124,7 +124,7 @@ const Edition = (props) => {
             questionId:question.id
         })
         setOpenA(false)
-        getQuiz()
+        window.location.reload()
         notify('La consigna ha sido creada')
     }
 
@@ -221,7 +221,7 @@ const Edition = (props) => {
                                     </div>
                                 </div>
                                 <div style={{background: '#f5f5f4', paddingLeft: 20}}>
-                                  {q.id === questionSelected?.id ? <QuestionAnswer questionSelected={questionSelected} /> : null}
+                                  <QuestionAnswer questionSelected={q} />
                                 </div>
 
                             </>
