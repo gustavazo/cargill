@@ -153,7 +153,8 @@ const Edition = (props) => {
             show={openE}
             onClose={closeModalE}
             >
-                <form>
+                <div style={{display: 'flex', justifyContent: 'center', color: 'black', fontWeight: 'bold', fontSize: 20, padding: 10}}>Editar categoria</div>
+                <form style={{display: 'flex', justifyContent: 'center'}}>
                     <TextField
                         label="Cateogría"
                         margin="normal"
@@ -163,7 +164,9 @@ const Edition = (props) => {
                         onChange={handleChangeE}
                     />
                 </form>
+                <div style={{display: 'flex', justifyContent: 'center'}}>
                 <Button onClick={editedQ}>Enviar</Button>
+                </div>
             </Modal>
             <Modal
             show={openQ}
