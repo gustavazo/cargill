@@ -248,6 +248,7 @@ export default function UserQuiz() {
                             <TableCell>Usuario</TableCell>
                             <TableCell>Fecha</TableCell>
                             <TableCell>Aprobado</TableCell>
+                            <TableCell>Observaciones</TableCell>
                             <TableCell>Acciones</TableCell>
                         </TableRow>
                     </TableHead>
@@ -264,6 +265,7 @@ export default function UserQuiz() {
                                 <TableCell>{q?.customUser?.lastName + ", " + q?.customUser?.firstName}</TableCell>
                                 <TableCell>{q?.date}</TableCell>
                                 <TableCell>{q?.valid ? <span>✔</span> : <span>❌</span>}</TableCell>
+                                <TableCell>{q?.observations}</TableCell>
                                 <TableCell><Button variant="contained" onClick={handleOpen(q)}>Ver</Button></TableCell>
                             </TableRow>
                         ))}
