@@ -11,7 +11,7 @@ export default function Home(props) {
     function handlePress() {
         navigation.navigate('Details')
     };
-    
+
     return <View>
                 <Text>Manu Native</Text>
                 
@@ -20,5 +20,4 @@ export default function Home(props) {
 };
 
 
-// navegar a details
-//
+// 

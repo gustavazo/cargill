@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 
 import {
   AppRegistry,
@@ -19,6 +19,9 @@ import RNBluetoothClassic, {
   BluetoothEventType,
 } from 'react-native-bluetooth-classic';
 import Home from '../app/screens/home';
+import ComponentLoading from './android/app/src/component/ComponentLoading';
+
+export const AppContext = React.createContext({});
 
 
 export const manager = new BleManager();
@@ -107,11 +110,13 @@ function DetailsScreen() {
       <Scan />
     </View>
   );
-}
+};
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const [loading, setLoading] = useState(false);
+
   const scanAndConnect = () => {
     manager.startDeviceScan(null, null, (error, device) => {
       if (error) {
@@ -141,12 +146,21 @@ export default function App() {
   }, []);
 
   return (
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="Details" component={DetailsScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
+    <AppContext.Provider value={{
+      loading,
+      setLoading
+    }}>
+      {!loading ?
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Home">
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="Details" component={DetailsScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+        :
+        <ComponentLoading />
+      }
+    </AppContext.Provider>
   );
 }
 
