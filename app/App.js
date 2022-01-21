@@ -19,7 +19,7 @@ import RNBluetoothClassic, {
   BluetoothEventType,
 } from 'react-native-bluetooth-classic';
 import Home from '../app/screens/home';
-import ComponentLoading from './android/app/src/component/ComponentLoading';
+import ComponentLoading from './components/ComponentLoading';
 
 export const AppContext = React.createContext({});
 
