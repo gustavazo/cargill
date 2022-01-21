@@ -20,7 +20,13 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "quizzes": {
+      "type": "hasOne",
+      "model": "Quiz",
+      "foreignKey": ""
+    }
+  },
   "acls": [],
   "methods": {}
 }

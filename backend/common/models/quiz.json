@@ -2,11 +2,13 @@
   "name": "Quiz",
   "base": "PersistedModel",
   "idInjection": true,
-  "scope": {
-    "include": ["questions"]
-  },
   "options": {
     "validateUpsert": true
+  },
+  "scope": {
+    "include": [
+      "questions"
+    ]
   },
   "properties": {
     "title": {

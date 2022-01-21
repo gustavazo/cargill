@@ -2,11 +2,13 @@
   "name": "Question",
   "base": "PersistedModel",
   "idInjection": true,
-  "scope": {
-    "include": ["answers"]
-  },
   "options": {
     "validateUpsert": true
+  },
+  "scope": {
+    "include": [
+      "answers"
+    ]
   },
   "properties": {
     "statement": {

@@ -2,11 +2,15 @@
   "name": "UserQuiz",
   "base": "PersistedModel",
   "idInjection": true,
-  "scope": {
-    "include": ["quiz", "customUser", "userAnswers"]
-  },
   "options": {
     "validateUpsert": true
+  },
+  "scope": {
+    "include": [
+      "quiz",
+      "customUser",
+      "userAnswers"
+    ]
   },
   "properties": {
     "observations": {
