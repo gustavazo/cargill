@@ -1,18 +1,12 @@
 {
   "ids": {
-    "User": 1,
-    "AccessToken": 1,
-    "ACL": 1,
-    "RoleMapping": 1,
-    "Role": 1,
-    "CustomUser": 2,
-    "Area": 3,
-    "BTModule": 1,
-    "Quiz": 4,
-    "Question": 22,
-    "Answer": 29,
-    "UserQuiz": 2,
-    "UserAnswer": 3
+    "Area": 6,
+    "Quiz": 5,
+    "Question": 12,
+    "Answer": 26,
+    "BTModule": 5,
+    "CustomUser": 3,
+    "UserQuiz": 2
   },
   "models": {
     "User": {},
@@ -21,55 +15,50 @@
     "RoleMapping": {},
     "Role": {},
     "CustomUser": {
-      "1": "{\"type\":\"string\",\"firstName\":\"string\",\"lastName\":\"string\",\"gender\":\"string\",\"legajo\":\"string\",\"email\":\"voidhmaster@gmail.com\",\"password\":\"admin1234\",\"id\":1}"
+      "1": "{\"type\":\"Operador\",\"firstName\":\"Juan\",\"lastName\":\"Perez\",\"gender\":\"Masculino\",\"legajo\":\"123\",\"id\":1}",
+      "2": "{\"type\":\"Admin\",\"firstName\":\"Rosa\",\"lastName\":\"Martínez\",\"gender\":\"Femenino\",\"legajo\":\"321\",\"id\":2}"
     },
     "Area": {
-      "1": "{\"type\":\"string\",\"description\":\"string\",\"tagCode\":\"string\",\"id\":1}",
-      "2": "{\"name\":\"dasd\",\"id\":2}"
+      "4": "{\"type\":\"Vehículo\",\"name\":\"Autoelevador 01\",\"description\":\"Autoelevador TCM 2.5 Tn\",\"tagCode\":\"32b0fe8f-a225-48ff-ab09-861a6b8b786d\",\"id\":4}",
+      "5": "{\"type\":\"Vehículo\",\"name\":\"Autoelevador 02\",\"description\":\"Autoelevador TCM 2.5 Tn\",\"tagCode\":\"03988cd7-6830-4f53-850f-bc424d984422\",\"id\":5}"
     },
-    "BTModule": {},
+    "BTModule": {
+      "3": "{\"id\":3,\"macAddress\":\"aa:bb:cc:11:22:33\",\"name\":\"Autoelevador01\",\"areaId\":4}",
+      "4": "{\"macAddress\":\"aa:aa:aa:12:34:56\",\"name\":\"Autoelevador02\",\"areaId\":5,\"id\":4}"
+    },
     "Quiz": {
-      "1": "{\"id\":1}",
-      "2": "{\"title\":\"string\",\"description\":\"string\",\"id\":2}",
-      "3": "{\"title\":\"Uno\",\"description\":\"Descripción\",\"id\":3}"
+      "4": "{\"title\":\"Control de Autoelevadores\",\"description\":\"Control general\",\"id\":4}"
     },
     "Question": {
-      "14": "{\"statement\":\"Chasis\",\"quizId\":2,\"id\":14}",
-      "18": "{\"statement\":\"si\",\"quizId\":1,\"id\":18}",
-      "19": "{\"statement\":\"ola\",\"quizId\":2,\"id\":19}",
-      "20": "{\"statement\":\"Chasis funciona\",\"quizId\":3,\"id\":20}",
-      "21": "{\"statement\":\"Motor\",\"quizId\":3,\"id\":21}"
+      "5": "{\"statement\":\"Chasis\",\"quizId\":3,\"id\":5}",
+      "6": "{\"statement\":\"Motor\",\"quizId\":3,\"id\":6}",
+      "7": "{\"statement\":\"Brazo de Carga\",\"quizId\":3,\"id\":7}",
+      "9": "{\"statement\":\"Chasis\",\"quizId\":4,\"id\":9}",
+      "10": "{\"statement\":\"Motor\",\"quizId\":4,\"id\":10}",
+      "11": "{\"statement\":\"Brazo de carga\",\"quizId\":4,\"id\":11}"
     },
     "Answer": {
-      "1": "{\"type\":\"string\",\"isCorrect\":true,\"excluding\":true,\"questionId\":1,\"id\":1}",
-      "2": "{\"type\":\"string\",\"isCorrect\":false,\"excluding\":true,\"questionId\":2,\"id\":2}",
-      "3": "{\"value\":true,\"label\":\"\",\"questionId\":1,\"id\":3}",
-      "4": "{\"value\":true,\"label\":\"\",\"questionId\":12,\"id\":4}",
-      "5": "{\"value\":true,\"label\":\"\",\"questionId\":12,\"id\":5}",
-      "6": "{\"value\":true,\"label\":\"Estado de los neumaticos\",\"questionId\":13,\"id\":6}",
-      "7": "{\"value\":true,\"label\":\"Estado de los neumaticos\",\"questionId\":14,\"id\":7}",
-      "8": "{\"value\":true,\"label\":\"estado de motor\",\"questionId\":14,\"id\":8}",
-      "9": "{\"value\":true,\"label\":\"gasolina\",\"questionId\":14,\"id\":9}",
-      "10": "{\"id\":10,\"weeenas\":\"\"}",
-      "12": "{\"id\":12,\"quesooo\":\"\"}",
-      "13": "{\"id\":13,\"si\":\"\"}",
-      "14": "{\"id\":14,\"nicolas\":\"\"}",
-      "16": "{\"id\":16,\"bhola que tal\":\"\"}",
-      "17": "{\"id\":17,\"sdasda\":\"\"}",
-      "20": "{\"value\":true,\"label\":\"adios\",\"questionId\":14,\"id\":20}",
-      "23": "{\"value\":true,\"label\":\"se\",\"questionId\":17,\"id\":23}",
-      "24": "{\"value\":true,\"label\":\"o si\",\"questionId\":14,\"id\":24}",
-      "25": "{\"value\":true,\"label\":\"fede\",\"questionId\":14,\"id\":25}",
-      "26": "{\"value\":true,\"label\":\"p;a\",\"questionId\":19,\"id\":26}",
-      "27": "{\"value\":true,\"label\":\"Estado de los neumáticos\",\"questionId\":20,\"id\":27}",
-      "28": "{\"value\":true,\"label\":\"Control nivel batería\",\"questionId\":21,\"id\":28}"
+      "9": "{\"value\":true,\"label\":\"Inspección visual general\",\"questionId\":6,\"id\":9}",
+      "10": "{\"value\":true,\"label\":\"Estados de los neumáticos\",\"questionId\":9,\"id\":10}",
+      "11": "{\"value\":true,\"label\":\"Inspección visual general\",\"questionId\":10,\"id\":11}",
+      "12": "{\"value\":true,\"label\":\"Articulaciones de la dirección (pivotes y rótulas)\",\"questionId\":9,\"id\":12}",
+      "13": "{\"value\":true,\"label\":\"Traslación frenado ( verificar \\\"frenado brusco\\\")\",\"questionId\":9,\"id\":13}",
+      "14": "{\"value\":true,\"label\":\"Luces\",\"questionId\":9,\"id\":14}",
+      "15": "{\"value\":true,\"label\":\"Limpieza general\",\"questionId\":9,\"id\":15}",
+      "16": "{\"value\":true,\"label\":\"Verificar que no existen fugas de fluidos\",\"questionId\":10,\"id\":16}",
+      "17": "{\"value\":true,\"label\":\"Verificar el estado de correas\",\"questionId\":10,\"id\":17}",
+      "18": "{\"value\":true,\"label\":\"Control de nivel liquido de enfriamiento\",\"questionId\":10,\"id\":18}",
+      "19": "{\"value\":true,\"label\":\"Control de nivel de aceite motor\",\"questionId\":10,\"id\":19}",
+      "20": "{\"value\":true,\"label\":\"Control de nivel aceite hidraulico\",\"questionId\":10,\"id\":20}",
+      "21": "{\"value\":true,\"label\":\"Control nivel de bateria\",\"questionId\":10,\"id\":21}",
+      "22": "{\"value\":true,\"label\":\"Inspeccionar visualmente el estado de los diferentes elementos y articulaciones\",\"questionId\":11,\"id\":22}",
+      "23": "{\"value\":true,\"label\":\"Controlar el estado superficial de los flexibles hidráulicos (desgastes, roce y etc)\",\"questionId\":11,\"id\":23}",
+      "24": "{\"value\":true,\"label\":\"Controlar el estado superficial de cadenas de columna\",\"questionId\":11,\"id\":24}",
+      "25": "{\"value\":true,\"label\":\"Verificar fugas (aceites, aire, etc)\",\"questionId\":11,\"id\":25}"
     },
     "UserQuiz": {
-      "1": "{\"observations\":\"string\",\"quizId\":2,\"customUserId\":1,\"id\":1}"
+      "1": "{\"observations\":\"no presenta fallas\",\"valid\":false,\"quizId\":4,\"customUserId\":1,\"id\":1,\"date\":\"2022-01-20T19:04:28.608Z\"}"
     },
-    "UserAnswer": {
-      "1": "{\"date\":\"2022-01-03T04:34:35.937Z\",\"answerId\":1,\"userQuizId\":2,\"id\":1}",
-      "2": "{\"date\":\"2022-01-03T04:34:35.937Z\",\"answerId\":1,\"userQuizId\":1,\"id\":2}"
-    }
+    "UserAnswer": {}
   }
 }
