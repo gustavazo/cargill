@@ -161,12 +161,12 @@ export default function UserQuiz() {
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
                 >
-                    <Box sx={style} style={{width: 'auto', height: 'auto'}}>
+                    <Box sx={style} style={{width: 'auto'}}>
                     <div style={{fontSize: 35, margin: 0, marginTop: -20, fontWeight:'bold', display: 'flex', justifyContent: 'center'}}>{quizSelected?.quiz?.title}</div>
                     <div style={{display: 'flex', justifyContent:'space-between', fontSize: 30, marginTop: -15, fontWeight: 'lighter', display: 'flex', justifyContent: 'center'}}>{quizSelected?.quiz?.description}</div>
                     <span style={{ display: 'flex', justifyContent: 'center', fontWeight: 'lighter', fontSize: 20, margin: 5}}>Fecha de realizacion del test: {moment().format('DD/MM/YYYY HH:mm')}</span>
-                    <TableContainer component={Paper}>
-                        <Table aria-label="customized table">
+                    <TableContainer component={Paper} style={{maxHeight: 500}}>
+                        <Table aria-label="customized table" stickyHeader>
                         {quizSelected?.quiz?.questions?.map((question, index) => (
                             <>
                                 <TableHead>
