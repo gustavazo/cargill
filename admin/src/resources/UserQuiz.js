@@ -72,11 +72,13 @@ export default function UserQuiz() {
                 setUserSelected(user)
             }
         }
+        const user = users.find(u => u.firstName === value);
+
         setFilter({
             ...filter,
             where: {
                 ...filter.where || {},
-                customUserId: userSelected.id
+                customUserId: user.id
             }
         })
     };
