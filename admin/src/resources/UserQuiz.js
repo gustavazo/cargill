@@ -84,15 +84,19 @@ export default function UserQuiz() {
     };
 
     function handleFecha(evt) {
-        const start = new Date(evt.target.value);
-        const end = new Date(evt.target.value);
+        const start = moment(new Date(evt.target.value));        
+        const end = moment(new Date(evt.target.value)).add(1, 'day').subtract(1, 'millisecond');
+        //console.log("START", start.toISOString());
+        //console.log("END", end.toISOString());
+        
         setDateSelected(getDateTime(evt.target.value));
         setFilter({
             ...filter,
             where: {
                 ...filter.where || {},
                 date: {
-                    between: [start.setHours(0), end.setHours(23, 59)]
+                    //between: [start.setHours(0), end.setHours(23, 59)]
+                    between: [start, end]
                 }
             }
         })
