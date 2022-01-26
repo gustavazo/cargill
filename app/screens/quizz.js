@@ -4,11 +4,11 @@ import {Button} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Modal from '../components/Modal1';
 import {Switch} from 'react-native-paper';
-import {TextInput } from 'react-native-paper';
-import UserQuizz from "../service/UserQuizService";
+import {TextInput} from 'react-native-paper';
+import UserQuizz from '../service/UserQuizService';
 import UserQuizService from '../service/UserQuizService';
 import AnswerService from '../service/UserAnswerService';
-import confg from "./config";
+import confg from './config';
 
 const _quizz = {
   title: 'Control de Autoelevadores',
@@ -177,7 +177,7 @@ const _quizz = {
 function Home(props) {
   const navigation = useNavigation();
   const [quizzState, setQuizzState] = useState(null);
-  const [observation, setObservation] = useState("");
+  const [observation, setObservation] = useState('');
   const [quizz, setQuizz] = useState(_quizz);
 
   const onToggleSwitch = q => () => {
@@ -185,32 +185,35 @@ function Home(props) {
     setQuizzState({
       ...quizzState,
       [q.id]: {
-          questionId: q.questionId,
-          value: !prevValue
+        questionId: q.questionId,
+        value: !prevValue,
       },
     });
   };
 
   const createQuizz = async () => {
     const q = {
-        observations: observation,
-        customerUserId: 1,
-        valid: true,
-        quizId: quizz.id            
+      observations: observation,
+      customerUserId: 1,
+      valid: true,
+      quizId: quizz.id,
     };
 
-    const created = await axios.post(confg.backendUrl + "userQuizzes", q);
+    const created = await axios.post(confg.backendUrl + 'userQuizzes', q);
 
     for (const answerId of quizzState) {
-        const userAnser = {
-            userQuizId: created.data.id,
-            answerId: answerId
-        };
+      const userAnser = {
+        userQuizId: created.data.id,
+        answerId: answerId,
+      };
 
-        const ansCreated = await axios.post(confg.backendUrl + "userAnswers", userAnswer);;
+      const ansCreated = await axios.post(
+        confg.backendUrl + 'userAnswers',
+        userAnswer,
+      );
     }
 
-    navigation.navigate("Home");
+    navigation.navigate('Home');
   };
 
   useEffect(() => {
@@ -227,6 +230,9 @@ function Home(props) {
 
   return (
     <View style={{padding: 10, flex: 1}}>
+      <View style={{alignItems: 'center'}}>
+        <Text style={{fontSize: 25, padding: 5, margin: 5}}>{quizz.title}</Text>
+      </View>
       <ScrollView>
         {/* <Button style={{ padding: 15, height: 15 }} title="ESCANEAR" onPress={handlePress} /> */}
         {/* <Modal alertMessage={'messi'} buttonText={'messi10'} callback={function conso() {console.log('ANDA')}}>
@@ -237,23 +243,42 @@ function Home(props) {
             return (
               <>
                 <View>
-                  <Text style={{fontSize: 20}}>{q.statement}</Text>
+                  <View>
+                    <Text
+                      style={{
+                        fontSize: 25,
+                        backgroundColor: 'black',
+                        color: 'white',
+                        padding: 5,
+                      }}>
+                      {q.statement}
+                    </Text>
+                  </View>
+                  {q.answers.map(a => {
+                    return (
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          margin: 5,
+                          borderBottomWidth: 1,
+                          padding: 5,
+                        }}>
+                        <View style={{width: '80%'}}>
+                          <Text style={{color: 'black', fontSize: 20}}>
+                            {a.label}
+                          </Text>
+                        </View>
+                        <View style={{width: '20%'}}>
+                          <Switch
+                            value={quizzState[a.id]}
+                            onValueChange={onToggleSwitch(a)}
+                            style={{transform: [{scaleX: 1.5}, {scaleY: 1.5}]}}
+                          />
+                        </View>
+                      </View>
+                    );
+                  })}
                 </View>
-                {q.answers.map(a => {
-                  return (
-                    <View style={{flexDirection: 'row'}}>
-                      <View style={{width: '80%'}}>
-                        <Text>{a.label}</Text>
-                      </View>
-                      <View style={{width: '20%'}}>
-                        <Switch
-                          value={quizzState[a.id].value}
-                          onValueChange={onToggleSwitch(a)}
-                        />
-                      </View>
-                    </View>
-                  );
-                })}
               </>
             );
           })}
@@ -261,7 +286,7 @@ function Home(props) {
           <TextInput
             label="Email"
             multiline
-            style={{ height: 200 }}
+            style={{height: 200}}
             value={observation}
             onChangeText={text => setObservation(text)}
           />
