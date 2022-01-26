@@ -8,7 +8,7 @@ import {TextInput} from 'react-native-paper';
 import UserQuizz from '../service/UserQuizService';
 import UserQuizService from '../service/UserQuizService';
 import AnswerService from '../service/UserAnswerService';
-import confg from './config';
+import confg from '../config';
 
 const _quizz = {
   title: 'Control de Autoelevadores',
