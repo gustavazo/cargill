@@ -4,8 +4,13 @@ import {Button} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Modal from '../components/Modal1';
 import {Switch} from 'react-native-paper';
+import {TextInput } from 'react-native-paper';
+import UserQuizz from "../service/UserQuizService";
+import UserQuizService from '../service/UserQuizService';
+import AnswerService from '../service/UserAnswerService';
+import confg from "./config";
 
-const quizz = {
+const _quizz = {
   title: 'Control de Autoelevadores',
   description: 'Control general',
   id: 4,
@@ -172,13 +177,40 @@ const quizz = {
 function Home(props) {
   const navigation = useNavigation();
   const [quizzState, setQuizzState] = useState(null);
+  const [observation, setObservation] = useState("");
+  const [quizz, setQuizz] = useState(_quizz);
 
   const onToggleSwitch = q => () => {
-    const prevValue = quizzState[q.id];
+    const prevValue = quizzState[q.id].value;
     setQuizzState({
       ...quizzState,
-      [q.id]: !prevValue,
+      [q.id]: {
+          questionId: q.questionId,
+          value: !prevValue
+      },
     });
+  };
+
+  const createQuizz = async () => {
+    const q = {
+        observations: observation,
+        customerUserId: 1,
+        valid: true,
+        quizId: quizz.id            
+    };
+
+    const created = await axios.post(confg.backendUrl + "userQuizzes", q);
+
+    for (const answerId of quizzState) {
+        const userAnser = {
+            userQuizId: created.data.id,
+            answerId: answerId
+        };
+
+        const ansCreated = await axios.post(confg.backendUrl + "userAnswers", userAnswer);;
+    }
+
+    navigation.navigate("Home");
   };
 
   useEffect(() => {
@@ -215,7 +247,7 @@ function Home(props) {
                       </View>
                       <View style={{width: '20%'}}>
                         <Switch
-                          value={quizzState[a.id]}
+                          value={quizzState[a.id].value}
                           onValueChange={onToggleSwitch(a)}
                         />
                       </View>
@@ -225,6 +257,16 @@ function Home(props) {
               </>
             );
           })}
+        <View>
+          <TextInput
+            label="Email"
+            multiline
+            style={{ height: 200 }}
+            value={observation}
+            onChangeText={text => setObservation(text)}
+          />
+          <Button onPress={createQuizz} title="Enviar"></Button>
+        </View>
       </ScrollView>
     </View>
   );
