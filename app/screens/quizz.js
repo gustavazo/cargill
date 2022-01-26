@@ -230,8 +230,6 @@ function Home(props) {
                             )
                         })}    
                     </View>
-                  );
-                })}
               </>
             );
           })}
