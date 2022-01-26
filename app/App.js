@@ -19,10 +19,13 @@ import RNBluetoothClassic, {
   BluetoothEventType,
 } from 'react-native-bluetooth-classic';
 import Home from '../app/screens/home';
+import QuizzScreen from '../app/screens/quizz';
 import ComponentLoading from './components/ComponentLoading';
+import AreaService from "./service/Area";
+import axios from 'axios';
+import confg from "./config";
 
 export const AppContext = React.createContext({});
-
 
 export const manager = new BleManager();
 class Scan extends Component {
@@ -34,7 +37,6 @@ class Scan extends Component {
   isAvailalble = async (mac) => {
     try {
       const available = await RNBluetoothClassic.isBluetoothAvailable();
-      console.log('Available', available);
       this.requestAccessFineLocationPermission();
       this.startDiscovery(mac);
     } catch (err) {
@@ -56,15 +58,41 @@ class Scan extends Component {
         buttonPositive: 'OK',
       },
     );
-    console.log("PERMISSION")
     return granted === PermissionsAndroid.RESULTS.GRANTED;
   }
 
   startDiscovery = async (mac) => {
     try {
+      const area = await axios.get(confg.backendUrl + "areas", {
+        params: {
+          filter: {
+            where: {
+              tagCode: mac
+            },
+            include: ["quizzes"]
+          }
+        }
+      });
+      const btmodule = await axios.get(confg.backendUrl + "btmodules", {
+        params: {
+          filter: {
+            where: {
+              areaId: area.data[0].id
+            }
+          }
+        }
+      });
+      const quizz = await axios.get(confg.backendUrl + "quizzes", {
+        params: {
+          filter: {
+            where: {
+              areaId: area.data[0].id
+            }
+          }
+        }
+      });
       const paired = await RNBluetoothClassic.getBondedDevices();
-      console.log("Paired", paired);
-      const device = paired.find(p => p.address === mac);
+      const device = paired.find(p => p.address === btmodule.data[0].macAddress);
       console.log("DEVICE", device);
       const connection = await device.connect();
       const a = await device.write("a");
@@ -152,9 +180,10 @@ export default function App() {
     }}>
       {!loading ?
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Home">
+          <Stack.Navigator initialRouteName="Quizz">
             <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name="Details" component={DetailsScreen} />
+            <Stack.Screen name="Quizz" component={QuizzScreen} />
           </Stack.Navigator>
         </NavigationContainer>
         :

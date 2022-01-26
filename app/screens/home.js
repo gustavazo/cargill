@@ -16,9 +16,9 @@ export default function Home(props) {
   return (
     <View style={{ padding: 10 }}>
       <Button style={{ padding: 15, height: 15 }} title="ESCANEAR" onPress={handlePress} />
-      <Modal alertMessage={'messi'} buttonText={'messi10'} callback={function conso() {console.log('ANDA')}}>
+      {/* <Modal alertMessage={'messi'} buttonText={'messi10'} callback={function conso() {console.log('ANDA')}}>
           <Text>ASSDASDASDA</Text>
-      </Modal>
+      </Modal> */}
     </View>
   );
 };
