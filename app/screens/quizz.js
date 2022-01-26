@@ -193,6 +193,7 @@ function Home(props) {
 
   return (
     <View style={{ padding: 10 }}>
+      <View style={{alignItems:'center'}}><Text style={{fontSize: 25, padding: 5, margin: 5}}>{quizz.title}</Text></View>
       {/* <Button style={{ padding: 15, height: 15 }} title="ESCANEAR" onPress={handlePress} /> */}
       {/* <Modal alertMessage={'messi'} buttonText={'messi10'} callback={function conso() {console.log('ANDA')}}>
           <Text>ASSDASDASDA</Text>
@@ -202,13 +203,14 @@ function Home(props) {
             return (
                 <>
                     <View>
-                        <View><Text style={{fontSize: 20}}>{q.statement}</Text></View>
+                        <View><Text style={{fontSize: 25, backgroundColor: 'black', color:'white', padding: 5}}>{q.statement}</Text></View>
                         {q.answers.map(a => {
                             return (
-                                <View style={{ flexDirection: 'row'}}>
-                                    <View style={{width: "80%",}}><Text>{a.label}</Text></View>
+                                <View style={{ flexDirection: 'row', margin: 5, borderBottomWidth: 1, padding: 5}}>
+                                    <View style={{width: "80%",}}><Text style={{color:'black', fontSize: 20}}>{a.label}</Text></View>
                                     <View style={{width: "20%"}}>
-                                        <Switch value={quizzState[a.id]} onValueChange={onToggleSwitch(a)} />
+                                        <Switch value={quizzState[a.id]} onValueChange={onToggleSwitch(a)} style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }}
+ />
                                     </View>
                                 </View>
                             )
