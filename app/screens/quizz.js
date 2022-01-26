@@ -194,7 +194,7 @@ function Home(props) {
   }, []);
 
   return (
-    <View style={{ padding: 10 }}>
+    <View style={{ padding: 10, flex: 1 }}>
       <View style={{alignItems:'center'}}>
         <Text style={{fontSize: 25, padding: 5, margin: 5}}>
           {quizz.title}
