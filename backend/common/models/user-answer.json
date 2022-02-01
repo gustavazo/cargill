@@ -8,6 +8,9 @@
   "properties": {
     "date": {
       "type": "date"
+    },
+    "value": {
+      "type": "boolean"
     }
   },
   "validations": [],

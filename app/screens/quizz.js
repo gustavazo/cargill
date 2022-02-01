@@ -9,6 +9,7 @@ import UserQuizz from '../service/UserQuizService';
 import UserQuizService from '../service/UserQuizService';
 import AnswerService from '../service/UserAnswerService';
 import confg from '../config';
+import Toast from 'react-native-simple-toast';
 
 const _quizz = {
   title: 'Control de Autoelevadores',
@@ -181,13 +182,11 @@ function Home(props) {
   const [quizz, setQuizz] = useState(_quizz);
 
   const onToggleSwitch = q => () => {
-    const prevValue = quizzState[q.id].value;
+    console.log("Q", quizzState);
+    const prevValue = quizzState[q.id];
     setQuizzState({
       ...quizzState,
-      [q.id]: {
-        questionId: q.questionId,
-        value: !prevValue,
-      },
+      [q.id]: !prevValue
     });
   };
 
@@ -213,6 +212,7 @@ function Home(props) {
       );
     }
 
+    Toast.show("Test creado");
     navigation.navigate('Home');
   };
 
