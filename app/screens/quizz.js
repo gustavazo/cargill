@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext } from 'react';
 import {View, ScrollView, Text} from 'react-native';
 import {Button} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
@@ -10,176 +10,20 @@ import UserQuizService from '../service/UserQuizService';
 import AnswerService from '../service/UserAnswerService';
 import confg from '../config';
 import Toast from 'react-native-simple-toast';
+import axios from "axios";
+import { AppContext } from '../App';
+import moment from "moment";
 
-const _quizz = {
-  title: 'Control de Autoelevadores',
-  description: 'Control general',
-  id: 4,
-  questions: [
-    {
-      statement: 'Chasis',
-      id: 9,
-      quizId: 4,
-      answers: [
-        {
-          value: true,
-          label: 'Estados de los neumáticos',
-          id: 10,
-          questionId: 9,
-        },
-        {
-          value: true,
-          label: 'Articulaciones de la dirección (pivotes y rótulas)',
-          id: 12,
-          questionId: 9,
-        },
-        {
-          value: true,
-          label: 'Traslación frenado ( verificar "frenado brusco")',
-          id: 13,
-          questionId: 9,
-        },
-        {
-          value: true,
-          label: 'Luces',
-          id: 14,
-          questionId: 9,
-        },
-        {
-          value: true,
-          label: 'Limpieza general',
-          id: 15,
-          questionId: 9,
-        },
-      ],
-    },
-    {
-      statement: 'Motor',
-      id: 10,
-      quizId: 4,
-      answers: [
-        {
-          value: true,
-          label: 'Inspección visual general',
-          id: 11,
-          questionId: 10,
-        },
-        {
-          value: true,
-          label: 'Verificar que no existen fugas de fluidos',
-          id: 16,
-          questionId: 10,
-        },
-        {
-          value: true,
-          label: 'Verificar el estado de correas',
-          id: 17,
-          questionId: 10,
-        },
-        {
-          value: true,
-          label: 'Control de nivel liquido de enfriamiento',
-          id: 18,
-          questionId: 10,
-        },
-        {
-          value: true,
-          label: 'Control de nivel de aceite motor',
-          id: 19,
-          questionId: 10,
-        },
-        {
-          value: true,
-          label: 'Control de nivel aceite hidraulico',
-          id: 20,
-          questionId: 10,
-        },
-        {
-          value: true,
-          label: 'Control nivel de bateria',
-          id: 21,
-          questionId: 10,
-        },
-      ],
-    },
-    {
-      statement: 'Brazo de carga',
-      id: 11,
-      quizId: 4,
-      answers: [
-        {
-          value: true,
-          label:
-            'Inspeccionar visualmente el estado de los diferentes elementos y articulaciones',
-          id: 22,
-          questionId: 11,
-        },
-        {
-          value: true,
-          label:
-            'Controlar el estado superficial de los flexibles hidráulicos (desgastes, roce y etc)',
-          id: 23,
-          questionId: 11,
-        },
-        {
-          value: true,
-          label: 'Controlar el estado superficial de cadenas de columna',
-          id: 24,
-          questionId: 11,
-        },
-        {
-          value: true,
-          label: 'Verificar fugas (aceites, aire, etc)',
-          id: 25,
-          questionId: 11,
-        },
-      ],
-    },
-    {
-      statement: 'Dispositivos de Seguridad',
-      id: 12,
-      quizId: 4,
-      answers: [
-        {
-          value: true,
-          label: 'Cinturon de seguridad',
-          id: 26,
-          questionId: 12,
-        },
-        {
-          value: true,
-          label: 'Bocina',
-          id: 27,
-          questionId: 12,
-        },
-        {
-          value: true,
-          label: 'Alarma sonora de retroceso',
-          id: 28,
-          questionId: 12,
-        },
-        {
-          value: true,
-          label: 'Extintor (equipos que poseen motores de combustión interna)',
-          id: 29,
-          questionId: 12,
-        },
-        {
-          value: true,
-          label: 'Test',
-          id: 30,
-          questionId: 12,
-        },
-      ],
-    },
-  ],
-};
+
 
 function Home(props) {
   const navigation = useNavigation();
   const [quizzState, setQuizzState] = useState(null);
   const [observation, setObservation] = useState('');
-  const [quizz, setQuizz] = useState(_quizz);
+  const [quizz, setQuizz] = useState(props.route.params.quizz);
+  const context = useContext(AppContext);
+
+  console.log("QUIZZ", context)
 
   const onToggleSwitch = q => () => {
     console.log("Q", quizzState);
@@ -191,19 +35,24 @@ function Home(props) {
   };
 
   const createQuizz = async () => {
+    console.log(quizzState);
+    context.setLoading(true);
     const q = {
       observations: observation,
-      customerUserId: 1,
+      customUserId: 1,
       valid: true,
       quizId: quizz.id,
+      date: moment(new Date()).subtract(3, "hours")
     };
 
     const created = await axios.post(confg.backendUrl + 'userQuizzes', q);
 
-    for (const answerId of quizzState) {
-      const userAnser = {
+    for (const answerId in quizzState) {
+      console.log("ans", quizzState[answerId]);
+      const userAnswer = {
         userQuizId: created.data.id,
         answerId: answerId,
+        value: quizzState[answerId]
       };
 
       const ansCreated = await axios.post(
@@ -212,6 +61,8 @@ function Home(props) {
       );
     }
 
+    context.setLoading(false);
+    context.device.write("b")
     Toast.show("Test creado");
     navigation.navigate('Home');
   };
@@ -284,7 +135,7 @@ function Home(props) {
           })}
         <View>
           <TextInput
-            label="Email"
+            label="Observaciones"
             multiline
             style={{height: 200}}
             value={observation}

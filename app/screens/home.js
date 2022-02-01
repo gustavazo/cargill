@@ -1,18 +1,46 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import { Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Modal from '../components/Modal1';
 import { Avatar, Card, IconButton } from 'react-native-paper';
-
+import axios from "axios";
+import confg from '../config';
 
 export default function Home(props) {
   const navigation = useNavigation();
+  const [asd, setAsd] = useState([]);
 
     console.log(props);
     function handlePress() {
         navigation.navigate('Details')
     };
+
+  useEffect(() => {
+    async function getSabe() {
+      console.log("HOLA")
+      const quizzes = await axios.get(confg.backendUrl + "userQuizzes"
+        // params: {
+        //   filter: {
+        //     where: {
+        //       customUserId: 1,
+        //       limit: 3
+        //       // date: {
+        //       //   between: [
+        //       //     "2022-02-01T00:00:09.643Z",
+        //       //     "2022-02-01T23:59:09.643Z"
+        //       //   ]
+        //       // }
+        //     }
+        //   }
+        // }
+        );
+      console.log(quizzes.data)
+      setAsd(quizzes.data);
+    }
+
+    getSabe();
+  }, []);
 
   return (
     <View style={{ padding: 10 }}>
@@ -25,36 +53,17 @@ export default function Home(props) {
         </View>
         <View style={{alignItems:'center'}}>
           <Text style={{fontSize: 30}}>Ultimos escaneos:</Text>
-          <Card.Title
-            title="NOMBRE QUIZ"
-            subtitle="FECHA REALIZACION"
-            left={(props) => <Avatar.Icon {...props} icon="folder" />}
-            right={(props) => <IconButton {...props} icon="more-vert" onPress={() => {}} />}
+          {
+            asd.filter(a => a.id > 13).map(a => {
+              console.log("A", a);
+              return (
+                <Card.Title
+            title={a.quiz?.title}
+            subtitle={a.quiz?.date}
           />
-          <Card.Title
-            title="NOMBRE QUIZ"
-            subtitle="FECHA REALIZACION"
-            left={(props) => <Avatar.Icon {...props} icon="folder" />}
-            right={(props) => <IconButton {...props} icon="more-vert" onPress={() => {}} />}
-          />
-          <Card.Title
-            title="NOMBRE QUIZ"
-            subtitle="FECHA REALIZACION"
-            left={(props) => <Avatar.Icon {...props} icon="folder" />}
-            right={(props) => <IconButton {...props} icon="more-vert" onPress={() => {}} />}
-          />
-          <Card.Title
-            title="NOMBRE QUIZ"
-            subtitle="FECHA REALIZACION"
-            left={(props) => <Avatar.Icon {...props} icon="folder" />}
-            right={(props) => <IconButton {...props} icon="more-vert" onPress={() => {}} />}
-          />
-          <Card.Title
-            title="NOMBRE QUIZ"
-            subtitle="FECHA REALIZACION"
-            left={(props) => <Avatar.Icon {...props} icon="folder" />}
-            right={(props) => <IconButton {...props} icon="more-vert" onPress={() => {}} />}
-          />
+              )
+            })
+          }
           </View>
       </View>
       {/* <Modal alertMessage={'messi'} buttonText={'messi10'} callback={function conso() {console.log('ANDA')}}>

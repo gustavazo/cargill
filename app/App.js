@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, {Component, useState} from 'react';
 
 import {
   AppRegistry,
@@ -6,35 +6,37 @@ import {
   Text,
   TouchableOpacity,
   Linking,
-  PermissionsAndroid
+  PermissionsAndroid,
+  Alert,
 } from 'react-native';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import { RNCamera } from 'react-native-camera';
-import { View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { BleManager } from 'react-native-ble-plx';
+import {RNCamera} from 'react-native-camera';
+import {View} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {BleManager} from 'react-native-ble-plx';
 import RNBluetoothClassic, {
   BluetoothEventType,
 } from 'react-native-bluetooth-classic';
 import Home from '../app/screens/home';
 import QuizzScreen from '../app/screens/quizz';
 import ComponentLoading from './components/ComponentLoading';
-import AreaService from "./service/Area";
+import AreaService from './service/Area';
 import axios from 'axios';
-import confg from "./config";
+import confg from './config';
 
 export const AppContext = React.createContext({});
 
 export const manager = new BleManager();
+
 class Scan extends Component {
   onSuccess = e => {
     console.log('ACA', e);
-    this.isAvailalble(e.data)
+    this.isAvailalble(e.data);
   };
 
-  isAvailalble = async (mac) => {
+  isAvailalble = async mac => {
     try {
       const available = await RNBluetoothClassic.isBluetoothAvailable();
       this.requestAccessFineLocationPermission();
@@ -61,51 +63,108 @@ class Scan extends Component {
     return granted === PermissionsAndroid.RESULTS.GRANTED;
   }
 
-  startDiscovery = async (mac) => {
+  showAlert = () =>
+    Alert.alert(
+      'Validación del día',
+      'La validación de hoy ya ha sido realizada. Desea arrancar el vehículo?',
+      [
+        {
+          text: 'Sí',
+          onPress: () => Alert.alert('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {
+          text: 'No',
+          onPress: () => Alert.alert('Cancel Pressed'),
+          style: 'cancel',
+        },
+      ],
+      {
+        cancelable: true,
+        onDismiss: () =>
+          Alert.alert(
+            'This alert was dismissed by tapping outside of the alert dialog.',
+          ),
+      },
+    );
+
+  startDiscovery = async mac => {
     try {
-      const area = await axios.get(confg.backendUrl + "areas", {
+      const area = await axios.get(confg.backendUrl + 'areas', {
         params: {
           filter: {
             where: {
-              tagCode: mac
+              tagCode: mac,
             },
-            include: ["quizzes"]
-          }
-        }
+            include: ['quizzes'],
+          },
+        },
       });
-      const btmodule = await axios.get(confg.backendUrl + "btmodules", {
+      const btmodule = await axios.get(confg.backendUrl + 'btmodules', {
         params: {
           filter: {
             where: {
-              areaId: area.data[0].id
-            }
-          }
-        }
+              areaId: area.data[0].id,
+            },
+          },
+        },
       });
-      const quizz = await axios.get(confg.backendUrl + "quizzes", {
+      const quizz = await axios.get(confg.backendUrl + 'quizzes', {
         params: {
           filter: {
             where: {
-              areaId: area.data[0].id
-            }
-          }
-        }
+              areaId: area.data[0].id,
+            },
+          },
+        },
       });
+      console.log('HOLA');
+
       const paired = await RNBluetoothClassic.getBondedDevices();
-      const device = paired.find(p => p.address === btmodule.data[0].macAddress);
-      console.log("DEVICE", device);
+      const device = paired.find(
+        p => p.address === btmodule.data[0].macAddress,
+      );
+      console.log('DEVICE', device);
       const connection = await device.connect();
-      const a = await device.write("a");
+      this.context.setDevice(device);
+      const a = await device.write('a');
+      this.props.navigation.navigate('Quizz', {quizz: quizz.data[0]});
     } catch (err) {
-      console.log("ERROR", err)
+      console.log('ERROR', err);
     }
   };
 
-  componentDidMount() {
+  async componentDidMount() {
+    this.showAlert();
     // this.isAvailalble();
+    const quizzes = await axios.get(
+      confg.backendUrl + 'userQuizzes',
+      // params: {
+      //   filter: {
+      //     where: {
+      //       customUserId: 1,
+      //       limit: 3
+      //       // date: {
+      //       //   between: [
+      //       //     "2022-02-01T00:00:09.643Z",
+      //       //     "2022-02-01T23:59:09.643Z"
+      //       //   ]
+      //       // }
+      //     }
+      //   }
+      // }
+    );
+    console.log('ACA', quizzes.data);
+
+    for (const q in quizzes.data) {
+      if (q.valid) {
+      }
+    }
   }
 
   render() {
+    console.log('props', this.props);
+
     return (
       <QRCodeScanner
         onRead={this.onSuccess}
@@ -115,8 +174,7 @@ class Scan extends Component {
           </Text>
         }
         bottomContent={
-          <TouchableOpacity style={styles.buttonTouchable}>
-          </TouchableOpacity>
+          <TouchableOpacity style={styles.buttonTouchable}></TouchableOpacity>
         }
       />
     );
@@ -125,25 +183,28 @@ class Scan extends Component {
 
 function HomeScreen() {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>Home Screen</Text>
       <Scan />
     </View>
   );
 }
 
-function DetailsScreen() {
+function DetailsScreen(props) {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Scan />
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Scan {...props} />
     </View>
   );
-};
+}
+
+Scan.contextType = AppContext;
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [loading, setLoading] = useState(false);
+  const [device, setDevice] = useState(null);
 
   const scanAndConnect = () => {
     manager.startDeviceScan(null, null, (error, device) => {
@@ -164,31 +225,33 @@ export default function App() {
   };
 
   React.useEffect(() => {
-    manager.onStateChange((state) => {
-      console.log("STATE", state);
+    manager.onStateChange(state => {
+      console.log('STATE', state);
       if (state === 'PoweredOn') {
-        scanAndConnect()
+        // scanAndConnect()
       }
     }, true);
-
   }, []);
 
   return (
-    <AppContext.Provider value={{
-      loading,
-      setLoading
-    }}>
-      {!loading ?
+    <AppContext.Provider
+      value={{
+        loading,
+        setLoading,
+        device,
+        setDevice,
+      }}>
+      {!loading ? (
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Quizz">
+          <Stack.Navigator initialRouteName="Home">
             <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name="Details" component={DetailsScreen} />
             <Stack.Screen name="Quizz" component={QuizzScreen} />
           </Stack.Navigator>
         </NavigationContainer>
-        :
+      ) : (
         <ComponentLoading />
-      }
+      )}
     </AppContext.Provider>
   );
 }

@@ -4,7 +4,7 @@ import { Dimensions } from 'react-native';
 
 let { width, height } = Dimensions.get('window');
 
-const ComponentLoading = () => (
+const ComponentLoading = () => !console.log("RENDER") && (
    <View>
       <View style={{
          position: 'absolute',
