@@ -16,9 +16,7 @@
       "type": "belongsTo",
       "model": "Answer",
       "foreignKey": ""
-    }
-  },
-  "relations": {
+    },
     "question": {
       "type": "belongsTo",
       "model": "Question",
