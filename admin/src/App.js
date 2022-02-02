@@ -42,8 +42,7 @@ const customRoutes = [
   <Route exact path="/userQuiz" component={UserQuiz}/>
 ];
 
-const dataProvider = loopbackClient("http://localhost:3000/api");
-// const dataProvider = loopbackClient("http://159.89.50.20:3005/api");
+const dataProvider = loopbackClient("http://159.89.50.20:3005/api");
 
 function App() {
   return (

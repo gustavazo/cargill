@@ -63,19 +63,24 @@ class Scan extends Component {
     return granted === PermissionsAndroid.RESULTS.GRANTED;
   }
 
-  showAlert = () =>
+  showAlert = (device) =>
     Alert.alert(
       'Validación del día',
       'La validación de hoy ya ha sido realizada. Desea arrancar el vehículo?',
       [
         {
           text: 'Sí',
-          onPress: () => Alert.alert('Cancel Pressed'),
+          onPress: () => {
+            device.write("b")
+            this.props.navigation.navigate('Home');
+          },
           style: 'cancel',
         },
         {
           text: 'No',
-          onPress: () => Alert.alert('Cancel Pressed'),
+          onPress: () => {
+            this.props.navigation.navigate('Home');
+          },
           style: 'cancel',
         },
       ],
@@ -89,6 +94,7 @@ class Scan extends Component {
     );
 
   startDiscovery = async mac => {
+    console.log("HERE", mac);
     try {
       const area = await axios.get(confg.backendUrl + 'areas', {
         params: {
@@ -118,25 +124,23 @@ class Scan extends Component {
           },
         },
       });
-      console.log('HOLA');
+      console.log('HOLA', area, btmodule , quizz);
 
       const paired = await RNBluetoothClassic.getBondedDevices();
+      console.log("PAIRED", paired)
       const device = paired.find(
         p => p.address === btmodule.data[0].macAddress,
       );
       console.log('DEVICE', device);
       const connection = await device.connect();
       this.context.setDevice(device);
-      const a = await device.write('a');
-      this.props.navigation.navigate('Quizz', {quizz: quizz.data[0]});
+      this.sabela(device, quizz);
     } catch (err) {
       console.log('ERROR', err);
     }
   };
 
-  async componentDidMount() {
-    this.showAlert();
-    // this.isAvailalble();
+  sabela = async (device, quizz) => {
     const quizzes = await axios.get(
       confg.backendUrl + 'userQuizzes',
       // params: {
@@ -155,11 +159,24 @@ class Scan extends Component {
       // }
     );
     console.log('ACA', quizzes.data);
-
-    for (const q in quizzes.data) {
-      if (q.valid) {
+    const last = quizzes.data.length > 0 ? quizzes.data[quizzes.data.length - 1] : null;
+    
+    if (last) {
+      if (last.valid) {
+        this.showAlert(device);
+      } else {
+        device.write("a");
+        this.props.navigation.navigate('Quizz', {quizz: quizz.data[0]});
       }
+    } else {
+        this.props.navigation.navigate('Quizz', {quizz: quizz.data[0]});
+        device.write("a");
     }
+  }
+
+  async componentDidMount() {
+    // this.isAvailalble();
+
   }
 
   render() {
@@ -170,7 +187,6 @@ class Scan extends Component {
         onRead={this.onSuccess}
         topContent={
           <Text style={styles.centerText}>
-            <Text style={styles.textBold}>Scan</Text>
           </Text>
         }
         bottomContent={
@@ -244,9 +260,9 @@ export default function App() {
       {!loading ? (
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Home">
-            <Stack.Screen name="Home" component={Home} />
-            <Stack.Screen name="Details" component={DetailsScreen} />
-            <Stack.Screen name="Quizz" component={QuizzScreen} />
+            <Stack.Screen name="Home" label="Inicio" options={{title: "Inicio"}} component={Home} />
+            <Stack.Screen name="Details" component={DetailsScreen} options={{title: "Scaneo QR"}} />
+            <Stack.Screen name="Quizz" component={QuizzScreen} options={{title: "Evaluación"}} />
           </Stack.Navigator>
         </NavigationContainer>
       ) : (

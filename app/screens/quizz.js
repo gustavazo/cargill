@@ -23,8 +23,6 @@ function Home(props) {
   const [quizz, setQuizz] = useState(props.route.params.quizz);
   const context = useContext(AppContext);
 
-  console.log("QUIZZ", context)
-
   const onToggleSwitch = q => () => {
     console.log("Q", quizzState);
     const prevValue = quizzState[q.id];
@@ -37,10 +35,19 @@ function Home(props) {
   const createQuizz = async () => {
     console.log(quizzState);
     context.setLoading(true);
+    let valid = true;
+
+    for (const answerId in quizzState) {
+      if (!quizzState[answerId]) {
+        valid = false;
+        break;
+      }
+    }
+
     const q = {
       observations: observation,
       customUserId: 1,
-      valid: true,
+      valid,
       quizId: quizz.id,
       date: moment(new Date()).subtract(3, "hours")
     };
@@ -62,7 +69,9 @@ function Home(props) {
     }
 
     context.setLoading(false);
-    context.device.write("b")
+    if (valid) {
+      context.device.write("b")
+    }
     Toast.show("Test creado");
     navigation.navigate('Home');
   };
@@ -82,7 +91,7 @@ function Home(props) {
   return (
     <View style={{padding: 10, flex: 1}}>
       <View style={{alignItems: 'center'}}>
-        <Text style={{fontSize: 25, padding: 5, margin: 5}}>{quizz.title}</Text>
+        <Text style={{fontSize: 25, padding: 5, margin: 5}}>{quizz?.title}</Text>
       </View>
       <ScrollView>
         {/* <Button style={{ padding: 15, height: 15 }} title="ESCANEAR" onPress={handlePress} /> */}
