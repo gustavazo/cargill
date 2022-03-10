@@ -6,6 +6,7 @@ import Modal from '../components/Modal1';
 import {Avatar, Card, IconButton} from 'react-native-paper';
 import axios from 'axios';
 import confg from '../config';
+import moment from "moment";
 
 export default function Home(props) {
   const navigation = useNavigation();
@@ -20,23 +21,22 @@ export default function Home(props) {
     async function getSabe() {
       console.log('HOLA');
       const quizzes = await axios.get(
-        confg.backendUrl + 'userQuizzes',
-        // params: {
-        //   filter: {
-        //     where: {
-        //       customUserId: 1,
-        //       limit: 3
-        //       // date: {
-        //       //   between: [
-        //       //     "2022-02-01T00:00:09.643Z",
-        //       //     "2022-02-01T23:59:09.643Z"
-        //       //   ]
-        //       // }
-        //     }
-        //   }
-        // }
-      );
-      console.log("RARICO", quizzes.data);
+        confg.backendUrl + 'userQuizzes', {
+        params: {
+          filter: {
+            limit: 3,
+            order: "date DESC",
+            where: {
+              // date: {
+              //   between: [
+              //     "2022-02-01T00:00:09.643Z",
+              //     "2022-02-01T23:59:09.643Z"
+              //   ]
+              // }
+            }
+          }
+        }
+      });
       setAsd(quizzes.data);
     }
 
@@ -82,9 +82,8 @@ export default function Home(props) {
           <Text style={{fontSize: 30}}>Ultimos escaneos:</Text>
           {asd
             .map(a => {
-              console.log('A', a);
               return (
-                <Card.Title title={a.quiz?.title} subtitle={a.quiz?.date} />
+                <Card.Title title={a.quiz?.title} subtitle={moment(a.date).format('MMMM Do YYYY, h:mm:ss a')} />
               );
             })}
         </View>
