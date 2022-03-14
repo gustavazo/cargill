@@ -7,15 +7,33 @@ import {Avatar, Card, IconButton} from 'react-native-paper';
 import axios from 'axios';
 import confg from '../config';
 import moment from "moment";
+import { AppContext } from '../App';
+import { useContext } from 'react/cjs/react.development';
+import { AsyncStorage } from 'react-native';
+
+
 
 export default function Home(props) {
   const navigation = useNavigation();
   const [asd, setAsd] = useState([]);
+  const context = useContext(AppContext)
 
   console.log(props);
+
   function handlePress() {
     navigation.navigate('Details');
-  }
+  };
+
+  const handleLogOut = () => {
+    // el current user pasa a ser null
+    context.setCurrentUser(null);
+
+    // borro el id del asyncStorage
+    AsyncStorage.removeItem('id');
+
+    props.navigation.navigate('Login')
+  };
+
 
   useEffect(() => {
     async function getSabe() {
@@ -46,7 +64,12 @@ export default function Home(props) {
   return (
     <View style={{padding: 10}}>
       <View style={{alignItems: 'center'}}>
-        <Text style={{fontSize: 25}}>Hola, [USUARIO]</Text>
+        <Text style={{fontSize: 25}}>Hola, {context.currentUser.email}</Text>
+      </View>
+      <View>
+        <Button onPress={handleLogOut} title='SALIR'>
+          SALIR
+        </Button>
       </View>
       <View
         style={{

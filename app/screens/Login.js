@@ -2,45 +2,57 @@ import * as React from 'react';
 import { TextInput } from 'react-native-paper';
 import UserService from '../service/UserService';
 import config from '../config';
+import {View} from 'react-native';
+import {Button} from 'react-native';
+import { AsyncStorage } from 'react-native';
+import { useContext } from 'react/cjs/react.development';
+import { AppContext } from '../App';
+
+// despues de guardar en el asyncStorage el id
+// creo el stado d currentUser
+// cuando se monte la app, cheaquear si hay usuario loguiado
 
 
-const Login = () => {
-    const [user, setUser] = React.useState('');
+const Login = (props) => {
+    const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
+    const context = useContext(AppContext);
 
-    const handleUser = (evt) => {
-        setUser(evt.target.value)
-    };
-
-    const handlePassword = (evt) => {
-        setPassword(evt.target.value);
-    };
 
     const handleLogin = async () => {
-        const token = UserService.create()
+        const user = await UserService.login({
+            email: email,
+            password: password
+        });
+        context.setCurrentUser(user)
+        props.navigation.navigate('Home')
     };
 
+    console.log('email', email, 'pass', password)
+
     return (
-        <View>
+        <View style={{display: 'flex', padding: 30, justifyContent: 'center', alignContent: 'center', marginTop: 150}}>
             <View>
                 <TextInput
                     mode="outlined"
-                    label="Outlined input"
-                    placeholder="Type something"
+                    label="Email"
+                    placeholder="Ingresar Mail"
                     right={<TextInput.Affix text="/100" />}
-                    onChange={handleUser}
+                    onChangeText={setEmail}
+                    value={email}
                 />
             </View>
-            <View>
+            <View style={{marginTop: 20}}>
                 <TextInput
                     label="Password"
                     secureTextEntry
                     right={<TextInput.Icon name="eye" />}
-                    onChange={handlePassword}
+                    onChangeText={setPassword}
+                    value={password}
                 />
             </View>
-            <View>
-                <Button icon="camera" mode="contained" onPress={handleLogin}>
+            <View style={{marginTop: 20}}>
+                <Button title='Ingresar' mode="contained" onPress={handleLogin}>
                     Ingresar
                 </Button>
             </View>
@@ -61,3 +73,17 @@ export default Login;
 //        setCurrentUser(res.data);
 //     });
 //  };
+
+
+
+// {
+//     "type": "string",
+//     "firstName": "string",
+//     "lastName": "string",
+//     "gender": "string",
+//     "legajo": "string",
+//     "realm": "string",
+//     "username": "messi",
+//     "email": "messi@gmail.com",
+//     "password": "messi123"
+//     "emailVerified": true

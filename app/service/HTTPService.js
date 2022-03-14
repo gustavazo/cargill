@@ -3,7 +3,6 @@ import config from "../config";
 
 class HTTPService {
     constructor(model) {
-        console.log("CONFIG", config)
         this.api = axios.create();
         this.setDefaultBaseUrl();
         this.http = axios.create();

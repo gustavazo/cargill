@@ -221,6 +221,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   const [loading, setLoading] = useState(false);
   const [device, setDevice] = useState(null);
+  const [currentUser, setCurrentUser] = useState({});
 
   const scanAndConnect = () => {
     manager.startDeviceScan(null, null, (error, device) => {
@@ -256,10 +257,12 @@ export default function App() {
         setLoading,
         device,
         setDevice,
+        currentUser,
+        setCurrentUser
       }}>
       {!loading ? (
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Home">
+          <Stack.Navigator initialRouteName="Login">
             <Stack.Screen name="Home" label="Inicio" options={{title: "Inicio"}} component={Home} />
             <Stack.Screen name="Details" component={DetailsScreen} options={{title: "Scaneo QR"}} />
             <Stack.Screen name="Quizz" component={QuizzScreen} options={{title: "Evaluación"}} />
