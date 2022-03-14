@@ -13,6 +13,9 @@ import Toast from 'react-native-simple-toast';
 import axios from "axios";
 import { AppContext } from '../App';
 import moment from "moment";
+import {
+  Alert,
+} from 'react-native';
 
 
 
@@ -24,7 +27,6 @@ function Home(props) {
   const context = useContext(AppContext);
 
   const onToggleSwitch = q => () => {
-    console.log("Q", quizzState);
     const prevValue = quizzState[q.id];
     setQuizzState({
       ...quizzState,
@@ -69,11 +71,38 @@ function Home(props) {
     }
 
     context.setLoading(false);
+
     if (valid) {
-      context.device.write("b")
+      Alert.alert(
+        'Validación realizada',
+        'Desea arrancar el vehículo?',
+        [
+          {
+            text: 'Sí',
+            onPress: () => {
+              context.device.write("b")
+              Toast.show("Test creado");
+              navigation.navigate('Home');
+            },
+            style: 'cancel',
+          },
+          {
+            text: 'No',
+            onPress: () => {
+              navigation.navigate('Home');
+            },
+            style: 'cancel',
+          },
+        ],
+        {
+          cancelable: true
+        },
+      );
+    } else {
+      Toast.show("Test creado");
+      navigation.navigate('Home');
     }
-    Toast.show("Test creado");
-    navigation.navigate('Home');
+
   };
 
   useEffect(() => {

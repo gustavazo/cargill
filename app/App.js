@@ -26,6 +26,8 @@ import AreaService from './service/Area';
 import axios from 'axios';
 import confg from './config';
 import moment from "moment"
+import Login from './screens/Login';
+
 export const AppContext = React.createContext({});
 
 export const manager = new BleManager();
@@ -86,11 +88,7 @@ class Scan extends Component {
         },
       ],
       {
-        cancelable: true,
-        onDismiss: () =>
-          Alert.alert(
-            'This alert was dismissed by tapping outside of the alert dialog.',
-          ),
+        cancelable: true
       },
     );
 
@@ -262,9 +260,10 @@ export default function App() {
       {!loading ? (
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Home">
-            <Stack.Screen name="Home" label="Inicio" options={{ title: "Inicio" }} component={Home} />
-            <Stack.Screen name="Details" component={DetailsScreen} options={{ title: "Scaneo QR" }} />
-            <Stack.Screen name="Quizz" component={QuizzScreen} options={{ title: "Evaluación" }} />
+            <Stack.Screen name="Home" label="Inicio" options={{title: "Inicio"}} component={Home} />
+            <Stack.Screen name="Details" component={DetailsScreen} options={{title: "Scaneo QR"}} />
+            <Stack.Screen name="Quizz" component={QuizzScreen} options={{title: "Evaluación"}} />
+            <Stack.Screen name="Login" component={Login} options={{title: "Ingreso de usuario"}} />
           </Stack.Navigator>
         </NavigationContainer>
       ) : (
