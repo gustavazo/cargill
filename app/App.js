@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, { Component, useState } from 'react';
 
 import {
   AppRegistry,
@@ -11,11 +11,11 @@ import {
 } from 'react-native';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import {RNCamera} from 'react-native-camera';
-import {View} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {BleManager} from 'react-native-ble-plx';
+import { RNCamera } from 'react-native-camera';
+import { View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { BleManager } from 'react-native-ble-plx';
 import RNBluetoothClassic, {
   BluetoothEventType,
 } from 'react-native-bluetooth-classic';
@@ -25,10 +25,11 @@ import ComponentLoading from './components/ComponentLoading';
 import AreaService from './service/Area';
 import axios from 'axios';
 import confg from './config';
-
+import moment from "moment"
 export const AppContext = React.createContext({});
 
 export const manager = new BleManager();
+console.log(moment().startOf("day").toISOString(), 'esto')
 
 class Scan extends Component {
   onSuccess = e => {
@@ -124,7 +125,7 @@ class Scan extends Component {
           },
         },
       });
-      console.log('HOLA', area, btmodule , quizz);
+      console.log('HOLA', area, btmodule, quizz);
 
       const paired = await RNBluetoothClassic.getBondedDevices();
       console.log("PAIRED", paired)
@@ -140,37 +141,38 @@ class Scan extends Component {
     }
   };
 
+
+
   sabela = async (device, quizz) => {
     const quizzes = await axios.get(
-      confg.backendUrl + 'userQuizzes',
-      // params: {
-      //   filter: {
-      //     where: {
-      //       customUserId: 1,
-      //       limit: 3
-      //       // date: {
-      //       //   between: [
-      //       //     "2022-02-01T00:00:09.643Z",
-      //       //     "2022-02-01T23:59:09.643Z"
-      //       //   ]
-      //       // }
-      //     }
-      //   }
-      // }
+      confg.backendUrl + 'userQuizzes', {
+      params: {
+        filter: {
+          where: {
+            customUserId: 1,
+            date: {
+              between: [
+                moment().startOf("day"),
+                moment().endOf("day")
+              ]
+            }
+          }
+        }
+      }
+    }
     );
-    console.log('ACA', quizzes.data);
-    const last = quizzes.data.length > 0 ? quizzes.data[quizzes.data.length - 1] : null;
-    
+
+
     if (last) {
       if (last.valid) {
         this.showAlert(device);
       } else {
         device.write("a");
-        this.props.navigation.navigate('Quizz', {quizz: quizz.data[0]});
+        this.props.navigation.navigate('Quizz', { quizz: quizz.data[0] });
       }
     } else {
-        this.props.navigation.navigate('Quizz', {quizz: quizz.data[0]});
-        device.write("a");
+      this.props.navigation.navigate('Quizz', { quizz: quizz.data[0] });
+      device.write("a");
     }
   }
 
@@ -199,7 +201,7 @@ class Scan extends Component {
 
 function HomeScreen() {
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Home Screen</Text>
       <Scan />
     </View>
@@ -208,7 +210,7 @@ function HomeScreen() {
 
 function DetailsScreen(props) {
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Scan {...props} />
     </View>
   );
@@ -260,9 +262,9 @@ export default function App() {
       {!loading ? (
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Home">
-            <Stack.Screen name="Home" label="Inicio" options={{title: "Inicio"}} component={Home} />
-            <Stack.Screen name="Details" component={DetailsScreen} options={{title: "Scaneo QR"}} />
-            <Stack.Screen name="Quizz" component={QuizzScreen} options={{title: "Evaluación"}} />
+            <Stack.Screen name="Home" label="Inicio" options={{ title: "Inicio" }} component={Home} />
+            <Stack.Screen name="Details" component={DetailsScreen} options={{ title: "Scaneo QR" }} />
+            <Stack.Screen name="Quizz" component={QuizzScreen} options={{ title: "Evaluación" }} />
           </Stack.Navigator>
         </NavigationContainer>
       ) : (
