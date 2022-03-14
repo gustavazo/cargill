@@ -25,6 +25,7 @@ import ComponentLoading from './components/ComponentLoading';
 import AreaService from './service/Area';
 import axios from 'axios';
 import confg from './config';
+import Login from './screens/Login';
 
 export const AppContext = React.createContext({});
 
@@ -259,6 +260,7 @@ export default function App() {
             <Stack.Screen name="Home" label="Inicio" options={{title: "Inicio"}} component={Home} />
             <Stack.Screen name="Details" component={DetailsScreen} options={{title: "Scaneo QR"}} />
             <Stack.Screen name="Quizz" component={QuizzScreen} options={{title: "Evaluación"}} />
+            <Stack.Screen name="Login" component={Login} options={{title: "Ingreso de usuario"}} />
           </Stack.Navigator>
         </NavigationContainer>
       ) : (
