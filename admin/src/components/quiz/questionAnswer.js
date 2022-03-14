@@ -9,6 +9,7 @@ import QuestionService from '../../services/QuestionService';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import Switch from '@mui/material/Switch';
 import { useNotify } from 'react-admin';
 
 
@@ -19,12 +20,15 @@ const QuestionAnswer = (props) => {
         label:'',
         id:0
     })
-    const [answers, setAnswers] = useState(props.questionSelected)
+    const [answers, setAnswers] = useState(props.questionSelected);
+    const [switchState, setSwitchState] = useState(false);
 
     const getAnswers = async () => {
         const res = await QuestionService.findById(props.questionSelected.id)
         setAnswers(res.data)
     }
+    const label = { inputProps: { 'aria-label': 'Switch demo' } };
+
 
 
     const openModal = (a) => {
@@ -57,6 +61,11 @@ const QuestionAnswer = (props) => {
         getAnswers()
         closeModal()
         notify('La consigna ha sido editada')
+    };
+
+    const switchModify = (a) => async () => {
+        setSwitchState(!a.excluding);
+        const res = await AnswerService.editAnswer(a.id, { excluding: !a.excluding})
     }
 
 
@@ -83,6 +92,7 @@ const QuestionAnswer = (props) => {
             </Modal>
             <div>
                 {answers.answers.map((a) => {
+                    console.log(a)
                     return (
                         <>
                         <div style={{ display:'flex', alignItems: 'center', justifyContent:'space-between', flexDirection: 'row' }}>
@@ -90,6 +100,7 @@ const QuestionAnswer = (props) => {
                                 <span style={{margin: 5}}>{a.label}</span>
                             </div>
                             <div>
+                                <Switch {...label} onChange={switchModify(a)} defaultChecked={a.excluding}/>
                                 <Button color='primary' style={{margin: 5, maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px'}} variant='contained'onClick={() => openModal(a)}><EditIcon style={{fontSize: 20}}/></Button>
                                 <Button color='error' style={{margin: 5, maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px'}} onClick={() => deleteAns(a)} variant='contained'><DeleteIcon style={{fontSize: 20}}/></Button>
                             </div>

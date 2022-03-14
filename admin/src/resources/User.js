@@ -17,6 +17,8 @@ export const UserCreate = (props) => (
             ]} />
             <TextInput source="firstName" label="Nombre" />
             <TextInput source="lastName" label="Apellido" />
+            <TextInput source="email" label="Email" />
+            <TextInput source="password" label="Contraseña" />
             <SelectInput
                 source="gender"
                 label="Género"
@@ -24,7 +26,7 @@ export const UserCreate = (props) => (
                     { id: 'Masculino', name: 'Masculino' },
                     { id: 'Femenino', name: 'Femenino' }
             ]} />
-            <TextInput source="legajo" label="Legajo" />
+            <TextInput source="username" label="Legajo" />
         </SimpleForm>
     </Create>
 );
