@@ -21,14 +21,12 @@ const Login = (props) => {
 
     const handleLogin = async () => {
         const user = await UserService.login({
-            email: email,
-            password: password
+            email: "messi@gmail.com",
+            password: "messi123"
         });
         context.setCurrentUser(user)
         props.navigation.navigate('Home')
     };
-
-    console.log('email', email, 'pass', password)
 
     return (
         <View style={{display: 'flex', padding: 30, justifyContent: 'center', alignContent: 'center', marginTop: 150}}>

@@ -27,6 +27,7 @@ import axios from 'axios';
 import confg from './config';
 import moment from "moment"
 import Login from './screens/Login';
+import { AsyncStorage } from 'react-native';
 
 export const AppContext = React.createContext({});
 
@@ -35,7 +36,6 @@ console.log(moment().startOf("day").toISOString(), 'esto')
 
 class Scan extends Component {
   onSuccess = e => {
-    console.log('ACA', e);
     this.isAvailalble(e.data);
   };
 
@@ -131,6 +131,7 @@ class Scan extends Component {
         p => p.address === btmodule.data[0].macAddress,
       );
       console.log('DEVICE', device);
+      
       const connection = await device.connect();
       this.context.setDevice(device);
       this.sabela(device, quizz);
@@ -142,12 +143,15 @@ class Scan extends Component {
 
 
   sabela = async (device, quizz) => {
+    const id = await AsyncStorage.getItem("id");
+    console.log("ID", id);
+
     const quizzes = await axios.get(
       confg.backendUrl + 'userQuizzes', {
       params: {
         filter: {
           where: {
-            customUserId: 1,
+            customUserId: JSON.parse(id).userId,
             date: {
               between: [
                 moment().startOf("day"),
@@ -159,6 +163,8 @@ class Scan extends Component {
       }
     }
     );
+
+    const last = quizzes.data[quizzes.data.length - 1];
 
 
     if (last) {
@@ -243,7 +249,6 @@ export default function App() {
 
   React.useEffect(() => {
     manager.onStateChange(state => {
-      console.log('STATE', state);
       if (state === 'PoweredOn') {
         // scanAndConnect()
       }

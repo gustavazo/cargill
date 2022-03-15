@@ -17,6 +17,7 @@ import {
   Alert,
 } from 'react-native';
 
+import { AsyncStorage } from 'react-native';
 
 
 function Home(props) {
@@ -39,6 +40,8 @@ function Home(props) {
     context.setLoading(true);
     let valid = true;
 
+    console.log(quizzState);
+
     for (const answerId in quizzState) {
       if (!quizzState[answerId]) {
         valid = false;
@@ -46,9 +49,11 @@ function Home(props) {
       }
     }
 
+    const id = await AsyncStorage.getItem("id");
+
     const q = {
       observations: observation,
-      customUserId: 1,
+      customUserId: JSON.parse(id).userId,
       valid,
       quizId: quizz.id,
       date: moment(new Date()).subtract(3, "hours")
@@ -118,7 +123,7 @@ function Home(props) {
   }, []);
 
   return (
-    <View style={{padding: 10, flex: 1}}>
+    <View style={{padding: 30, flex: 1}}>
       <View style={{alignItems: 'center'}}>
         <Text style={{fontSize: 25, padding: 5, margin: 5}}>{quizz?.title}</Text>
       </View>
@@ -152,17 +157,17 @@ function Home(props) {
                           borderBottomWidth: 1,
                           padding: 5,
                         }}>
-                        <View style={{width: '80%'}}>
+                        <View style={{width: '95%'}}>
                           <Text style={{color: 'black', fontSize: 20}}>
                             {a.label}
                           </Text>
                         </View>
-                        <View style={{width: '20%'}}>
+                        <View style={{width: '5%', background: "red"}}>
                           <Switch
                             value={quizzState[a.id]}
                             onValueChange={onToggleSwitch(a)}
                             style={{transform: [{scaleX: 1.5}, {scaleY: 1.5}]}}
-                          />
+                          /> 
                         </View>
                       </View>
                     );

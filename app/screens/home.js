@@ -55,6 +55,7 @@ export default function Home(props) {
           }
         }
       });
+      console.log()
       setAsd(quizzes.data);
     }
 
@@ -64,7 +65,7 @@ export default function Home(props) {
   return (
     <View style={{padding: 10}}>
       <View style={{alignItems: 'center'}}>
-        <Text style={{fontSize: 25}}>Hola, {context.currentUser.email}</Text>
+        <Text style={{fontSize: 25}}>Hola, {context.currentUser.firstName + " " + context.currentUser.lastName}</Text>
       </View>
       <View>
         <Button onPress={handleLogOut} title='SALIR'>

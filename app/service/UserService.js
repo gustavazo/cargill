@@ -14,7 +14,7 @@ class UserService extends CRUDService {
     console.log('TOKEN.DATA', token.data)
 
     await AsyncStorage.setItem(
-      'id', token.data.id
+      'id', JSON.stringify(token.data)
     );
 
     // traer el usuario con el userId
