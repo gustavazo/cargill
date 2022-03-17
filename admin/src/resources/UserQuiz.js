@@ -261,7 +261,7 @@ export default function UserQuiz() {
                               {/* Empty TableCell */}
                             </StyledTableCell>
                             <StyledTableCell align="center">
-                              {answer?.label}
+                              {answer?.label} {answer.excluding && "-" + " EXCLUYENTE "}
                             </StyledTableCell>
                             {renderIsValid(answer.id)}
                           </StyledTableRow>

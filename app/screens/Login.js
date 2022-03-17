@@ -21,8 +21,8 @@ const Login = (props) => {
 
     const handleLogin = async () => {
         const user = await UserService.login({
-            email: "messi@gmail.com",
-            password: "messi123"
+            username: email.toLocaleLowerCase(),
+            password: password.toLocaleLowerCase()
         });
         context.setCurrentUser(user)
         props.navigation.navigate('Home')
@@ -33,8 +33,8 @@ const Login = (props) => {
             <View>
                 <TextInput
                     mode="outlined"
-                    label="Email"
-                    placeholder="Ingresar Mail"
+                    label="Legajo"
+                    placeholder="Ingresar legajo"
                     right={<TextInput.Affix text="/100" />}
                     onChangeText={setEmail}
                     value={email}

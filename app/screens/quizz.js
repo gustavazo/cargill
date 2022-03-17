@@ -35,15 +35,22 @@ function Home(props) {
     });
   };
 
+  const getAnswer = (answerId) => {
+    for (const q of quizz.questions) {
+      for (const a of q.answers) {
+        console.log(q, answerId)
+        if (a.id == answerId) return a;
+      }
+    }
+  }
+
   const createQuizz = async () => {
     console.log(quizzState);
     context.setLoading(true);
     let valid = true;
 
-    console.log(quizzState);
-
     for (const answerId in quizzState) {
-      if (!quizzState[answerId]) {
+      if (!quizzState[answerId] && getAnswer(answerId).excluding) {
         valid = false;
         break;
       }
@@ -104,7 +111,10 @@ function Home(props) {
         },
       );
     } else {
-      Toast.show("Test creado");
+      Alert.alert(
+        'La validación no fue satisfactoria',
+        'No se puede habilitar el vehículo'
+      );
       navigation.navigate('Home');
     }
 
