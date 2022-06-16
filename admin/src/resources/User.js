@@ -12,8 +12,9 @@ export const UserCreate = (props) => (
                 source="type"
                 label="Tipo"
                 choices={[
-                    { id: 'Operador', name: 'Operador' },
-                    { id: 'Admin', name: 'Admin' }
+                    { id: '0', name: 'Operador' },
+                    { id: '1', name: 'Administrador' },
+                    { id: '2', name: 'Super administrador' }
             ]} />
             <TextInput source="firstName" label="Nombre" />
             <TextInput source="lastName" label="Apellido" />
@@ -38,8 +39,9 @@ export const UserEdit = (props) => (
                 source="type"
                 label="Tipo"
                 choices={[
-                    { id: 'Operador', name: 'Operador' },
-                    { id: 'Admin', name: 'Admin' }
+                    { id: '0', name: 'Operador' },
+                    { id: '1', name: 'Administrador' },
+                    { id: '2', name: 'Super administrador' }
             ]} />
             <TextInput source="firstName" label="Nombre" />
             <TextInput source="lastName" label="Apellido" />
