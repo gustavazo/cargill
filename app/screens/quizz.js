@@ -93,7 +93,7 @@ function Home(props) {
             text: 'Sí',
             onPress: () => {
               context.device.write("b")
-              Toast.show("Test creado");
+              Toast.show("Revivisión finalizada");
               navigation.navigate('Home');
             },
             style: 'cancel',

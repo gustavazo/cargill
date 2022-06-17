@@ -23,6 +23,7 @@
     }
   },
   "validations": [],
+  "relations": {},
   "acls": [],
   "methods": {}
 }

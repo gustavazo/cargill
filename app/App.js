@@ -32,7 +32,6 @@ import { AsyncStorage } from 'react-native';
 export const AppContext = React.createContext({});
 
 export const manager = new BleManager();
-console.log(moment().startOf("day").toISOString(), 'esto')
 
 class Scan extends Component {
   onSuccess = e => {
@@ -66,34 +65,58 @@ class Scan extends Component {
     return granted === PermissionsAndroid.RESULTS.GRANTED;
   }
 
-  showAlert = (device) =>
-    Alert.alert(
+  showAlert = (device, alertOptions = [], quizz) => {
+    const options = {
+      run: {
+        text: 'Arrancar Vehículo',
+        onPress: () => {
+          //arrancar
+          device.write("b")
+          this.props.navigation.navigate('Home');
+        },
+        style: 'cancel',
+      },
+      reMakeQuizz: {
+        text: 'Rehacer Encuesta',
+        onPress: () => {
+          //
+          device.write("a");
+          this.props.navigation.navigate('Quizz', { quizz: quizz.data[0] });
+        },
+        style: 'cancel',
+      },
+    }
+
+    return Alert.alert(
       'Validación del día',
-      'La validación de hoy ya ha sido realizada. Desea arrancar el vehículo?',
-      [
-        {
-          text: 'Sí',
-          onPress: () => {
-            device.write("b")
-            this.props.navigation.navigate('Home');
-          },
-          style: 'cancel',
-        },
-        {
-          text: 'No',
-          onPress: () => {
-            this.props.navigation.navigate('Home');
-          },
-          style: 'cancel',
-        },
-      ],
+      'La validación de hoy ya ha sido realizada. ¿Que desea hacer?',
+      alertOptions.map((option) => options[option]),
+
+      // [
+      //   {
+      //     text: 'Arrancar Vehículo',
+      //     onPress: () => {
+      //       device.write("b")
+      //       this.props.navigation.navigate('Home');
+      //     },
+      //     style: 'cancel',
+      //   },
+      //   {
+      //     text: 'Rehacer Encuesta',
+      //     onPress: () => {
+      //       this.props.navigation.navigate('Home');
+      //     },
+      //     style: 'cancel',
+      //   },
+      // ],
       {
         cancelable: true
       },
-    );
+    )
+  }
 
   startDiscovery = async mac => {
-    console.log("HERE", mac);
+
     try {
       const area = await axios.get(confg.backendUrl + 'areas', {
         params: {
@@ -123,18 +146,14 @@ class Scan extends Component {
           },
         },
       });
-      console.log('HOLA', area, btmodule, quizz);
 
       const paired = await RNBluetoothClassic.getBondedDevices();
-      console.log("PAIRED", paired)
       const device = paired.find(
         p => p.address === btmodule.data[0].macAddress,
       );
-      console.log('DEVICE', device);
-      
       const connection = await device.connect();
       this.context.setDevice(device);
-      this.sabela(device, quizz);
+      this.sabela(device, quizz, area.data[0]);
     } catch (err) {
       console.log('ERROR', err);
     }
@@ -142,10 +161,8 @@ class Scan extends Component {
 
 
 
-  sabela = async (device, quizz) => {
+  sabela = async (device, quizz, area) => {
     const id = await AsyncStorage.getItem("id");
-    console.log("ID", id);
-
     const quizzes = await axios.get(
       confg.backendUrl + 'userQuizzes', {
       params: {
@@ -163,21 +180,48 @@ class Scan extends Component {
       }
     }
     );
+    console.log("Area", area);
+    console.log("Quizzes", quizzes);
 
-    const last = quizzes.data[quizzes.data.length - 1];
 
 
-    if (last) {
-      if (last.valid) {
-        this.showAlert(device);
-      } else {
-        device.write("a");
-        this.props.navigation.navigate('Quizz', { quizz: quizz.data[0] });
+    //Verificar si en el dia ya se hizo la encuesta del area escaneada
+    //Si es asi => Verificar si es validad  => si es valida: preguntar si se quiere volver a hacer o arrancar vehiculo 
+    //                                      => No es valida : Preguntar si se quiere volver a hacer aclarando que la ultima hecha no fue valida.
+    //Caso contrario => Permitir hacer la encuesta directaemente.
+
+    const currentAreaLastQuiz = quizzes.data.filter((q) => q.quiz.areaId === area.id).pop();//Deberia ser la ultima encuesta la que quiero chequear deberia hacer un filter y verificar el ultimo quizz hecho y validar con ese
+    console.log('currentAreaLastQuiz', currentAreaLastQuiz)
+    if (currentAreaLastQuiz) {
+      //Hay una encuesta hecha en el dia del area
+      if (currentAreaLastQuiz.valid) {
+        //preguntar si se quiere volver a hacer o arrancar vehiculo 
+        this.showAlert(device, ['run', 'reMakeQuizz'], quizz);
+      }
+      else {
+        //Preguntar si se quiere volver a hacer aclarando que la ultima no fue valida
+        this.showAlert(device, ['reMakeQuizz'], quizz);
       }
     } else {
-      this.props.navigation.navigate('Quizz', { quizz: quizz.data[0] });
+      //redirigir a encuesta
       device.write("a");
+      this.props.navigation.navigate('Quizz', { quizz: quizz.data[0] });
     }
+
+
+
+    // const last = quizzes.data[quizzes.data.length - 1];
+    //   if (last) {
+    //     if (last.valid) {
+    //       this.showAlert(device); 
+    //     } else {
+    //       device.write("a");
+    //       this.props.navigation.navigate('Quizz', { quizz: quizz.data[0] });
+    //     }
+    //   } else {
+    //     this.props.navigation.navigate('Quizz', { quizz: quizz.data[0] });
+    //     device.write("a");
+    //   }
   }
 
   async componentDidMount() {
@@ -186,7 +230,6 @@ class Scan extends Component {
   }
 
   render() {
-    console.log('props', this.props);
 
     return (
       <QRCodeScanner
@@ -268,10 +311,10 @@ export default function App() {
       {!loading ? (
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Login">
-            <Stack.Screen name="Home" label="Inicio" options={{title: "Inicio"}} component={Home} />
-            <Stack.Screen name="Details" component={DetailsScreen} options={{title: "Scaneo QR"}} />
-            <Stack.Screen name="Quizz" component={QuizzScreen} options={{title: "Evaluación"}} />
-            <Stack.Screen name="Login" component={Login} options={{title: "Ingreso de usuario"}} />
+            <Stack.Screen name="Home" label="Inicio" options={{ title: "Inicio" }} component={Home} />
+            <Stack.Screen name="Details" component={DetailsScreen} options={{ title: "Scaneo QR" }} />
+            <Stack.Screen name="Quizz" component={QuizzScreen} options={{ title: "Evaluación" }} />
+            <Stack.Screen name="Login" component={Login} options={{ title: "Ingreso de usuario" }} />
           </Stack.Navigator>
         </NavigationContainer>
       ) : (
