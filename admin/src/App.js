@@ -31,20 +31,53 @@ import {
 } from './resources/User';
 
 import UserQuiz from "./resources/UserQuiz";
+import UserService from "./services/UserService";
 
 const messages = {
   'es': spanishMessages,
 };
 
+const token = localStorage.getItem("lbtoken");
+const user = JSON.parse(token);
+const userId = user.value.userId
+
+
 const i18nProvider = polyglotI18nProvider(locale => messages['es']);
 
 const customRoutes = [
-  <Route exact path="/userQuiz" component={UserQuiz}/>
+  <Route exact path="/userQuiz" component={UserQuiz} />
 ];
 
 const dataProvider = loopbackClient("http://159.89.50.20:3005/api");
 
 function App() {
+  const [userInfo, setUserInfo] = useState({})
+  const [type, setType] = useState()
+
+  const bringUserInfo = async () => {
+    const res = await UserService.findById(userId)
+
+    setUserInfo(res.data)
+    setType(userInfo.type)
+    console.log(res.data)
+  }
+
+  useEffect(() => {
+    bringUserInfo()
+
+  }, [])
+
+  const wichType = () => {
+    if (type === 'Administrador') {
+      return false
+    } else if (type === 'Super administrador') {
+      return true
+    }
+  }
+
+
+
+
   return (
     <div className="App">
       <Admin layout={MyLayout} dataProvider={dataProvider} authProvider={authProvider('http://159.89.50.20:3005/api/CustomUsers/login')} customRoutes={customRoutes} locale="es" i18nProvider={i18nProvider}>
@@ -52,7 +85,6 @@ function App() {
         <Resource name="Quizzes" options={{ label: 'Encuestas' }} create={QuizCreate} edit={QuizEdit} list={QuizList} />
         <Resource name="BTModules" options={{ label: 'Módulos BT' }} create={BTModuleCreate} edit={BTModuleEdit} list={BTModuleList} />
         <Resource name="CustomUsers" options={{ label: 'Usuarios' }} create={UserCreate} edit={UserEdit} list={UserList} />
-        
       </Admin>
     </div>
   );
