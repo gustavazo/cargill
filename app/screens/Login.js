@@ -7,6 +7,8 @@ import {Button} from 'react-native';
 import { AsyncStorage } from 'react-native';
 import { useContext } from 'react/cjs/react.development';
 import { AppContext } from '../App';
+import { useEffect } from 'react';
+import { useIsFocused } from '@react-navigation/native';
 
 // despues de guardar en el asyncStorage el id
 // creo el stado d currentUser
@@ -17,7 +19,14 @@ const Login = (props) => {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const context = useContext(AppContext);
+    const isFocused = useIsFocused();
 
+    useEffect(() => {
+        if (isFocused) {
+            setEmail("")
+            setPassword("")
+        }
+    }, [isFocused])
 
     const handleLogin = async () => {
         const user = await UserService.login({
@@ -26,7 +35,7 @@ const Login = (props) => {
         });
         context.setCurrentUser(user)
         props.navigation.navigate('Home')
-    };
+    }
 
     return (
         <View style={{display: 'flex', padding: 30, justifyContent: 'center', alignContent: 'center', marginTop: 150}}>

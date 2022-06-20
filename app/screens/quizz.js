@@ -1,10 +1,10 @@
-import React, {useState, useEffect, useContext } from 'react';
-import {View, ScrollView, Text} from 'react-native';
-import {Button} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import React, { useState, useEffect, useContext } from 'react';
+import { View, ScrollView, Text } from 'react-native';
+import { Button } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import Modal from '../components/Modal1';
-import {Switch} from 'react-native-paper';
-import {TextInput} from 'react-native-paper';
+import { Switch } from 'react-native-paper';
+import { TextInput } from 'react-native-paper';
 import UserQuizz from '../service/UserQuizService';
 import UserQuizService from '../service/UserQuizService';
 import AnswerService from '../service/UserAnswerService';
@@ -93,15 +93,15 @@ function Home(props) {
             text: 'Sí',
             onPress: () => {
               context.device.write("b")
-              Toast.show("Revivisión finalizada");
-              navigation.navigate('Home');
+              Toast.show("Vehículo habilitado");
+              navigation.navigate('Login');
             },
             style: 'cancel',
           },
           {
             text: 'No',
             onPress: () => {
-              navigation.navigate('Home');
+              navigation.navigate('Login');
             },
             style: 'cancel',
           },
@@ -133,9 +133,9 @@ function Home(props) {
   }, []);
 
   return (
-    <View style={{padding: 30, flex: 1}}>
-      <View style={{alignItems: 'center'}}>
-        <Text style={{fontSize: 25, padding: 5, margin: 5}}>{quizz?.title}</Text>
+    <View style={{ padding: 30, flex: 1 }}>
+      <View style={{ alignItems: 'center' }}>
+        <Text style={{ fontSize: 25, padding: 5, margin: 5 }}>{quizz?.title}</Text>
       </View>
       <ScrollView>
         {/* <Button style={{ padding: 15, height: 15 }} title="ESCANEAR" onPress={handlePress} /> */}
@@ -167,17 +167,17 @@ function Home(props) {
                           borderBottomWidth: 1,
                           padding: 5,
                         }}>
-                        <View style={{width: '95%'}}>
-                          <Text style={{color: 'black', fontSize: 20}}>
+                        <View style={{ width: '95%' }}>
+                          <Text style={{ color: 'black', fontSize: 20 }}>
                             {a.label}
                           </Text>
                         </View>
-                        <View style={{width: '5%', background: "red"}}>
+                        <View style={{ width: '5%', background: "red" }}>
                           <Switch
                             value={quizzState[a.id]}
                             onValueChange={onToggleSwitch(a)}
-                            style={{transform: [{scaleX: 1.5}, {scaleY: 1.5}]}}
-                          /> 
+                            style={{ transform: [{ scaleX: 1.5 }, { scaleY: 1.5 }] }}
+                          />
                         </View>
                       </View>
                     );
@@ -190,7 +190,7 @@ function Home(props) {
           <TextInput
             label="Observaciones"
             multiline
-            style={{height: 200}}
+            style={{ height: 200 }}
             value={observation}
             onChangeText={text => setObservation(text)}
           />

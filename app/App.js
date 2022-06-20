@@ -7,9 +7,9 @@ import {
   TouchableOpacity,
   Linking,
   PermissionsAndroid,
-  Alert,
+  Alert
 } from 'react-native';
-
+import Toast from 'react-native-simple-toast';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
 import { View } from 'react-native';
@@ -72,7 +72,11 @@ class Scan extends Component {
         onPress: () => {
           //arrancar
           device.write("b")
-          this.props.navigation.navigate('Home');
+          AsyncStorage.removeItem("currentUser")
+          this.props.navigation.navigate('Login');
+          
+          Toast.show("Vehículo habilitado");
+          
         },
         style: 'cancel',
       },
@@ -91,24 +95,6 @@ class Scan extends Component {
       'Validación del día',
       'La validación de hoy ya ha sido realizada. ¿Que desea hacer?',
       alertOptions.map((option) => options[option]),
-
-      // [
-      //   {
-      //     text: 'Arrancar Vehículo',
-      //     onPress: () => {
-      //       device.write("b")
-      //       this.props.navigation.navigate('Home');
-      //     },
-      //     style: 'cancel',
-      //   },
-      //   {
-      //     text: 'Rehacer Encuesta',
-      //     onPress: () => {
-      //       this.props.navigation.navigate('Home');
-      //     },
-      //     style: 'cancel',
-      //   },
-      // ],
       {
         cancelable: true
       },
@@ -190,17 +176,19 @@ class Scan extends Component {
     //                                      => No es valida : Preguntar si se quiere volver a hacer aclarando que la ultima hecha no fue valida.
     //Caso contrario => Permitir hacer la encuesta directaemente.
 
-    const currentAreaLastQuiz = quizzes.data.filter((q) => q.quiz.areaId === area.id).pop();//Deberia ser la ultima encuesta la que quiero chequear deberia hacer un filter y verificar el ultimo quizz hecho y validar con ese
+    const currentAreaLastQuiz = quizzes.data.filter((q) => q.quiz.areaId === area.id).pop();
     console.log('currentAreaLastQuiz', currentAreaLastQuiz)
     if (currentAreaLastQuiz) {
       //Hay una encuesta hecha en el dia del area
       if (currentAreaLastQuiz.valid) {
         //preguntar si se quiere volver a hacer o arrancar vehiculo 
         this.showAlert(device, ['run', 'reMakeQuizz'], quizz);
+        
       }
       else {
-        //Preguntar si se quiere volver a hacer aclarando que la ultima no fue valida
+        //Preguntar si se quiere volver a hacer
         this.showAlert(device, ['reMakeQuizz'], quizz);
+
       }
     } else {
       //redirigir a encuesta
