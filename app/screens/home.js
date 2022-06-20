@@ -8,7 +8,7 @@ import axios from 'axios';
 import confg from '../config';
 import moment from "moment";
 import { AppContext } from '../App';
-import { useContext } from 'react/cjs/react.development';
+import { useContext } from 'react';
 import { AsyncStorage } from 'react-native';
 
 

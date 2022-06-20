@@ -5,7 +5,7 @@ import config from '../config';
 import {View} from 'react-native';
 import {Button} from 'react-native';
 import { AsyncStorage } from 'react-native';
-import { useContext } from 'react/cjs/react.development';
+import { useContext } from 'react';
 import { AppContext } from '../App';
 import { useEffect } from 'react';
 import { useIsFocused } from '@react-navigation/native';
