@@ -40,8 +40,9 @@ const messages = {
 };
 
 const token = localStorage.getItem("lbtoken");
-const user = JSON.parse(token);
-const userId = user.value.userId
+console.log(token)
+const user = token ? JSON.parse(token) : undefined;
+const userId = user?.value?.userId
 
 
 const i18nProvider = polyglotI18nProvider(locale => messages['es']);
@@ -67,8 +68,7 @@ function App() {
 
   useEffect(() => {
     bringUserInfo()
-
-  }, [])
+  }, [userId])
 
   const wichType = () => {
     if (type === 'Administrador') {

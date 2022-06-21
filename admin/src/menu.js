@@ -7,8 +7,8 @@ import { useEffect } from 'react';
 import UserService from './services/UserService';
 
 const token = localStorage.getItem("lbtoken");
-const user = JSON.parse(token);
-const userId = user.value.userId
+const user = token ? JSON.parse(token) : undefined;
+const userId = user?.value?.userId
 
 
 export const Menu = (props) => {
