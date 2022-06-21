@@ -24,7 +24,7 @@ export const Menu = (props) => {
 
     const bringUserInfo = async () => {
         const res = await UserService.findById(userId)
-    
+        console.log(res.data)
         setType(res.data.type)
       }
 
@@ -47,8 +47,8 @@ export const Menu = (props) => {
     
     const routes = {
         
-        'Admin': ['Quizzes', 'CustomUsers', 'Resultados'],
-        'Super Admin': allItems
+        '1': ['Quizzes', 'CustomUsers', 'Resultados'],
+        '2': allItems
     }
 
     
