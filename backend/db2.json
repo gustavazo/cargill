@@ -1,0 +1,48 @@
+{
+  "ids": {
+    "User": 1,
+    "AccessToken": 2,
+    "ACL": 1,
+    "RoleMapping": 1,
+    "Role": 1,
+    "CustomUser": 2,
+    "Area": 3,
+    "BTModule": 1,
+    "Quiz": 3,
+    "Question": 3,
+    "Answer": 4,
+    "UserQuiz": 1,
+    "UserAnswer": 1
+  },
+  "models": {
+    "User": {},
+    "AccessToken": {
+      "GqSF3W2DDGFN9J0cXPQGLocVh89bREZ7TUQ93ZbvtDI6GXklZWQChD1oBuLX2fuD": "{\"id\":\"GqSF3W2DDGFN9J0cXPQGLocVh89bREZ7TUQ93ZbvtDI6GXklZWQChD1oBuLX2fuD\",\"ttl\":1209600,\"created\":\"2022-06-22T15:55:55.121Z\",\"userId\":1}"
+    },
+    "ACL": {},
+    "RoleMapping": {},
+    "Role": {},
+    "CustomUser": {
+      "1": "{\"type\":\"2\",\"firstName\":\"super\",\"lastName\":\"admin\",\"gender\":\"hombre\",\"legajo\":\"superadmin\",\"realm\":\"string\",\"username\":\"superadmin\",\"password\":\"$2a$10$kuACYsLtUwCbgxhVRf65seaQYCmznH7DES6ghFRyOc0sojb9l..uC\",\"email\":\"superadmin@dsa.com\",\"emailVerified\":false,\"id\":1}"
+    },
+    "Area": {
+      "2": "{\"type\":\"Vehículo\",\"name\":\"Area 1\",\"description\":\"Area de prueba\",\"tagCode\":\"1234\",\"quizId\":1,\"id\":2}"
+    },
+    "BTModule": {},
+    "Quiz": {
+      "1": "{\"title\":\"Encuesta 1\",\"description\":\"Encuesta de prueba 1\",\"id\":1}",
+      "2": "{\"title\":\"Encuesta 2\",\"description\":\"Encuesta de prueba 2\",\"id\":2}"
+    },
+    "Question": {
+      "1": "{\"statement\":\"Categoria 1\",\"quizId\":1,\"id\":1}",
+      "2": "{\"statement\":\"Categoria 1\",\"quizId\":2,\"id\":2}"
+    },
+    "Answer": {
+      "1": "{\"value\":true,\"label\":\"Consigna 1\",\"questionId\":1,\"id\":1,\"excluding\":true}",
+      "2": "{\"value\":true,\"label\":\"Consigna 2\",\"questionId\":1,\"id\":2,\"excluding\":false}",
+      "3": "{\"value\":true,\"label\":\"Consigna 1\",\"questionId\":2,\"id\":3,\"excluding\":true}"
+    },
+    "UserQuiz": {},
+    "UserAnswer": {}
+  }
+}

@@ -1,5 +1,5 @@
-import { List, Datagrid, TextField } from "react-admin";
-import { SelectInput } from 'react-admin';
+import { List, Datagrid, TextField, ReferenceField } from "react-admin";
+import { SelectInput, ReferenceInput } from 'react-admin';
 
 import {
   ShowButton,
@@ -17,6 +17,9 @@ export const AreaCreate = (props) => (
     <SimpleForm redirect={redirect}>
       <TextInput source="name" label="Nombre" />
       <TextInput source="description" label="Descripción" />
+      <ReferenceInput label="Encuesta" source='quizId' reference='Quizzes'  >
+        <SelectInput optionText="title" />
+      </ReferenceInput>
       <SelectInput
         source="type"
         label="Tipo"
@@ -32,6 +35,9 @@ export const AreaEdit = (props) => (
     <SimpleForm>
       <TextInput source="name" label="Nombre" />
       <TextInput source="description" label="Descripción" />
+      <ReferenceInput label="Encuesta" source='quizId' reference='Quizzes'  >
+        <SelectInput optionText="title" />
+      </ReferenceInput>
       <SelectInput
         source="type"
         label="Tipo"
@@ -47,6 +53,9 @@ export const AreaList = (props) => (
     <Datagrid>
       <TextField source="name" label="Nombre" />
       <TextField source="description" label="Descripción" />
+      <ReferenceField label="Encuesta" source='quizId' reference='Quizzes'>
+        <TextField source="title" />
+      </ReferenceField>
       <TextField source="type" label="Tipo" />
       <TextField source="tagCode" label="Código QR" />
       <EditButton />

@@ -300,7 +300,7 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Login">
             <Stack.Screen name="Home" label="Inicio" options={{ title: "Inicio" }} component={Home} />
-            <Stack.Screen name="Details" component={DetailsScreen} options={{ title: "Scaneo QR" }} />
+            <Stack.Screen name="Details" component={DetailsScreen} options={{ title: "Escaneo QR" }} />
             <Stack.Screen name="Quizz" component={QuizzScreen} options={{ title: "Evaluación" }} />
             <Stack.Screen name="Login" component={Login} options={{ title: "Ingreso de usuario" }} />
           </Stack.Navigator>

@@ -21,10 +21,13 @@
   },
   "validations": [],
   "relations": {
-    "quizzes": {
-      "type": "hasOne",
+    "quiz": {
+      "type": "belongsTo",
       "model": "Quiz",
-      "foreignKey": ""
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
     }
   },
   "acls": [],

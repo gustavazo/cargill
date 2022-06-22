@@ -83,9 +83,10 @@ function App() {
 
 
   return (
+    //Error al recargar la pagina manualmente. Las tablas no muestran datos
     <div className="App">
       {/* <Admin layout={MyLayout} dataProvider={dataProvider} authProvider={authProvider('http://159.89.50.20:3005/api/CustomUsers/login')} customRoutes={customRoutes} locale="es" i18nProvider={i18nProvider}> */}
-      <Admin dashboard={ HomeScreen } layout={MyLayout} dataProvider={dataProvider} authProvider={authProvider(config.backendUrl + '/CustomUsers/login')} customRoutes={customRoutes} locale="es" i18nProvider={i18nProvider}>
+      <Admin dashboard={HomeScreen} layout={MyLayout} dataProvider={dataProvider} authProvider={authProvider(config.backendUrl + '/CustomUsers/login')} customRoutes={customRoutes} locale="es" i18nProvider={i18nProvider}>
         <Resource name="Areas" options={{ label: 'Areas' }} create={AreaCreate} edit={AreaEdit} list={AreaList} />
         <Resource name="Quizzes" options={{ label: 'Encuestas' }} create={QuizCreate} edit={QuizEdit} list={QuizList} />
         <Resource name="BTModules" options={{ label: 'Módulos BT' }} create={BTModuleCreate} edit={BTModuleEdit} list={BTModuleList} />
