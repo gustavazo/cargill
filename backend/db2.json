@@ -1,7 +1,7 @@
 {
   "ids": {
     "User": 1,
-    "AccessToken": 34,
+    "AccessToken": 38,
     "ACL": 1,
     "RoleMapping": 1,
     "Role": 1,
@@ -11,8 +11,8 @@
     "Quiz": 3,
     "Question": 3,
     "Answer": 4,
-    "UserQuiz": 20,
-    "UserAnswer": 22
+    "UserQuiz": 22,
+    "UserAnswer": 26
   },
   "models": {
     "User": {},
@@ -49,7 +49,11 @@
       "Sy2lfLOLIR6h9Yiz1HfhpEr1ftvYKPClVl7UjL4D8YfTRXRIcFK0IEFCqJuV23sl": "{\"id\":\"Sy2lfLOLIR6h9Yiz1HfhpEr1ftvYKPClVl7UjL4D8YfTRXRIcFK0IEFCqJuV23sl\",\"ttl\":1209600,\"created\":\"2022-06-22T19:32:18.657Z\",\"userId\":4}",
       "6KFVLHZIsk3Pjg3vNDzItEC5078YIYM3UenQ2mT9mLPLReO76x7mBfuW80bZfSk0": "{\"id\":\"6KFVLHZIsk3Pjg3vNDzItEC5078YIYM3UenQ2mT9mLPLReO76x7mBfuW80bZfSk0\",\"ttl\":1209600,\"created\":\"2022-06-22T19:32:20.274Z\",\"userId\":4}",
       "zUfuJ5GAJFrg6voJtPUJSXUQZkkgYQxd3GtsdNRMFuDA9zAFmG2w9W9VhaAtwFsm": "{\"id\":\"zUfuJ5GAJFrg6voJtPUJSXUQZkkgYQxd3GtsdNRMFuDA9zAFmG2w9W9VhaAtwFsm\",\"ttl\":1209600,\"created\":\"2022-06-22T19:33:00.808Z\",\"userId\":4}",
-      "EjMwtzwdlzJOHCg8SnPpf7AR2knNLD0yejI5JcBWvIJRj4pjucvRuSXF1EceGuPl": "{\"id\":\"EjMwtzwdlzJOHCg8SnPpf7AR2knNLD0yejI5JcBWvIJRj4pjucvRuSXF1EceGuPl\",\"ttl\":1209600,\"created\":\"2022-06-22T19:46:04.536Z\",\"userId\":4}"
+      "EjMwtzwdlzJOHCg8SnPpf7AR2knNLD0yejI5JcBWvIJRj4pjucvRuSXF1EceGuPl": "{\"id\":\"EjMwtzwdlzJOHCg8SnPpf7AR2knNLD0yejI5JcBWvIJRj4pjucvRuSXF1EceGuPl\",\"ttl\":1209600,\"created\":\"2022-06-22T19:46:04.536Z\",\"userId\":4}",
+      "YMMRbDBTlIzUrJhmnFFDiaWhm8fxvdcFTwZDzS6wEe9IwRTx4xMkkYKaIr6Os1A4": "{\"id\":\"YMMRbDBTlIzUrJhmnFFDiaWhm8fxvdcFTwZDzS6wEe9IwRTx4xMkkYKaIr6Os1A4\",\"ttl\":1209600,\"created\":\"2022-06-22T19:58:06.745Z\",\"userId\":4}",
+      "g1qRHBY2VU3y0c4JTvbJ9niLsuFG3Ie4H5bdoHacaPHCB6B1BS75FFC1PXWEmLmO": "{\"id\":\"g1qRHBY2VU3y0c4JTvbJ9niLsuFG3Ie4H5bdoHacaPHCB6B1BS75FFC1PXWEmLmO\",\"ttl\":1209600,\"created\":\"2022-06-22T19:59:44.630Z\",\"userId\":4}",
+      "15Xf3eWZbb9Wtlpg0Vke0VHbPgNDUjL9iAXLlH6Ez82hCKAIk8N4mBdkY5ucAkqu": "{\"id\":\"15Xf3eWZbb9Wtlpg0Vke0VHbPgNDUjL9iAXLlH6Ez82hCKAIk8N4mBdkY5ucAkqu\",\"ttl\":1209600,\"created\":\"2022-06-22T20:11:55.511Z\",\"userId\":4}",
+      "mWRgDMGAt31z4Clpne88HPZQIRnnMsfBKKhTD9xuHDAcPfDQdr6ha4DbEyV6ybkV": "{\"id\":\"mWRgDMGAt31z4Clpne88HPZQIRnnMsfBKKhTD9xuHDAcPfDQdr6ha4DbEyV6ybkV\",\"ttl\":1209600,\"created\":\"2022-06-22T20:12:22.878Z\",\"userId\":4}"
     },
     "ACL": {},
     "RoleMapping": {},
@@ -94,11 +98,8 @@
       "12": "{\"observations\":\"\",\"date\":\"2022-06-22T16:23:10.055Z\",\"valid\":true,\"quizId\":2,\"customUserId\":1,\"areaId\":3,\"id\":12}",
       "13": "{\"observations\":\"\",\"date\":\"2022-06-22T16:27:59.879Z\",\"valid\":false,\"quizId\":2,\"customUserId\":3,\"areaId\":3,\"id\":13}",
       "14": "{\"observations\":\"\",\"date\":\"2022-06-22T16:28:22.142Z\",\"valid\":true,\"quizId\":2,\"customUserId\":3,\"areaId\":3,\"id\":14}",
-      "15": "{\"observations\":\"\",\"date\":\"2022-06-22T16:29:39.155Z\",\"valid\":true,\"quizId\":2,\"customUserId\":4,\"areaId\":3,\"id\":15}",
-      "16": "{\"observations\":\"\",\"date\":\"2022-06-22T16:30:42.504Z\",\"valid\":false,\"quizId\":2,\"customUserId\":4,\"areaId\":3,\"id\":16}",
-      "17": "{\"observations\":\"\",\"date\":\"2022-06-22T16:31:10.447Z\",\"valid\":true,\"quizId\":2,\"customUserId\":4,\"areaId\":3,\"id\":17}",
-      "18": "{\"observations\":\"Nueva encuesta asignada\",\"date\":\"2022-06-22T16:32:48.614Z\",\"valid\":true,\"quizId\":1,\"customUserId\":4,\"areaId\":3,\"id\":18}",
-      "19": "{\"observations\":\"\",\"date\":\"2022-06-22T16:33:10.739Z\",\"valid\":true,\"quizId\":1,\"customUserId\":4,\"areaId\":3,\"id\":19}"
+      "20": "{\"observations\":\"\",\"date\":\"2022-06-22T17:12:11.869Z\",\"valid\":false,\"quizId\":1,\"customUserId\":4,\"areaId\":3,\"id\":20}",
+      "21": "{\"observations\":\"\",\"date\":\"2022-06-22T17:12:41.424Z\",\"valid\":true,\"quizId\":1,\"customUserId\":4,\"areaId\":3,\"id\":21}"
     },
     "UserAnswer": {
       "1": "{\"value\":true,\"answerId\":3,\"userQuizId\":1,\"id\":1}",
@@ -121,7 +122,11 @@
       "18": "{\"value\":true,\"answerId\":1,\"userQuizId\":18,\"id\":18}",
       "19": "{\"value\":true,\"answerId\":2,\"userQuizId\":18,\"id\":19}",
       "20": "{\"value\":true,\"answerId\":1,\"userQuizId\":19,\"id\":20}",
-      "21": "{\"value\":true,\"answerId\":2,\"userQuizId\":19,\"id\":21}"
+      "21": "{\"value\":true,\"answerId\":2,\"userQuizId\":19,\"id\":21}",
+      "22": "{\"value\":false,\"answerId\":1,\"userQuizId\":20,\"id\":22}",
+      "23": "{\"value\":false,\"answerId\":2,\"userQuizId\":20,\"id\":23}",
+      "24": "{\"value\":true,\"answerId\":1,\"userQuizId\":21,\"id\":24}",
+      "25": "{\"value\":true,\"answerId\":2,\"userQuizId\":21,\"id\":25}"
     }
   }
 }
