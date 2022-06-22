@@ -3,5 +3,15 @@
     "name": "db",
     "connector": "memory",
     "file": "db.json"
+  },
+  "postgress": {
+    "host": "",
+    "port": 5432,
+    "url": "",
+    "database": "test_erp",
+    "password": "postgres",
+    "name": "postgress",
+    "user": "postgres",
+    "connector": "postgresql"
   }
 }
