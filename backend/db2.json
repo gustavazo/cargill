@@ -5,9 +5,9 @@
     "ACL": 1,
     "RoleMapping": 1,
     "Role": 1,
-    "CustomUser": 2,
-    "Area": 3,
-    "BTModule": 1,
+    "CustomUser": 3,
+    "Area": 4,
+    "BTModule": 2,
     "Quiz": 3,
     "Question": 3,
     "Answer": 4,
@@ -23,12 +23,16 @@
     "RoleMapping": {},
     "Role": {},
     "CustomUser": {
-      "1": "{\"type\":\"2\",\"firstName\":\"super\",\"lastName\":\"admin\",\"gender\":\"hombre\",\"legajo\":\"superadmin\",\"realm\":\"string\",\"username\":\"superadmin\",\"password\":\"$2a$10$kuACYsLtUwCbgxhVRf65seaQYCmznH7DES6ghFRyOc0sojb9l..uC\",\"email\":\"superadmin@dsa.com\",\"emailVerified\":false,\"id\":1}"
+      "1": "{\"type\":\"2\",\"firstName\":\"super\",\"lastName\":\"admin\",\"gender\":\"hombre\",\"legajo\":\"superadmin\",\"realm\":\"string\",\"username\":\"superadmin\",\"password\":\"$2a$10$kuACYsLtUwCbgxhVRf65seaQYCmznH7DES6ghFRyOc0sojb9l..uC\",\"email\":\"superadmin@dsa.com\",\"emailVerified\":false,\"id\":1}",
+      "2": "{\"type\":\"1\",\"firstName\":\"Administrador\",\"lastName\":\"Administrador\",\"gender\":\"Masculino\",\"username\":\"admin\",\"password\":\"$2a$10$vtGhIndtQ8n2tRHe1EGCA.0WLpxwcPtq5wCvNaDXjs8kJntZMQuV6\",\"email\":\"Administrador@gsad.com\",\"id\":2}"
     },
     "Area": {
-      "2": "{\"type\":\"Vehículo\",\"name\":\"Area 1\",\"description\":\"Area de prueba\",\"tagCode\":\"1234\",\"quizId\":1,\"id\":2}"
+      "2": "{\"type\":\"Vehículo\",\"name\":\"Area 1\",\"description\":\"Area de prueba\",\"tagCode\":\"ninguno\",\"quizId\":1,\"id\":2}",
+      "3": "{\"type\":\"Vehículo\",\"name\":\"Area 2\",\"description\":\"Area de prueba 2\",\"tagCode\":\"347697ed-7882-4d65-90fd-9e009ee7aee5\",\"quizId\":2,\"id\":3}"
     },
-    "BTModule": {},
+    "BTModule": {
+      "1": "{\"id\":1,\"macAddress\":\"4c:eb:d6:75:5c:12\",\"name\":\"Dispositivo 1\",\"areaId\":3}"
+    },
     "Quiz": {
       "1": "{\"title\":\"Encuesta 1\",\"description\":\"Encuesta de prueba 1\",\"id\":1}",
       "2": "{\"title\":\"Encuesta 2\",\"description\":\"Encuesta de prueba 2\",\"id\":2}"
