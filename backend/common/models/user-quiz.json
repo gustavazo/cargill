@@ -39,6 +39,14 @@
       "type": "hasMany",
       "model": "UserAnswer",
       "foreignKey": ""
+    },
+    "area": {
+      "type": "belongsTo",
+      "model": "Area",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
     }
   },
   "acls": [],

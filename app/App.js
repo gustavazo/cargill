@@ -65,7 +65,7 @@ class Scan extends Component {
     return granted === PermissionsAndroid.RESULTS.GRANTED;
   }
 
-  showAlert = (device, alertOptions = [], quizz) => {
+  showAlert = (device, alertOptions = [], quizz, area) => {
     const options = {
       run: {
         text: 'Arrancar Vehículo',
@@ -74,9 +74,9 @@ class Scan extends Component {
           device.write("b")
           AsyncStorage.removeItem("currentUser")
           this.props.navigation.navigate('Login');
-          
+
           Toast.show("Vehículo habilitado");
-          
+
         },
         style: 'cancel',
       },
@@ -85,7 +85,7 @@ class Scan extends Component {
         onPress: () => {
           //
           device.write("a");
-          this.props.navigation.navigate('Quizz', { quizz: quizz.data[0] });
+          this.props.navigation.navigate('Quizz', { quizz: quizz, areaId: area.id });
         },
         style: 'cancel',
       },
@@ -104,16 +104,18 @@ class Scan extends Component {
   startDiscovery = async mac => {
 
     try {
+      //Busca el area escaneada a partir del QR
       const area = await axios.get(confg.backendUrl + 'areas', {
         params: {
           filter: {
             where: {
               tagCode: mac,
             },
-            include: ['quizzes'],
+            include: ['quiz'],
           },
         },
       });
+      console.log("area", area);
       const btmodule = await axios.get(confg.backendUrl + 'btmodules', {
         params: {
           filter: {
@@ -123,23 +125,14 @@ class Scan extends Component {
           },
         },
       });
-      const quizz = await axios.get(confg.backendUrl + 'quizzes', {
-        params: {
-          filter: {
-            where: {
-              areaId: area.data[0].id,
-            },
-          },
-        },
-      });
-
       const paired = await RNBluetoothClassic.getBondedDevices();
       const device = paired.find(
         p => p.address === btmodule.data[0].macAddress,
       );
       const connection = await device.connect();
       this.context.setDevice(device);
-      this.sabela(device, quizz, area.data[0]);
+      //
+      this.sabela(device, area.data[0]);
     } catch (err) {
       console.log('ERROR', err);
     }
@@ -147,9 +140,10 @@ class Scan extends Component {
 
 
 
-  sabela = async (device, quizz, area) => {
+  sabela = async (device, area) => {
+    const quizz = area.quiz;
     const id = await AsyncStorage.getItem("id");
-    const quizzes = await axios.get(
+    const todayUserQuizzes = await axios.get(
       confg.backendUrl + 'userQuizzes', {
       params: {
         filter: {
@@ -167,7 +161,7 @@ class Scan extends Component {
     }
     );
     console.log("Area", area);
-    console.log("Quizzes", quizzes);
+    console.log("todayUserQuizzes", todayUserQuizzes);
 
 
 
@@ -176,24 +170,24 @@ class Scan extends Component {
     //                                      => No es valida : Preguntar si se quiere volver a hacer aclarando que la ultima hecha no fue valida.
     //Caso contrario => Permitir hacer la encuesta directaemente.
 
-    const currentAreaLastQuiz = quizzes.data.filter((q) => q.quiz.areaId === area.id).pop();
-    console.log('currentAreaLastQuiz', currentAreaLastQuiz)
+    const currentAreaLastQuiz = todayUserQuizzes.data.filter((q) => q.areaId === area.id).pop();
+    console.log('currentAreaLastQuiz', currentAreaLastQuiz);
     if (currentAreaLastQuiz) {
       //Hay una encuesta hecha en el dia del area
       if (currentAreaLastQuiz.valid) {
         //preguntar si se quiere volver a hacer o arrancar vehiculo 
-        this.showAlert(device, ['run', 'reMakeQuizz'], quizz);
-        
+        this.showAlert(device, ['run', 'reMakeQuizz'], quizz, area);
+
       }
       else {
         //Preguntar si se quiere volver a hacer
-        this.showAlert(device, ['reMakeQuizz'], quizz);
+        this.showAlert(device, ['reMakeQuizz'], quizz, area);
 
       }
     } else {
       //redirigir a encuesta
       device.write("a");
-      this.props.navigation.navigate('Quizz', { quizz: quizz.data[0] });
+      this.props.navigation.navigate('Quizz', { quizz: quizz, areaId: area.id });
     }
 
 

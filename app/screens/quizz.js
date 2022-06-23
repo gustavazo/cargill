@@ -26,6 +26,7 @@ function Home(props) {
   const [observation, setObservation] = useState('');
   const [quizz, setQuizz] = useState(props.route.params.quizz);
   const context = useContext(AppContext);
+  const areaId = props.route.params.areaId;
 
   const onToggleSwitch = q => () => {
     const prevValue = quizzState[q.id];
@@ -63,6 +64,7 @@ function Home(props) {
       customUserId: JSON.parse(id).userId,
       valid,
       quizId: quizz.id,
+      areaId: areaId,
       date: moment(new Date()).subtract(3, "hours")
     };
 
