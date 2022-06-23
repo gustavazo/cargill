@@ -6,27 +6,25 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import UserService from './services/UserService';
 
-const token = localStorage.getItem("lbtoken");
-const user = token ? JSON.parse(token) : undefined;
-const userId = user?.value?.userId
 
 
 export const Menu = (props) => {
     const [type, setType] = useState({})
     const resources = useSelector(getResources);
     const [open, setOpen] = useState(false);
+    const token = localStorage.getItem("lbtoken");
+    const user = token ? JSON.parse(token) : undefined;
+    const userId = user?.value?.userId
 
     useEffect(() => {
-      bringUserInfo()
-    },
-     [])
-    
+        bringUserInfo()
+    }, [])
 
     const bringUserInfo = async () => {
         const res = await UserService.findById(userId)
         console.log(res.data)
         setType(res.data.type)
-      }
+    }
 
     const customRoutes = [
         {
@@ -34,7 +32,7 @@ export const Menu = (props) => {
             path: 'userQuiz'
         }
     ];
-    
+
     const allItems = [
         'Areas',
         'Quizzes',
@@ -42,65 +40,27 @@ export const Menu = (props) => {
         'CustomUsers',
         'Resultados'
     ]
-    
+
     const all = [...resources, ...customRoutes]
-    
+
     const routes = {
-        
+
         '1': ['Quizzes', 'CustomUsers', 'Resultados'],
         '2': allItems
     }
 
-    
-    console.log(type)
+
     const handleClick = (e) => {
         setOpen(!open)
     };
 
     return (
         <>
-        {all.map((r) => (
-            routes[type]?.includes(r.name) ? 
-            <MenuItemLink
-                            key={r.name}
-                            to={! r.path? `/${r.name}` : `/${r.path}`}
-                            primaryText={
-                                (r.options && r.options.label) ||
-                                r.name
-                            }
-                            leftIcon={
-                                r.icon ? <r.icon /> : <DefaultIcon />
-                            }
-                            onClick={handleClick}
-                            sidebarIsOpen={open}
-            />  
-            : null
-        ))}
-            {/* {
-                resources.map(r => {
-                    return (
-                        <MenuItemLink
-                            key={r.name}
-                            to={`/${r.name}`}
-                            primaryText={
-                                (r.options && r.options.label) ||
-                                r.name
-                            }
-                            leftIcon={
-                                r.icon ? <r.icon /> : <DefaultIcon />
-                            }
-                            onClick={handleClick}
-                            sidebarIsOpen={open}
-                        />
-                    )
-                })
-            }
-            {
-                customRoutes.map(r => {
-                    return (
-                        <MenuItemLink
+            {all.map((r) => (
+                routes[type]?.includes(r.name) ?
+                    <MenuItemLink
                         key={r.name}
-                        to={`/${r.path}`}
+                        to={!r.path ? `/${r.name}` : `/${r.path}`}
                         primaryText={
                             (r.options && r.options.label) ||
                             r.name
@@ -111,9 +71,9 @@ export const Menu = (props) => {
                         onClick={handleClick}
                         sidebarIsOpen={open}
                     />
-                    )
-                })
-            } */}
+                    : null
+            ))}
+            
         </>
     )
 };

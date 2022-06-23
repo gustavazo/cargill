@@ -14,57 +14,57 @@
     ]
   },
   "User": {
-    "dataSource": "db"
+    "dataSource": "postgress"
   },
   "AccessToken": {
-    "dataSource": "db",
+    "dataSource": "postgress",
     "public": false
   },
   "ACL": {
-    "dataSource": "db",
+    "dataSource": "postgress",
     "public": false
   },
   "RoleMapping": {
-    "dataSource": "db",
+    "dataSource": "postgress",
     "public": false,
     "options": {
       "strictObjectIDCoercion": true
     }
   },
   "Role": {
-    "dataSource": "db",
+    "dataSource": "postgress",
     "public": false
   },
   "CustomUser": {
-    "dataSource": "db",
+    "dataSource": "postgress",
     "public": true
   },
   "Area": {
-    "dataSource": "db",
+    "dataSource": "postgress",
     "public": true
   },
   "BTModule": {
-    "dataSource": "db",
+    "dataSource": "postgress",
     "public": true
   },
   "Quiz": {
-    "dataSource": "db",
+    "dataSource": "postgress",
     "public": true
   },
   "Question": {
-    "dataSource": "db",
+    "dataSource": "postgress",
     "public": true
   },
   "Answer": {
-    "dataSource": "db",
+    "dataSource": "postgress",
     "public": true
   },
   "UserQuiz": {
-    "dataSource": "db",
+    "dataSource": "postgress",
     "public": true
   },
   "UserAnswer": {
-    "dataSource": "db",
+    "dataSource": "postgress",
     "public": true
   }
 }
