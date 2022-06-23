@@ -46,6 +46,7 @@ class Scan extends Component {
     } catch (err) {
       // Handle accordingly
       console.log('ERR', err);
+      Toast.show('Ha surgido un error');
     }
   };
 
@@ -135,6 +136,7 @@ class Scan extends Component {
       this.sabela(device, area.data[0]);
     } catch (err) {
       console.log('ERROR', err);
+      Toast.show('Ha surgido un error');
     }
   };
 
