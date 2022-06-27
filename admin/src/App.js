@@ -59,25 +59,25 @@ function App() {
   const userId = user?.value?.userId
 
 
-  const bringUserInfo = async () => {
-    const res = await UserService.findById(userId);
+  // const bringUserInfo = async () => {
+  //   const res = await UserService.findById(userId);
 
-    setUserInfo(res.data)
-    setType(userInfo.type)
-    console.log(res.data)
-  }
+  //   setUserInfo(res.data)
+  //   setType(userInfo.type)
+  //   console.log(res.data)
+  // }
 
-  useEffect(() => {
-    bringUserInfo()
-  }, [userId])
+  // useEffect(() => {
+  //    bringUserInfo()
+  // }, [userId])
 
-  const wichType = () => {
-    if (type === 'Administrador') {
-      return false
-    } else if (type === 'Super administrador') {
-      return true
-    }
-  }
+  // const wichType = () => {
+  //   if (type === 'Administrador') {
+  //     return false
+  //   } else if (type === 'Super administrador') {
+  //     return true
+  //   }
+  // }
 
 
 
