@@ -16,7 +16,7 @@ import AnswerService from '../../services/AnswerService'
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
-import { useNotify } from 'react-admin';
+import { useNotify,Confirm } from 'react-admin';
 
 
 const Edition = (props) => {
@@ -25,6 +25,7 @@ const Edition = (props) => {
     const [openQ, setOpenQ] = useState(false)
     const [openA, setOpenA] = useState(false)
     const [openE, setOpenE] = useState(false)
+    const [openDeleteQ, setOpenDeleteQ] = useState(false)
     const [newQuestion, setNewQuestion] = useState(
         ''
     )
@@ -122,18 +123,18 @@ const Edition = (props) => {
             value: newAnswer.value,
             questionId: question.id
         })
-        console.log('sendAnwerResp',res)
-        // setTimeout(getQuiz,5000)
+        console.log('sendAnwerResp', res)
         setOpenA(false);
         getQuiz()
         notify('La consigna ha sido creada')
-         
+
 
     }
 
     const deleteQ = async (q) => {
         const res = await QuestionService.deleteQuestion(q.id)
         getQuiz()
+        setOpenDeleteQ(false);
         notify('La categoría ha sido borrada')
     }
 
@@ -144,9 +145,7 @@ const Edition = (props) => {
         notify('La categoría ha sido editada')
 
     }
-
-
-
+    
     return (
 
         <div>
@@ -222,12 +221,19 @@ const Edition = (props) => {
                                 <div>
                                     <Button onClick={() => openModalA(q)} variant="contained" color='success' style={{ marginRight: 5 }}>Agregar Consigna</Button>
                                     <Button onClick={() => openModalE(q)} variant="contained" color='primary' style={{ marginLeft: 5 }}>Renombrar Categoría</Button>
-                                    <Button onClick={() => deleteQ(q)} variant="contained" color='error' style={{ marginLeft: 5 }}><DeleteIcon /></Button>
+                                    <Button onClick={() => setOpenDeleteQ(true)} variant="contained" color='error' style={{ marginLeft: 5 }}><DeleteIcon /></Button>
+                                    <Confirm
+                                        isOpen={openDeleteQ}
+                                        title="Borrar Categoría"
+                                        content="¿Está seguro que desea borrar la categoría de forma permanente?"
+                                        onConfirm={() =>  deleteQ(q)}
+                                        onClose={() => setOpenDeleteQ(false)}
+                                    />
                                 </div>
                             </div>
                         </div>{/* por cada categoria estan sus consignas, se pasan a traves de la categoria */}
                         <div style={{ background: '#f5f5f4', paddingLeft: 20 }}>
-                            <QuestionAnswer questionSelected={q} quiz = {quiz}/>
+                            <QuestionAnswer questionSelected={q} quiz={quiz} />
                         </div>
 
                     </>
