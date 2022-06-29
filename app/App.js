@@ -39,14 +39,16 @@ class Scan extends Component {
   };
 
   isAvailalble = async mac => {
+    let msg = ""
     try {
+      errorMsg = "BT no disponible"
       const available = await RNBluetoothClassic.isBluetoothAvailable();
       this.requestAccessFineLocationPermission();
       this.startDiscovery(mac);
     } catch (err) {
       // Handle accordingly
       console.log('ERR', err);
-      Toast.show('Ha surgido un error');
+      Toast.show('Ha surgido un error:' + errorMsg);
     }
   };
 
@@ -103,9 +105,11 @@ class Scan extends Component {
   }
 
   startDiscovery = async mac => {
-
+    let errorMsg = "";
+    console.log('mac', mac)
     try {
       //Busca el area escaneada a partir del QR
+      errorMsg = "Area no encontrada"
       const area = await axios.get(confg.backendUrl + 'areas', {
         params: {
           filter: {
@@ -117,26 +121,38 @@ class Scan extends Component {
         },
       });
       console.log("area", area);
+      //Busca el BT en base al area escaneada
+      errorMsg = "Modulo BT no encontrado"
       const btmodule = await axios.get(confg.backendUrl + 'btmodules', {
         params: {
           filter: {
             where: {
-              areaId: area.data[0].id,
+              areaId: area.data[0].id,//Falla Aca
             },
           },
         },
       });
+      errorMsg = "Modulo BT no encontrado en los dispositivos vinculados"
+      //Obtiene todos los BTs vinculados al celular o tablet
       const paired = await RNBluetoothClassic.getBondedDevices();
+      //Busca el BT del área escaneada dentro de los BT vinculados
       const device = paired.find(
         p => p.address === btmodule.data[0].macAddress,
       );
+      console.log('device', device)
+      //Conecta el dispositivo
+      errorMsg = "Error en la conexión con el disposivo"
       const connection = await device.connect();
+      //Setea el estado device
       this.context.setDevice(device);
-      //
+      //Acciones pertinentes al redireccionamiento a encuestas
+      errorMsg = "Error en el redireccionamiento a encuestas"
       this.sabela(device, area.data[0]);
     } catch (err) {
+      Toast.show('Ha surgido un error: ' + errorMsg);
       console.log('ERROR', err);
-      Toast.show('Ha surgido un error');
+      console.log('ERROR', 'Ha surgido un error: ' + errorMsg);
+
     }
   };
 
@@ -165,28 +181,26 @@ class Scan extends Component {
     console.log("Area", area);
     console.log("todayUserQuizzes", todayUserQuizzes);
 
-
-
     //Verificar si en el dia ya se hizo la encuesta del area escaneada
     //Si es asi => Verificar si es validad  => si es valida: preguntar si se quiere volver a hacer o arrancar vehiculo 
     //                                      => No es valida : Preguntar si se quiere volver a hacer aclarando que la ultima hecha no fue valida.
     //Caso contrario => Permitir hacer la encuesta directaemente.
 
+    //Busca las encuestas del área dentro de las encuestas realizadas en el día del usuario
     const currentAreaLastQuiz = todayUserQuizzes.data.filter((q) => q.areaId === area.id).pop();
     console.log('currentAreaLastQuiz', currentAreaLastQuiz);
     if (currentAreaLastQuiz) {
-      //Hay una encuesta hecha en el dia del area
+      //Hay una encuesta hecha del area en el dia 
       if (currentAreaLastQuiz.valid) {
         //preguntar si se quiere volver a hacer o arrancar vehiculo 
         this.showAlert(device, ['run', 'reMakeQuizz'], quizz, area);
-
       }
       else {
         //Preguntar si se quiere volver a hacer
         this.showAlert(device, ['reMakeQuizz'], quizz, area);
-
       }
     } else {
+      //Si no hay encuesta del área en el corriente día
       //redirigir a encuesta
       device.write("a");
       this.props.navigation.navigate('Quizz', { quizz: quizz, areaId: area.id });
