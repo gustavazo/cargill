@@ -32,8 +32,10 @@ const Login = (props) => {
     const handleLogin = async () => {
         try {
             const user = await UserService.login({
-                username: email.toLocaleLowerCase(),
-                password: password.toLocaleLowerCase()
+                // username: email.toLocaleLowerCase(),
+                username: email,
+                // password: password.toLocaleLowerCase()
+                password: password
             });
             context.setCurrentUser(user)
             props.navigation.navigate('Home')
@@ -55,7 +57,7 @@ const Login = (props) => {
                         mode="outlined"
                         label="Legajo"
                         placeholder="Ingresar legajo"
-                        right={<TextInput.Affix text="/100" />}
+                        //right={<TextInput.Affix text="/100" />}
                         onChangeText={setEmail}
                         value={email}
                     />
@@ -64,7 +66,7 @@ const Login = (props) => {
                     <TextInput
                         label="Password"
                         secureTextEntry
-                        right={<TextInput.Icon name="eye" />}
+                        // right={<TextInput.Icon name="eye" />}
                         onChangeText={setPassword}
                         value={password}
                     />
