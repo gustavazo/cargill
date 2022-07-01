@@ -170,119 +170,120 @@ export default function UserQuiz() {
 
   return (
     <div>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      //sx={{display: 'flex'}}
+      >
+        <Box sx={style} style={{ width: "auto", maxHeight: '90vh', display: "flex", flexDirection: 'column' }}>
+          <div
+            style={{
+              fontSize: 35,
+              margin: 0,
+              //marginTop: -20,
+              fontWeight: "bold",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            {quizSelected?.quiz?.title}
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              fontSize: 30,
+              //marginTop: -15,
+              fontWeight: "lighter",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            {quizSelected?.area?.name}
+          </div>
+          <span
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              fontWeight: "lighter",
+              fontSize: 20,
+              margin: 5,
+            }}
+          >
+            Fecha de realizacion del test:{" "}
+            {moment().format("DD/MM/YYYY HH:mm")}
+          </span>
+          <TableContainer component={Paper} style={{ maxHeight: 500 }}>
+            <Table aria-label="customized table" stickyHeader>
+              {quizSelected?.quiz?.questions?.map((question, index) => (
+                <>
+                  <TableHead>
+                    <TableRow>
+                      <StyledTableCell
+                        align="center"
+                        style={{ fontWeight: "bold" }}
+                      >
+                        {index + 1}
+                      </StyledTableCell>
+                      <StyledTableCell
+                        align="center"
+                        style={{ fontWeight: "bold" }}
+                      >
+                        {question?.statement}
+                      </StyledTableCell>
+                      <StyledTableCell
+                        align="center"
+                        style={{ fontWeight: "bold" }}
+                      >
+                        CUMPLE
+                      </StyledTableCell>
+                      <StyledTableCell
+                        align="center"
+                        style={{ fontWeight: "bold" }}
+                      >
+                        NO CUMPLE
+                      </StyledTableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {question?.answers?.map((answer) => (
+                      <StyledTableRow
+                        key={answer?.id}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <StyledTableCell component="th" scope="row">
+                          {/* Empty TableCell */}
+                        </StyledTableCell>
+                        <StyledTableCell align="center">
+                          {answer?.label} {answer.excluding && "-" + " EXCLUYENTE "}
+                        </StyledTableCell>
+                        {renderIsValid(answer.id)}
+                      </StyledTableRow>
+                    ))}
+                  </TableBody>
+                </>
+              ))}
+            </Table>
+          </TableContainer>
+          <br />
+          <TextField
+            id="outlined-read-only-input"
+            label="Observaciones"
+            defaultValue={quizSelected?.observations}
+            InputProps={{
+              readOnly: true,
+            }}
+            fullWidth
+          />
+        </Box>
+      </Modal>
       <Paper>
         <div style={{ margin: 25 }}>
           <Title title="Pruebas de los usuarios" />
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <Box sx={style} style={{ width: "auto" }}>
-              <div
-                style={{
-                  fontSize: 35,
-                  margin: 0,
-                  marginTop: -20,
-                  fontWeight: "bold",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                {quizSelected?.quiz?.title}
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  fontSize: 30,
-                  marginTop: -15,
-                  fontWeight: "lighter",
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                {quizSelected?.area?.name}
-              </div>
-              <span
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  fontWeight: "lighter",
-                  fontSize: 20,
-                  margin: 5,
-                }}
-              >
-                Fecha de realizacion del test:{" "}
-                {moment().format("DD/MM/YYYY HH:mm")}
-              </span>
-              <TableContainer component={Paper} style={{ maxHeight: 500 }}>
-                <Table aria-label="customized table" stickyHeader>
-                  {quizSelected?.quiz?.questions?.map((question, index) => (
-                    <>
-                      <TableHead>
-                        <TableRow>
-                          <StyledTableCell
-                            align="center"
-                            style={{ fontWeight: "bold" }}
-                          >
-                            {index + 1}
-                          </StyledTableCell>
-                          <StyledTableCell
-                            align="center"
-                            style={{ fontWeight: "bold" }}
-                          >
-                            {question?.statement}
-                          </StyledTableCell>
-                          <StyledTableCell
-                            align="center"
-                            style={{ fontWeight: "bold" }}
-                          >
-                            CUMPLE
-                          </StyledTableCell>
-                          <StyledTableCell
-                            align="center"
-                            style={{ fontWeight: "bold" }}
-                          >
-                            NO CUMPLE
-                          </StyledTableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {question?.answers?.map((answer) => (
-                          <StyledTableRow
-                            key={answer?.id}
-                            sx={{
-                              "&:last-child td, &:last-child th": { border: 0 },
-                            }}
-                          >
-                            <StyledTableCell component="th" scope="row">
-                              {/* Empty TableCell */}
-                            </StyledTableCell>
-                            <StyledTableCell align="center">
-                              {answer?.label} {answer.excluding && "-" + " EXCLUYENTE "}
-                            </StyledTableCell>
-                            {renderIsValid(answer.id)}
-                          </StyledTableRow>
-                        ))}
-                      </TableBody>
-                    </>
-                  ))}
-                </Table>
-              </TableContainer>
-              <br />
-              <TextField
-                id="outlined-read-only-input"
-                label="Observaciones"
-                defaultValue={quizSelected?.observations}
-                InputProps={{
-                  readOnly: true,
-                }}
-                fullWidth
-              />
-            </Box>
-          </Modal>
         </div>
         <div
           style={{
