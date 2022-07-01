@@ -2,9 +2,13 @@ WEB INSTALROS
 1.Agregar enlace al administrador en la página de InstalRos
 
 ADMIN
-1.  Operador que no pueda entrar. Que le salga un cartel que le diga no autorizado
-2.  Admin que no pueda ver en los usuarios a los Superadmin. Al resto sí.
-3.  Controlar entrada de datos fundamentalmente en Mac BT y QR id. Evitar espacios en blanco, 
+1.  En resultado de encuestas ver a que autoelevador pertenece.
+2.  Solo el Superadmin puede borrar encuestas.
+3.  Que se pueda modificar las contraseñas de los usuarios.
+4.  Admin que no pueda ver en los usuarios a los Superadmin. Al resto sí.
+5.  Agregar logo de instalros
+6.  Operador que no pueda entrar. Que le salga un cartel que le diga no autorizado
+7.  Controlar entrada de datos fundamentalmente en Mac BT y QR id. Evitar espacios en blanco, 
     tabulaciones y caracteres raros, en Mac BT unificar a mayúscula.
 
 APP
@@ -14,6 +18,6 @@ APP
     pueda entender que está haciendo mal o si es un error de la app. (Ya lo hice con los try 
     catch que ya estaban. Hay que ver si hay que agregar más)
 2.1 En caso de error en el proceso de escaneo/conexión BT volver a la pantalla de usuario
-    (Creo que home). Porque si no te deja en la pantalla de escaneo pero no podés volver a 
+    (home). Porque si no te deja en la pantalla de escaneo pero no podés volver a 
     escanear sin volver atrás
 
