@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { Button, TextField } from "@mui/material";
 import UserService from "../services/UserService";
 import "./loginA.css";
-import LockIcon from "@mui/icons-material/Lock";
+import logo from "../logo.png";
+import LockIcon from '@mui/icons-material/Lock';
 
-const LoginA = () => {
+const LoginA = ({ setCurrentUser }) => {
   const [user, setUser] = useState({
     name: "",
     password: "",
@@ -24,29 +25,37 @@ const LoginA = () => {
   };
 
   const login = (e) => {
-    e.preventDefault();
-    UserService.login({
+    e.preventDefault()
+    const res = UserService.login({
       username: user.name,
-      password: user.password,
+      password: user.password
     })
-      .then((res) => {
-        localStorage.setItem("token", JSON.stringify(res.data.id));
-        window.location.refresh();
-      })
+      .then(async (res) => {
+        localStorage.setItem("token", JSON.stringify(res.data.id))
+        const user = await UserService.findById(res.data.userId);
+        if (user.data.type === "0") {
+          window.alert("No tienes permisos para ingresar")
+        } else {
+          localStorage.setItem('userType', user.data.type)
+          setCurrentUser(user.data);
+        }
+      }
+      )
       .catch((error) => {
-        setError(true);
+        console.log(454, error)
+        setError(true)
       });
-  };
+  }
 
   return (
     <div className="background-page">
       <form onSubmit={login} className="form-login">
-        <LockIcon className="form-icon" />
-        {error && (
-          <span className="credentialerror">
-            Credenciales incorrectas, intente de nuevo
-          </span>
-        )}
+      <img src={logo} width="150" height={150}></img>
+        {
+          error && (
+            <span className="credentialerror">Credenciales incorrectas, intente de nuevo</span>
+          )
+        }
         <input
           placeholder="Nombre"
           margin="normal"
@@ -72,12 +81,11 @@ const LoginA = () => {
           onBlur={handleFocus}
           focused={focus.toString()}
         />
-        <span className="errormessage" style={{ marginBottom: "10px" }}>
-          Este campo es requerido
-        </span>
-        <button variant="contained" className="form-button">
-          ACCEDER
-        </button>
+        <span className="errormessage" style={{ marginBottom: "10px" }}>Este campo es requerido</span>
+        <button
+          variant="contained"
+          className="form-button"
+        >ACCEDER</button>
       </form>
     </div>
   );

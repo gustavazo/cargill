@@ -6,27 +6,10 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import UserService from './services/UserService';
 
-const token = localStorage.getItem("lbtoken");
-const user = token ? JSON.parse(token) : undefined;
-const userId = user?.value?.userId
-
-
 export const Menu = (props) => {
-    const [type, setType] = useState({})
+    const [type, setType] = useState(localStorage.getItem("userType"))
     const resources = useSelector(getResources);
-    const [open, setOpen] = useState(false);
-
-    useEffect(() => {
-      bringUserInfo()
-    },
-     [])
-    
-
-    const bringUserInfo = async () => {
-        const res = await UserService.findById(userId)
-        console.log(res.data)
-        setType(res.data.type)
-      }
+    const [open, setOpen] = useState(false)
 
     const customRoutes = [
         {
