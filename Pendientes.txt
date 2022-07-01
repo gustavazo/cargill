@@ -1,5 +1,4 @@
 ADMIN
-1.  En resultado de encuestas ver a que autoelevador pertenece.
 2.  Solo el Superadmin puede borrar encuestas.
 3.  Agregar logo de instalros.
 4.  Operador que no pueda entrar. Que le salga un cartel que le diga no autorizado
