@@ -34,6 +34,7 @@ import {
 import UserQuiz from "./resources/UserQuiz";
 import config from "./config";
 import UserService from "./services/UserService";
+import LoginA from "./screens/LoginA";
 
 const messages = {
   'es': spanishMessages,
@@ -84,12 +85,11 @@ function App() {
   return (
     <div className="App">
       {/* <Admin layout={MyLayout} dataProvider={dataProvider} authProvider={authProvider('http://159.89.50.20:3005/api/CustomUsers/login')} customRoutes={customRoutes} locale="es" i18nProvider={i18nProvider}> */}
-      <Admin layout={MyLayout} dataProvider={dataProvider} authProvider={authProvider(config.backendUrl + '/CustomUsers/login')} customRoutes={customRoutes} locale="es" i18nProvider={i18nProvider}>
+      <Admin loginPage={LoginA}  layout={MyLayout} dataProvider={dataProvider} authProvider={authProvider(config.backendUrl + '/CustomUsers/login')} customRoutes={customRoutes} locale="es" i18nProvider={i18nProvider}>
         <Resource name="Areas" options={{ label: 'Areas' }} create={AreaCreate} edit={AreaEdit} list={AreaList} />
         <Resource name="Quizzes" options={{ label: 'Encuestas' }} create={QuizCreate} edit={QuizEdit} list={QuizList} />
         <Resource name="BTModules" options={{ label: 'Módulos BT' }} create={BTModuleCreate} edit={BTModuleEdit} list={BTModuleList} />
         <Resource name="CustomUsers" options={{ label: 'Usuarios' }} create={UserCreate} edit={UserEdit} list={UserList} />
-
       </Admin>
     </div>
   );
