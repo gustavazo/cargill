@@ -23,12 +23,17 @@ const LoginA = () => {
     });
   };
 
-  const login = async (e) => {
+  const login =  (e) => {
     e.preventDefault()
-    await UserService.login({
+    const res = UserService.login({
       username: user.name,
       password: user.password
-    })
+    }) 
+    .then((res) => {
+      localStorage.setItem("token", JSON.stringify(res.data.id))
+      window.location.refresh()
+    }
+    )
     .catch((error) => {
       setError(true)
     })
