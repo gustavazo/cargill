@@ -39,13 +39,16 @@ class Scan extends Component {
   };
 
   isAvailalble = async mac => {
+    let msg = ""
     try {
+      errorMsg = "BT no disponible"
       const available = await RNBluetoothClassic.isBluetoothAvailable();
       this.requestAccessFineLocationPermission();
       this.startDiscovery(mac);
     } catch (err) {
       // Handle accordingly
       console.log('ERR', err);
+      Toast.show('Ha surgido un error:' + errorMsg);
     }
   };
 
@@ -65,7 +68,7 @@ class Scan extends Component {
     return granted === PermissionsAndroid.RESULTS.GRANTED;
   }
 
-  showAlert = (device, alertOptions = [], quizz) => {
+  showAlert = (device, alertOptions = [], quizz, area) => {
     const options = {
       run: {
         text: 'Arrancar Vehículo',
@@ -74,9 +77,9 @@ class Scan extends Component {
           device.write("b")
           AsyncStorage.removeItem("currentUser")
           this.props.navigation.navigate('Login');
-          
+
           Toast.show("Vehículo habilitado");
-          
+
         },
         style: 'cancel',
       },
@@ -85,7 +88,7 @@ class Scan extends Component {
         onPress: () => {
           //
           device.write("a");
-          this.props.navigation.navigate('Quizz', { quizz: quizz.data[0] });
+          this.props.navigation.navigate('Quizz', { quizz: quizz, areaId: area.id });
         },
         style: 'cancel',
       },
@@ -102,54 +105,63 @@ class Scan extends Component {
   }
 
   startDiscovery = async mac => {
-
+    let errorMsg = "";
+    console.log('mac', mac)
     try {
+      //Busca el area escaneada a partir del QR
+      errorMsg = "Area no encontrada"
       const area = await axios.get(confg.backendUrl + 'areas', {
         params: {
           filter: {
             where: {
               tagCode: mac,
             },
-            include: ['quizzes'],
+            include: ['quiz'],
           },
         },
       });
+      console.log("area", area);
+      //Busca el BT en base al area escaneada
+      errorMsg = "Modulo BT no encontrado"
       const btmodule = await axios.get(confg.backendUrl + 'btmodules', {
         params: {
           filter: {
             where: {
-              areaId: area.data[0].id,
+              areaId: area.data[0].id,//Falla Aca
             },
           },
         },
       });
-      const quizz = await axios.get(confg.backendUrl + 'quizzes', {
-        params: {
-          filter: {
-            where: {
-              areaId: area.data[0].id,
-            },
-          },
-        },
-      });
-
+      errorMsg = "Modulo BT no encontrado en los dispositivos vinculados"
+      //Obtiene todos los BTs vinculados al celular o tablet
       const paired = await RNBluetoothClassic.getBondedDevices();
+      //Busca el BT del área escaneada dentro de los BT vinculados
       const device = paired.find(
         p => p.address === btmodule.data[0].macAddress,
       );
+      console.log('device', device)
+      //Conecta el dispositivo
+      errorMsg = "Error en la conexión con el disposivo"
       const connection = await device.connect();
+      //Setea el estado device
       this.context.setDevice(device);
-      this.sabela(device, quizz, area.data[0]);
+      //Acciones pertinentes al redireccionamiento a encuestas
+      errorMsg = "Error en el redireccionamiento a encuestas"
+      this.sabela(device, area.data[0]);
     } catch (err) {
+      Toast.show('Ha surgido un error: ' + errorMsg);
       console.log('ERROR', err);
+      console.log('ERROR', 'Ha surgido un error: ' + errorMsg);
+
     }
   };
 
 
 
-  sabela = async (device, quizz, area) => {
+  sabela = async (device, area) => {
+    const quizz = area.quiz;
     const id = await AsyncStorage.getItem("id");
-    const quizzes = await axios.get(
+    const todayUserQuizzes = await axios.get(
       confg.backendUrl + 'userQuizzes', {
       params: {
         filter: {
@@ -167,33 +179,31 @@ class Scan extends Component {
     }
     );
     console.log("Area", area);
-    console.log("Quizzes", quizzes);
-
-
+    console.log("todayUserQuizzes", todayUserQuizzes);
 
     //Verificar si en el dia ya se hizo la encuesta del area escaneada
     //Si es asi => Verificar si es validad  => si es valida: preguntar si se quiere volver a hacer o arrancar vehiculo 
     //                                      => No es valida : Preguntar si se quiere volver a hacer aclarando que la ultima hecha no fue valida.
     //Caso contrario => Permitir hacer la encuesta directaemente.
 
-    const currentAreaLastQuiz = quizzes.data.filter((q) => q.quiz.areaId === area.id).pop();
-    console.log('currentAreaLastQuiz', currentAreaLastQuiz)
+    //Busca las encuestas del área dentro de las encuestas realizadas en el día del usuario
+    const currentAreaLastQuiz = todayUserQuizzes.data.filter((q) => q.areaId === area.id).pop();
+    console.log('currentAreaLastQuiz', currentAreaLastQuiz);
     if (currentAreaLastQuiz) {
-      //Hay una encuesta hecha en el dia del area
+      //Hay una encuesta hecha del area en el dia 
       if (currentAreaLastQuiz.valid) {
         //preguntar si se quiere volver a hacer o arrancar vehiculo 
-        this.showAlert(device, ['run', 'reMakeQuizz'], quizz);
-        
+        this.showAlert(device, ['run', 'reMakeQuizz'], quizz, area);
       }
       else {
         //Preguntar si se quiere volver a hacer
-        this.showAlert(device, ['reMakeQuizz'], quizz);
-
+        this.showAlert(device, ['reMakeQuizz'], quizz, area);
       }
     } else {
+      //Si no hay encuesta del área en el corriente día
       //redirigir a encuesta
       device.write("a");
-      this.props.navigation.navigate('Quizz', { quizz: quizz.data[0] });
+      this.props.navigation.navigate('Quizz', { quizz: quizz, areaId: area.id });
     }
 
 
@@ -300,7 +310,7 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator initialRouteName="Login">
             <Stack.Screen name="Home" label="Inicio" options={{ title: "Inicio" }} component={Home} />
-            <Stack.Screen name="Details" component={DetailsScreen} options={{ title: "Scaneo QR" }} />
+            <Stack.Screen name="Details" component={DetailsScreen} options={{ title: "Escaneo QR" }} />
             <Stack.Screen name="Quizz" component={QuizzScreen} options={{ title: "Evaluación" }} />
             <Stack.Screen name="Login" component={Login} options={{ title: "Ingreso de usuario" }} />
           </Stack.Navigator>

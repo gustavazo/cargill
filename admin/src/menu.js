@@ -17,7 +17,7 @@ export const Menu = (props) => {
             path: 'userQuiz'
         }
     ];
-    
+
     const allItems = [
         'Areas',
         'Quizzes',
@@ -25,65 +25,27 @@ export const Menu = (props) => {
         'CustomUsers',
         'Resultados'
     ]
-    
+
     const all = [...resources, ...customRoutes]
-    
+
     const routes = {
-        
+
         '1': ['Quizzes', 'CustomUsers', 'Resultados'],
         '2': allItems
     }
 
-    
-    console.log(type)
+
     const handleClick = (e) => {
         setOpen(!open)
     };
 
     return (
         <>
-        {all.map((r) => (
-            routes[type]?.includes(r.name) ? 
-            <MenuItemLink
-                            key={r.name}
-                            to={! r.path? `/${r.name}` : `/${r.path}`}
-                            primaryText={
-                                (r.options && r.options.label) ||
-                                r.name
-                            }
-                            leftIcon={
-                                r.icon ? <r.icon /> : <DefaultIcon />
-                            }
-                            onClick={handleClick}
-                            sidebarIsOpen={open}
-            />  
-            : null
-        ))}
-            {/* {
-                resources.map(r => {
-                    return (
-                        <MenuItemLink
-                            key={r.name}
-                            to={`/${r.name}`}
-                            primaryText={
-                                (r.options && r.options.label) ||
-                                r.name
-                            }
-                            leftIcon={
-                                r.icon ? <r.icon /> : <DefaultIcon />
-                            }
-                            onClick={handleClick}
-                            sidebarIsOpen={open}
-                        />
-                    )
-                })
-            }
-            {
-                customRoutes.map(r => {
-                    return (
-                        <MenuItemLink
+            {all.map((r) => (
+                routes[type]?.includes(r.name) ?
+                    <MenuItemLink
                         key={r.name}
-                        to={`/${r.path}`}
+                        to={!r.path ? `/${r.name}` : `/${r.path}`}
                         primaryText={
                             (r.options && r.options.label) ||
                             r.name
@@ -94,9 +56,9 @@ export const Menu = (props) => {
                         onClick={handleClick}
                         sidebarIsOpen={open}
                     />
-                    )
-                })
-            } */}
+                    : null
+            ))}
+            
         </>
     )
 };

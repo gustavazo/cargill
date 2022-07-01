@@ -5,6 +5,7 @@ import MyLayout from "./MyLayout";
 import { Route } from 'react-router-dom';
 import polyglotI18nProvider from 'ra-i18n-polyglot';
 import spanishMessages from '@blackbox-vision/ra-language-spanish';
+import HomeScreen from "./components/HomeScreen";
 
 
 import {
@@ -57,6 +58,7 @@ function App() {
   }
 
   return (
+    //Error al recargar la pagina manualmente. Las tablas no muestran datos
     <div className="App">
       {/* <Admin layout={MyLayout} dataProvider={dataProvider} authProvider={authProvider('http://159.89.50.20:3005/api/CustomUsers/login')} customRoutes={customRoutes} locale="es" i18nProvider={i18nProvider}> */}
       {!currentUser ? <LoginA setCurrentUser={setCurrentUser}/> : (

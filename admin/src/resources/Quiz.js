@@ -7,9 +7,9 @@ import QuizEdition from '../components/quiz/edition'
 export const QuizCreate = (props) => (
     <Create {...props}>
         <SimpleForm>
-            <ReferenceInput label="Area" source='areaId' reference='Areas'  >
+            {/* <ReferenceInput label="Area" source='areaId' reference='Areas'  >
                 <SelectInput source="area" label="Area" />
-            </ReferenceInput>
+            </ReferenceInput> */}
             <TextInput source="title" label="Título" />
             <TextInput source="description" label="Descripción" />
         </SimpleForm>

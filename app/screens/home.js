@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
-import {Button} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
+import { Button } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import Modal from '../components/Modal1';
-import {Avatar, Card, IconButton} from 'react-native-paper';
+import { Avatar, Card, IconButton } from 'react-native-paper';
 import axios from 'axios';
 import confg from '../config';
 import moment from "moment";
@@ -63,9 +63,9 @@ export default function Home(props) {
   }, []);
 
   return (
-    <View style={{padding: 10}}>
-      <View style={{alignItems: 'center'}}>
-        <Text style={{fontSize: 25}}>Hola, {context.currentUser.firstName + " " + context.currentUser.lastName}</Text>
+    <View style={{ padding: 10 }}>
+      <View style={{ alignItems: 'center' }}>
+        <Text style={{ fontSize: 25, color: "black", opacity: 0.8 }}>Hola, {context.currentUser.firstName + " " + context.currentUser.lastName}</Text>
       </View>
       <View>
         <Button onPress={handleLogOut} title='SALIR'>
@@ -78,7 +78,7 @@ export default function Home(props) {
           justifyContent: 'space-around',
           height: '100%',
         }}>
-        <View style={{alignItems: 'center'}}>
+        <View style={{ alignItems: 'center' }}>
           <TouchableOpacity
             style={{
               height: 150,
@@ -102,8 +102,8 @@ export default function Home(props) {
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={{alignItems: 'center'}}>
-          <Text style={{fontSize: 30}}>Ultimos escaneos:</Text>
+        <View style={{ alignItems: 'center' }}>
+          <Text style={{ fontSize: 30, color: "black", opacity: 0.8}}>Ultimos escaneos:</Text>
           {asd
             .map(a => {
               return (

@@ -2,13 +2,14 @@ import * as React from 'react';
 import { TextInput } from 'react-native-paper';
 import UserService from '../service/UserService';
 import config from '../config';
-import {View} from 'react-native';
-import {Button} from 'react-native';
+import { Image, View } from 'react-native';
+import { Button } from 'react-native';
 import { AsyncStorage } from 'react-native';
 import { useContext } from 'react';
 import { AppContext } from '../App';
 import { useEffect } from 'react';
 import { useIsFocused } from '@react-navigation/native';
+import Toast from 'react-native-simple-toast';
 
 // despues de guardar en el asyncStorage el id
 // creo el stado d currentUser
@@ -29,41 +30,54 @@ const Login = (props) => {
     }, [isFocused])
 
     const handleLogin = async () => {
-        const user = await UserService.login({
-            username: email.toLocaleLowerCase(),
-            password: password.toLocaleLowerCase()
-        });
-        context.setCurrentUser(user)
-        props.navigation.navigate('Home')
+        try {
+            const user = await UserService.login({
+                // username: email.toLocaleLowerCase(),
+                username: email,
+                // password: password.toLocaleLowerCase()
+                password: password
+            });
+            context.setCurrentUser(user)
+            props.navigation.navigate('Home')
+        } catch (error) {
+            console.log(error);
+            Toast.show("Usuario o contraseña inválida");
+        }
     }
 
     return (
-        <View style={{display: 'flex', padding: 30, justifyContent: 'center', alignContent: 'center', marginTop: 150}}>
-            <View>
-                <TextInput
-                    mode="outlined"
-                    label="Legajo"
-                    placeholder="Ingresar legajo"
-                    right={<TextInput.Affix text="/100" />}
-                    onChangeText={setEmail}
-                    value={email}
-                />
+        <>
+            <View style={{ alignItems: 'center' }}>
+                <Image source={require('../images/logo-instalros-vertical.png')} style={{ width: 200, height: 160, marginTop: 10, resizeMode: 'contain'}} />
             </View>
-            <View style={{marginTop: 20}}>
-                <TextInput
-                    label="Password"
-                    secureTextEntry
-                    right={<TextInput.Icon name="eye" />}
-                    onChangeText={setPassword}
-                    value={password}
-                />
+            <View style={{ display: 'flex', padding: 30, justifyContent: 'center', alignContent: 'center', marginTop: 20 }}>
+
+                <View>
+                    <TextInput
+                        mode="outlined"
+                        label="Legajo"
+                        placeholder="Ingresar legajo"
+                        //right={<TextInput.Affix text="/100" />}
+                        onChangeText={setEmail}
+                        value={email}
+                    />
+                </View>
+                <View style={{ marginTop: 20 }}>
+                    <TextInput
+                        label="Password"
+                        secureTextEntry
+                        // right={<TextInput.Icon name="eye" />}
+                        onChangeText={setPassword}
+                        value={password}
+                    />
+                </View>
+                <View style={{ marginTop: 20 }}>
+                    <Button title='Ingresar' mode="contained" onPress={handleLogin}>
+                        Ingresar
+                    </Button>
+                </View>
             </View>
-            <View style={{marginTop: 20}}>
-                <Button title='Ingresar' mode="contained" onPress={handleLogin}>
-                    Ingresar
-                </Button>
-            </View>
-        </View>
+        </>
     )
 };
 

@@ -1,0 +1,19 @@
+ADMIN
+2.  Solo el Superadmin puede borrar encuestas.
+3.  Agregar logo de instalros.
+4.  Operador que no pueda entrar. Que le salga un cartel que le diga no autorizado
+5.  Que se pueda modificar las contraseñas de los usuarios.*
+6.  Controlar entrada de datos fundamentalmente en Mac BT y QR id. Evitar espacios en blanco, 
+7.  Admin que no pueda ver en los usuarios a los Superadmin. Al resto sí.
+    tabulaciones y caracteres raros, en Mac BT unificar a mayúscula.
+
+APP
+1.  Controlar entrada de datos en login. Sacar espacios en blanco al principio y al final
+1.1  Arreglar botón de ver contraseña en login
+2.  Controlar errores. Poner mensajes de error al usuario indicando el tipo de error, para que
+    pueda entender que está haciendo mal o si es un error de la app. (Ya lo hice con los try 
+    catch que ya estaban. Hay que ver si hay que agregar más)
+2.1 En caso de error en el proceso de escaneo/conexión BT volver a la pantalla de usuario
+    (home). Porque si no te deja en la pantalla de escaneo pero no podés volver a 
+    escanear sin volver atrás
+
