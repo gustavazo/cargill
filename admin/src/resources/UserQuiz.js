@@ -54,7 +54,7 @@ export default function UserQuiz() {
   const handleClose = () => setOpen(false);
 
   const fetchUsersQuizzes = async () => {
-    const allUsersQuizzes = await UserQuizService.find(filter);
+    const allUsersQuizzes = await UserQuizService.find({ ...filter, include: ['area'] });
     setUsersQuizzes(allUsersQuizzes.data);
   };
 
@@ -136,7 +136,7 @@ export default function UserQuiz() {
 
     return (
       <>
-        <StyledTableCell align="center">{valid ? "✔": null}</StyledTableCell>
+        <StyledTableCell align="center">{valid ? "✔" : null}</StyledTableCell>
         <StyledTableCell align="center">{!valid ? "❌" : null}</StyledTableCell>
       </>
     );
@@ -162,7 +162,7 @@ export default function UserQuiz() {
     },
   }));
 
-  console.log(quizSelected);
+  console.log('quizSelected', quizSelected);
 
   //////////////////////////////////////
   //     REVISAR ANTES DE PUSHEAR     //
@@ -203,7 +203,7 @@ export default function UserQuiz() {
                   justifyContent: "center",
                 }}
               >
-                {quizSelected?.quiz?.description}
+                {quizSelected?.area?.name}
               </div>
               <span
                 style={{
@@ -375,7 +375,7 @@ export default function UserQuiz() {
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>Encuesta</TableCell>
+                <TableCell>Area</TableCell>
                 <TableCell>Descripción</TableCell>
                 <TableCell>Usuario</TableCell>
                 <TableCell>Fecha</TableCell>
@@ -390,7 +390,7 @@ export default function UserQuiz() {
                   key={q.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
-                  <TableCell>{q?.quiz?.title}</TableCell>
+                  <TableCell>{q?.area?.name}</TableCell>
                   <TableCell component="th" scope="row">
                     {q?.quiz?.description}
                   </TableCell>
