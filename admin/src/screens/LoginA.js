@@ -57,7 +57,7 @@ const LoginA = ({ setCurrentUser }) => {
           )
         }
         <input
-          placeholder="Nombre"
+          placeholder="DNI/LEGAJO"
           margin="normal"
           variant="outlined"
           name="name"
@@ -70,7 +70,8 @@ const LoginA = ({ setCurrentUser }) => {
         />
         <span className="errormessage">Este campo es requerido</span>
         <input
-          placeholder="Contraseña"
+          placeholder="Password"
+          type={"password"}
           margin="normal"
           variant="outlined"
           name="password"

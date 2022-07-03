@@ -50,6 +50,14 @@ const customRoutes = [
 // const dataProvider = loopbackClient("http://159.89.50.20:3005/api");
 const dataProvider = loopbackClient(config.backendUrl);
 
+0
+function findNodeByInnerHTML(nodelist, innerHTML){
+    for(let ii = 0; ii < nodelist.length; ii++){
+        if(nodelist[ii].innerHTML === innerHTML)
+            return nodelist[ii]
+    }
+}
+
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
 
@@ -62,7 +70,7 @@ function App() {
     <div className="App">
       {/* <Admin layout={MyLayout} dataProvider={dataProvider} authProvider={authProvider('http://159.89.50.20:3005/api/CustomUsers/login')} customRoutes={customRoutes} locale="es" i18nProvider={i18nProvider}> */}
       {!currentUser ? <LoginA setCurrentUser={setCurrentUser}/> : (
-        <Admin  dataProvider={dataProvider} customRoutes={customRoutes} locale="es" i18nProvider={i18nProvider}>
+        <Admin layout={MyLayout} dataProvider={dataProvider} customRoutes={customRoutes} locale="es" i18nProvider={i18nProvider}>
         <Resource name="Areas" options={{ label: 'Areas' }} create={AreaCreate} edit={AreaEdit} list={AreaList} />
         <Resource name="Quizzes" options={{ label: 'Encuestas' }} create={QuizCreate} edit={QuizEdit} list={QuizList} />
         <Resource name="BTModules" options={{ label: 'Módulos BT' }} create={BTModuleCreate} edit={BTModuleEdit} list={BTModuleList} />

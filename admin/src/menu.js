@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { MenuItemLink, getResources } from 'react-admin';
+import { MenuItemLink, getResources } from 'react-admin';       
 import DefaultIcon from '@material-ui/icons/ViewList';
+import { Logout } from '@mui/icons-material'
 import { useState } from 'react';
 import { useEffect } from 'react';
 import UserService from './services/UserService';
@@ -39,6 +40,11 @@ export const Menu = (props) => {
         setOpen(!open)
     };
 
+    const logout = () => {
+        localStorage.clear();
+        window.location.reload();
+    }
+
     return (
         <>
             {all.map((r) => (
@@ -58,7 +64,7 @@ export const Menu = (props) => {
                     />
                     : null
             ))}
-            
+           <MenuItemLink primaryText="Cerrar sesión" sidebarIsOpen={open} to={"/"} onClick={logout} leftIcon={<Logout></Logout>}></MenuItemLink> 
         </>
     )
 };
