@@ -50,7 +50,7 @@ const customRoutes = [
 const interceptor = (lbClient) => {
   const userType = localStorage.getItem("userType");
   return async (type, resource, params) => {
-    if (type === "GET_LIST" && resource === "CustomUsers" && userType === "2") {
+    if (type === "GET_LIST" && resource === "CustomUsers" && !userType === "2") {
       params.filter = {
           type: {
             nlike: "2"
