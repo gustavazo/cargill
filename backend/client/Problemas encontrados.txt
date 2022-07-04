@@ -1,3 +1,0 @@
-*La entrada de la MAC del bluetooth debe ponerse en mayúsculas para que en la función find de la 
-aplicación mobile lo encuentre. Habría que hacer la entrada de datos en Uppercase o el find de la 
-app hacerlo case unsensitive. Pero verificar si en minúsculas se vincula al BT
