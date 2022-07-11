@@ -50,7 +50,7 @@ const LoginA = ({ setCurrentUser }) => {
   return (
     <div className="background-page">
       <form onSubmit={login} className="form-login">
-      <img src={logo} width="150" height={150}></img>
+        <img src={logo} height={150}></img>
         {
           error && (
             <span className="credentialerror">Credenciales incorrectas, intente de nuevo</span>
