@@ -48,17 +48,16 @@ const customRoutes = [
 ];
 
 const interceptor = (lbClient) => {
-  const userType = localStorage.getItem("userType");
+  //const userType = localStorage.getItem("userType");
   return async (type, resource, params) => {
+    const userType = localStorage.getItem("userType");
     if (type === "GET_LIST" && resource === "CustomUsers" && userType !== "2") {
       params.filter = {
-          type: {
-            nlike: "2"
-          }
-        
+        type: {
+          nlike: "2"
+        }
       }
     }
-
     return lbClient(type, resource, params);
   }
 }
@@ -76,13 +75,13 @@ function App() {
     //Error al recargar la pagina manualmente. Las tablas no muestran datos
     <div className="App">
       {/* <Admin layout={MyLayout} dataProv ider={dataProvider} authProvider={authProvider('http://159.89.50.20:3005/api/CustomUsers/login')} customRoutes={customRoutes} locale="es" i18nProvider={i18nProvider}> */}
-      {!currentUser ? <LoginA setCurrentUser={setCurrentUser}/> : (
+      {!currentUser ? <LoginA setCurrentUser={setCurrentUser} /> : (
         <Admin layout={MyLayout} dataProvider={dataProvider} customRoutes={customRoutes} locale="es" i18nProvider={i18nProvider}>
-        <Resource name="Areas" options={{ label: 'Areas' }} create={AreaCreate} edit={AreaEdit} list={AreaList} />
-        <Resource name="Quizzes" options={{ label: 'Encuestas' }} create={QuizCreate} edit={QuizEdit} list={QuizList} />
-        <Resource name="BTModules" options={{ label: 'Módulos BT' }} create={BTModuleCreate} edit={BTModuleEdit} list={BTModuleList} />
-        <Resource name="CustomUsers" options={{ label: 'Usuarios' }} create={UserCreate} edit={UserEdit} list={UserList} />
-      </Admin>
+          <Resource name="Areas" options={{ label: 'Areas' }} create={AreaCreate} edit={AreaEdit} list={AreaList} />
+          <Resource name="Quizzes" options={{ label: 'Encuestas' }} create={QuizCreate} edit={QuizEdit} list={QuizList} />
+          <Resource name="BTModules" options={{ label: 'Módulos BT' }} create={BTModuleCreate} edit={BTModuleEdit} list={BTModuleList} />
+          <Resource name="CustomUsers" options={{ label: 'Usuarios' }} create={UserCreate} edit={UserEdit} list={UserList} />
+        </Admin>
       )}
     </div>
   );
