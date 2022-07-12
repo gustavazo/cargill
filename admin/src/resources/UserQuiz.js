@@ -45,6 +45,7 @@ export default function UserQuiz() {
   const [dateSelected, setDateSelected] = React.useState("");
   const [filter, setFilter] = React.useState({});
   const [quizSelected, setQuizSelected] = React.useState(null);
+  const localUserType = React.useRef();
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = (q) => () => {
@@ -54,13 +55,18 @@ export default function UserQuiz() {
   const handleClose = () => setOpen(false);
 
   const fetchUsersQuizzes = async () => {
-    const allUsersQuizzes = await UserQuizService.find({ ...filter, include: ['area'] });
-    setUsersQuizzes(allUsersQuizzes.data);
+    const res = await UserQuizService.find({ ...filter, include: ['area'] });
+    let allUsersQuizzes = res.data;
+    localUserType.current !== '2' ? allUsersQuizzes = allUsersQuizzes.filter(userQuiz => userQuiz.customUser.type !== '2') : null
+    setUsersQuizzes(allUsersQuizzes);
   };
 
   const fetchUsers = async () => {
-    const allUsers = await UserService.find();
-    setUsers(allUsers.data);
+    const res = await UserService.find();
+    let allUsers = res.data;
+    console.log('allUsers',allUsers)
+    localUserType.current !== '2' ? allUsers = allUsers.filter(user => user.type !== '2') : null
+    setUsers(allUsers);
   };
 
   function pickerUser(evt, value) {
@@ -125,6 +131,7 @@ export default function UserQuiz() {
   React.useEffect(() => {
     fetchUsersQuizzes();
     fetchUsers();
+    localUserType.current = localStorage.getItem("userType");
   }, []);
 
   //////////////////////////////////////
