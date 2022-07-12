@@ -1,11 +1,10 @@
 ADMIN
 2.  Solo el Superadmin puede borrar encuestas.
-3.  Agregar logo de instalros.
-4.  Operador que no pueda entrar. Que le salga un cartel que le diga no autorizado
-5.  Que se pueda modificar las contraseñas de los usuarios.*
-6.  Controlar entrada de datos fundamentalmente en Mac BT y QR id. Evitar espacios en blanco, 
-7.  Admin que no pueda ver en los usuarios a los Superadmin. Al resto sí.
-    tabulaciones y caracteres raros, en Mac BT unificar a mayúscula.
+
+    Nota:   En BT hice un trim y un uppercase a medida que se entran los datos, deberia hacer una validacion tambien al momento de enviar
+            En User se hicieron validaciones donde se indican campos requeridos y en password no se permiten espacios
+            En Area se hizo validacion de QR, solo se permiten caracteres alfanumericos y '-' sin espacios. El nombre del area es requerido
+            Hay que ver que otras validaciones se necesitan
 
 APP
 1.  Controlar entrada de datos en login. Sacar espacios en blanco al principio y al final
