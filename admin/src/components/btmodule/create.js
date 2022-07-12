@@ -49,24 +49,29 @@ const create = (props) => {
   };
 
   const handleChange = (e) => {
+    console.log("event", e)
+    const target = e.target
+    if (target.name === 'macAddress') {
+      target.value = target.value.toUpperCase().trim();
+    }
     setBTmod({
       ...BTmod,
-      [e.target.name]: e.target.value,
+      [target.name]: target.value,
     });
   };
 
   const postModule = async () => {
     const res = props.record.id
       ? await BTModuleService.update(props.record.id, {
-          name: BTmod.name,
-          macAddress: BTmod.macAddress,
-          areaId: BTmod.areaId,
-        })
+        name: BTmod.name,
+        macAddress: BTmod.macAddress,
+        areaId: BTmod.areaId,
+      })
       : await BTModuleService.create({
-          name: BTmod.name,
-          macAddress: BTmod.macAddress,
-          areaId: BTmod.areaId,
-        });
+        name: BTmod.name,
+        macAddress: BTmod.macAddress,
+        areaId: BTmod.areaId,
+      });
     notify("Creado");
     window.location.href = "/#/BTModules";
   };
@@ -107,8 +112,8 @@ const create = (props) => {
         >
           {areas.length
             ? areas.map((a) => {
-                return <MenuItem value={a.id}>{a.name}</MenuItem>;
-              })
+              return <MenuItem value={a.id}>{a.name}</MenuItem>;
+            })
             : null}
         </Select>
         <Button variant="contained" color="primary" onClick={postModule}>
