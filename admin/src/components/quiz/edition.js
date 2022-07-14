@@ -16,7 +16,7 @@ import AnswerService from '../../services/AnswerService'
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
-import { useNotify,Confirm } from 'react-admin';
+import { useNotify, Confirm } from 'react-admin';
 
 
 const Edition = (props) => {
@@ -26,6 +26,7 @@ const Edition = (props) => {
     const [openA, setOpenA] = useState(false)
     const [openE, setOpenE] = useState(false)
     const [openDeleteQ, setOpenDeleteQ] = useState(false)
+    const [questionToBeDeleted, setQuestionToBeDeleted] = useState(null)
     const [newQuestion, setNewQuestion] = useState(
         ''
     )
@@ -138,6 +139,12 @@ const Edition = (props) => {
         notify('La categoría ha sido borrada')
     }
 
+    function handleOpenDeleteQ(q) {
+        setQuestionToBeDeleted(q);
+        setOpenDeleteQ(true)
+    }
+
+
     const editedQ = async () => {
         const res = await QuestionService.editQuestion(editQ.id, { statement: editQ.statement })
         getQuiz()
@@ -145,13 +152,20 @@ const Edition = (props) => {
         notify('La categoría ha sido editada')
 
     }
-    
+
     return (
 
         <div>
             <div style={{ fontSize: 35, margin: 20, marginBottom: 0, fontWeight: 'bold' }}>{quiz?.title}</div>
             <div style={{ fontSize: 30, margin: 20, marginTop: 0, fontWeight: 'lighter' }}>{quiz?.description}</div>
             <Button style={{ position: 'absolute', top: 100, right: 40 }} onClick={openModalQ} variant="contained" color='primary'>Agregar Categoría</Button>
+            <Confirm
+                isOpen={openDeleteQ}
+                title={"Borrar Categoría " + questionToBeDeleted?.statement}
+                content="¿Está seguro que desea borrar la categoría de forma permanente?"
+                onConfirm={() => deleteQ(questionToBeDeleted)}
+                onClose={() => setOpenDeleteQ(false)}
+            />
             <Modal
                 show={openE}
                 onClose={closeModalE}
@@ -221,14 +235,7 @@ const Edition = (props) => {
                                 <div>
                                     <Button onClick={() => openModalA(q)} variant="contained" color='success' style={{ marginRight: 5 }}>Agregar Consigna</Button>
                                     <Button onClick={() => openModalE(q)} variant="contained" color='primary' style={{ marginLeft: 5 }}>Renombrar Categoría</Button>
-                                    <Button onClick={() => setOpenDeleteQ(true)} variant="contained" color='error' style={{ marginLeft: 5 }}><DeleteIcon /></Button>
-                                    <Confirm
-                                        isOpen={openDeleteQ}
-                                        title="Borrar Categoría"
-                                        content="¿Está seguro que desea borrar la categoría de forma permanente?"
-                                        onConfirm={() =>  deleteQ(q)}
-                                        onClose={() => setOpenDeleteQ(false)}
-                                    />
+                                    <Button onClick={() => handleOpenDeleteQ(q)} variant="contained" color='error' style={{ marginLeft: 5 }}><DeleteIcon /></Button>
                                 </div>
                             </div>
                         </div>{/* por cada categoria estan sus consignas, se pasan a traves de la categoria */}
