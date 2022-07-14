@@ -27,7 +27,7 @@ class CRUDService extends HTTPService {
     }
 
     async remove(id) {
-        return await this.api.delete(id);
+        return await this.api.delete("/" + id);
     }
 
     async create(newModel) {
@@ -58,7 +58,7 @@ class CRUDService extends HTTPService {
             }
         });
     }
-    
+
     async count() {
         return await this.api("/count")
     }
