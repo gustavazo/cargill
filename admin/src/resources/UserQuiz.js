@@ -22,8 +22,10 @@ import Modal from "@mui/material/Modal";
 import { IconButton } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { RemoveRedEye } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
-import { Title } from "react-admin";
+import { Title, Confirm } from "react-admin";
 import moment from "moment";
 
 const style = {
@@ -46,12 +48,25 @@ export default function UserQuiz() {
   const [filter, setFilter] = React.useState({});
   const [quizSelected, setQuizSelected] = React.useState(null);
   const localUserType = React.useRef();
-
   const [open, setOpen] = React.useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
   const handleOpen = (q) => () => {
     setQuizSelected(q);
     setOpen(true);
   };
+  const handleOpenDeleteDialog = (q) => {
+    console.log('q', q)
+    setQuizSelected(q);
+    setOpenDeleteDialog(true);
+  };
+  const handleDelete = async (q) => {
+    const res = await UserQuizService.remove(q.id);
+    fetchUsersQuizzes();
+    setOpenDeleteDialog(false)
+  }
+
+
+
   const handleClose = () => setOpen(false);
 
   const fetchUsersQuizzes = async () => {
@@ -64,7 +79,7 @@ export default function UserQuiz() {
   const fetchUsers = async () => {
     const res = await UserService.find();
     let allUsers = res.data;
-    console.log('allUsers',allUsers)
+    console.log('allUsers', allUsers)
     localUserType.current !== '2' ? allUsers = allUsers.filter(user => user.type !== '2') : null
     setUsers(allUsers);
   };
@@ -72,17 +87,16 @@ export default function UserQuiz() {
   function pickerUser(evt, value) {
     for (let i = 0; i < users.length; i++) {
       const user = users[i];
-
-      if (user.firstName === value) {
+      if (user.id === value.id) {
         setUserSelected(user);
       }
     }
-    const user = users.find((u) => u.firstName === value);
+    const user = users.find((u) => u.id === value.id);
 
     setFilter({
       ...filter,
       where: {
-        ...(filter.where || {}),
+        ...(filter.where || {}),//en javascript una operación and u or no devuelve un booleano si no el valor de la variable verdadera en si
         customUserId: user.id,
       },
     });
@@ -139,7 +153,7 @@ export default function UserQuiz() {
   //////////////////////////////////////
 
   const renderIsValid = (id) => {
-    const valid = quizSelected.userAnswers?.find(a => a.answerId === id).value;
+    const valid = quizSelected.userAnswers?.find(a => a.answerId === id)?.value;
 
     return (
       <>
@@ -288,6 +302,13 @@ export default function UserQuiz() {
           />
         </Box>
       </Modal>
+      <Confirm
+        isOpen={openDeleteDialog}
+        title={"Borrar Test de " + quizSelected?.customUser.firstName + " " + quizSelected?.customUser.lastName}
+        content={"¿Está seguro que desea borrar el test de forma permanente?"}
+        onConfirm={() => handleDelete(quizSelected)}
+        onClose={() => setOpenDeleteDialog(false)}
+      />
       <Paper>
         <div style={{ margin: 25 }}>
           <Title title="Pruebas de los usuarios" />
@@ -308,8 +329,9 @@ export default function UserQuiz() {
           <Stack spacing={2} sx={{ width: 300 }}>
             <Autocomplete
               id="free-solo-demo"
-              freeSolo
-              options={users.map((option) => option.firstName)}
+              disablePortal
+              //options={users.map((option) => option.firstName)}¨
+              options={users.map((option) => { return { label: option.lastName + " " + option.firstName, id: option.id } })}
               renderInput={(params) => (
                 <TextField {...params} label="Seleccionar usuario" />
               )}
@@ -411,9 +433,13 @@ export default function UserQuiz() {
                   </TableCell>
                   <TableCell>{q?.observations}</TableCell>
                   <TableCell>
-                    <Button variant="contained" onClick={handleOpen(q)}>
-                      Ver
+                    <Button variant="contained" style={{ margin: 5, width: '40px', height: '40px' }} onClick={handleOpen(q)}>
+                      VER
                     </Button>
+                    {(localUserType.current === '2') ?
+                      <Button color='error' style={{ margin: 5, width: '40px', height: '40px' }} onClick={() => handleOpenDeleteDialog(q)} variant='contained'><DeleteIcon style={{ fontSize: 20 }} /></Button>
+                      : null
+                    }
                   </TableCell>
                 </TableRow>
               ))}
