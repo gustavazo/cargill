@@ -1,7 +1,7 @@
 ADMIN
-2.  Solo el Superadmin puede borrar encuestas.
+6. Permitir que el filtro de resultados discrimine por área y por fecha al mismo tiempo
 
-    Nota:   En BT hice un trim y un uppercase a medida que se entran los datos, deberia hacer una validacion tambien al momento de enviar
+    Nota:   En BT hice una validacion BT y al momento del envío de datos al backend un toUppercase 
             En User se hicieron validaciones donde se indican campos requeridos y en password no se permiten espacios
             En Area se hizo validacion de QR, solo se permiten caracteres alfanumericos y '-' sin espacios. El nombre del area es requerido
             Hay que ver que otras validaciones se necesitan

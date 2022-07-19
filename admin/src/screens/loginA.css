@@ -54,6 +54,7 @@
 
 .errormessage {
 padding: 3px;
+font-size: small;
 color: red;
 display: none;
 }
