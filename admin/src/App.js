@@ -7,6 +7,10 @@ import polyglotI18nProvider from 'ra-i18n-polyglot';
 import spanishMessages from '@blackbox-vision/ra-language-spanish';
 import HomeScreen from "./components/HomeScreen";
 
+import PeopleIcon from '@mui/icons-material/People';
+import BluetoothIcon from '@mui/icons-material/Bluetooth';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 
 import {
   BTModuleCreate,
@@ -77,10 +81,10 @@ function App() {
       {/* <Admin layout={MyLayout} dataProv ider={dataProvider} authProvider={authProvider('http://159.89.50.20:3005/api/CustomUsers/login')} customRoutes={customRoutes} locale="es" i18nProvider={i18nProvider}> */}
       {!currentUser ? <LoginA setCurrentUser={setCurrentUser} /> : (
         <Admin layout={MyLayout} dataProvider={dataProvider} customRoutes={customRoutes} locale="es" i18nProvider={i18nProvider}>
-          <Resource name="Areas" options={{ label: 'Areas' }} create={AreaCreate} edit={AreaEdit} list={AreaList} />
-          <Resource name="Quizzes" options={{ label: 'Encuestas' }} create={QuizCreate} edit={QuizEdit} list={QuizList} />
-          <Resource name="BTModules" options={{ label: 'Módulos BT' }} create={BTModuleCreate} edit={BTModuleEdit} list={BTModuleList} />
-          <Resource name="CustomUsers" options={{ label: 'Usuarios' }} create={UserCreate} edit={UserEdit} list={UserList} />
+          <Resource name="Areas" options={{ label: 'Areas' }} create={AreaCreate} edit={AreaEdit} list={AreaList} icon={LocationOnIcon}/>
+          <Resource name="Quizzes" options={{ label: 'Encuestas' }} create={QuizCreate} edit={QuizEdit} list={QuizList} icon={AssignmentIcon}/>
+          <Resource name="BTModules" options={{ label: 'Módulos BT' }} create={BTModuleCreate} edit={BTModuleEdit} list={BTModuleList} icon={BluetoothIcon} />
+          <Resource name="CustomUsers" options={{ label: 'Usuarios' }} create={UserCreate} edit={UserEdit} list={UserList} icon={PeopleIcon}/>
         </Admin>
       )}
     </div>
