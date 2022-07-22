@@ -28,14 +28,21 @@ import confg from './config';
 import moment from "moment"
 import Login from './screens/Login';
 import { AsyncStorage } from 'react-native';
+import RNBeep from 'react-native-a-beep';
+import { ActivityIndicator } from 'react-native-paper';
 
 export const AppContext = React.createContext({});
 
 export const manager = new BleManager();
 
 class Scan extends Component {
+  state = {
+    isLoading: false
+  }
   onSuccess = e => {
+    RNBeep.beep();
     this.isAvailalble(e.data);
+
   };
 
   isAvailalble = async mac => {
@@ -108,6 +115,7 @@ class Scan extends Component {
     let errorMsg = "";
     console.log('mac', mac)
     try {
+      this.setState({ isLoading: true })
       //Busca el area escaneada a partir del QR
       errorMsg = "Area no encontrada"
       const area = await axios.get(confg.backendUrl + 'areas', {
@@ -127,7 +135,7 @@ class Scan extends Component {
         params: {
           filter: {
             where: {
-              areaId: area.data[0].id,//Falla Aca
+              areaId: area.data[0].id,
             },
           },
         },
@@ -139,6 +147,8 @@ class Scan extends Component {
       const device = paired.find(
         p => p.address === btmodule.data[0].macAddress,
       );
+      if (!device) throw new Error('No device found')//Me permite capturar cuando no encuentra el dispositivo en los vinculados
+
       console.log('device', device)
       //Conecta el dispositivo
       errorMsg = "Error en la conexión con el disposivo"
@@ -148,10 +158,13 @@ class Scan extends Component {
       //Acciones pertinentes al redireccionamiento a encuestas
       errorMsg = "Error en el redireccionamiento a encuestas"
       this.sabela(device, area.data[0]);
+      this.setState({ isLoading: false })
     } catch (err) {
+      this.setState({ isLoading: false })
       Toast.show('Ha surgido un error: ' + errorMsg);
       console.log('ERROR', err);
       console.log('ERROR', 'Ha surgido un error: ' + errorMsg);
+      this.props.navigation.navigate('Home')
 
     }
   };
@@ -230,16 +243,23 @@ class Scan extends Component {
   render() {
 
     return (
-      <QRCodeScanner
-        onRead={this.onSuccess}
-        topContent={
-          <Text style={styles.centerText}>
-          </Text>
-        }
-        bottomContent={
-          <TouchableOpacity style={styles.buttonTouchable}></TouchableOpacity>
-        }
-      />
+      <>
+          <QRCodeScanner
+            onRead={this.onSuccess}
+            showMarker
+            markerStyle={{ borderColor: 'grey', borderRadius: 10 }}
+            topContent={
+              <Text style={styles.centerText}>
+              </Text>
+            }
+            bottomContent={
+              <TouchableOpacity style={styles.buttonTouchable}></TouchableOpacity>
+            }
+
+          />
+          {this.state.isLoading?<View><Text style={{color:"black",fontSize:20}}>Conectando...</Text><ActivityIndicator size={'large'} color="orange" style={{ marginTop: 10 }} /></View>:null}
+        
+      </>
     );
   }
 }
