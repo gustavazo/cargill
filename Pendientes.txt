@@ -1,18 +1,6 @@
 ADMIN
-6. Permitir que el filtro de resultados discrimine por área y por fecha al mismo tiempo
-
-    Nota:   En BT hice una validacion BT y al momento del envío de datos al backend un toUppercase 
-            En User se hicieron validaciones donde se indican campos requeridos y en password no se permiten espacios
-            En Area se hizo validacion de QR, solo se permiten caracteres alfanumericos y '-' sin espacios. El nombre del area es requerido
-            Hay que ver que otras validaciones se necesitan
+1 Agregar ver contraseña en login
 
 APP
-1.  Controlar entrada de datos en login. Sacar espacios en blanco al principio y al final
 1.1  Arreglar botón de ver contraseña en login
-2.  Controlar errores. Poner mensajes de error al usuario indicando el tipo de error, para que
-    pueda entender que está haciendo mal o si es un error de la app. (Ya lo hice con los try 
-    catch que ya estaban. Hay que ver si hay que agregar más)
-2.1 En caso de error en el proceso de escaneo/conexión BT volver a la pantalla de usuario
-    (home). Porque si no te deja en la pantalla de escaneo pero no podés volver a 
-    escanear sin volver atrás
 
