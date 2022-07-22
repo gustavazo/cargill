@@ -27,6 +27,7 @@ import { RemoveRedEye } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import { Title, Confirm } from "react-admin";
 import moment from "moment";
+import AreaService from "../services/AreaService";
 
 const style = {
   position: "absolute",
@@ -39,11 +40,22 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
+const pickerStyle = {
+  background: "white",
+  borderRadius: 5,
+  border: "1px solid black",
+  marginBottom: 10,
+  marginRight: 10,
+}
+
+
 
 export default function UserQuiz() {
   const [usersQuizzes, setUsersQuizzes] = React.useState([]);
   const [users, setUsers] = React.useState([]);
+  const [areas, setAreas] = React.useState([]);
   const [userSelected, setUserSelected] = React.useState({});
+  const [areaSelected, setAreaSelected] = React.useState({});
   const [dateSelected, setDateSelected] = React.useState("");
   const [filter, setFilter] = React.useState({});
   const [quizSelected, setQuizSelected] = React.useState(null);
@@ -83,6 +95,22 @@ export default function UserQuiz() {
     localUserType.current !== '2' ? allUsers = allUsers.filter(user => user.type !== '2') : null
     setUsers(allUsers);
   };
+  const fetchAreas = async () => {
+    const res = await AreaService.find();
+    let allAreas = res.data;
+    console.log('allAreas', allAreas)
+    setAreas(allAreas);
+
+  }
+
+  function pickerArea(evt, value) {
+    const area = areas.find((a) => a.id === value?.id)
+    setAreaSelected(area);
+    addFilter({ areaId: area.id });
+
+  }
+
+
 
   function pickerUser(evt, value) {
     for (let i = 0; i < users.length; i++) {
@@ -93,11 +121,22 @@ export default function UserQuiz() {
     }
     const user = users.find((u) => u.id === value.id);
 
+    // setFilter({
+    //   ...filter,
+    //   where: {
+    //     ...(filter.where || {}),//en javascript una operación and u or no devuelve un booleano si no el valor de la variable verdadera en si
+    //     customUserId: user.id,
+    //   },
+    // });
+    addFilter({ customUserId: user.id });
+  }
+
+  function addFilter(newFilter) {
     setFilter({
       ...filter,
       where: {
         ...(filter.where || {}),//en javascript una operación and u or no devuelve un booleano si no el valor de la variable verdadera en si
-        customUserId: user.id,
+        ...newFilter
       },
     });
   }
@@ -123,6 +162,8 @@ export default function UserQuiz() {
     });
   }
 
+
+
   function handleClick() {
     fetchUsersQuizzes();
   }
@@ -145,6 +186,7 @@ export default function UserQuiz() {
   React.useEffect(() => {
     fetchUsersQuizzes();
     fetchUsers();
+    fetchAreas();
     localUserType.current = localStorage.getItem("userType");
   }, []);
 
@@ -234,7 +276,7 @@ export default function UserQuiz() {
             }}
           >
             Fecha de realizacion del test:{" "}
-            {moment().format("DD/MM/YYYY HH:mm")}
+            {moment.utc(new Date(quizSelected?.date)).format("DD/MM/YYYY, HH:mm")}
           </span>
           <TableContainer component={Paper} style={{ maxHeight: 500 }}>
             <Table aria-label="customized table" stickyHeader>
@@ -330,20 +372,27 @@ export default function UserQuiz() {
             <Autocomplete
               id="free-solo-demo"
               disablePortal
+              options={areas.map((option) => { return { label: option.name, id: option.id } })}
+              renderInput={(params) => (
+                <TextField {...params} label="Seleccionar área" />
+              )}
+              onChange={pickerArea}
+              value={areaSelected?.name}
+              style={pickerStyle}
+            />
+          </Stack>
+          <Stack spacing={2} sx={{ width: 300 }}>
+            <Autocomplete
+              id="free-solo-demo"
+              disablePortal
               //options={users.map((option) => option.firstName)}¨
-              options={users.map((option) => { return { label: option.lastName + " " + option.firstName, id: option.id } })}
+              options={users.map((option) => { return { label: option.lastName + " " + option.firstName + " - " + option.username, id: option.id } })}
               renderInput={(params) => (
                 <TextField {...params} label="Seleccionar usuario" />
               )}
               onChange={pickerUser}
               value={userSelected.firstName}
-              style={{
-                background: "white",
-                borderRadius: 5,
-                border: "1px solid black",
-                marginBottom: 10,
-                marginRight: 10,
-              }}
+              style={pickerStyle}
             />
           </Stack>
           <div>
