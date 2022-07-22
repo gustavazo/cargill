@@ -46,6 +46,8 @@ const pickerStyle = {
   border: "1px solid black",
   marginBottom: 10,
   marginRight: 10,
+  width: 250,
+
 }
 
 
@@ -56,6 +58,7 @@ export default function UserQuiz() {
   const [areas, setAreas] = React.useState([]);
   const [userSelected, setUserSelected] = React.useState({});
   const [areaSelected, setAreaSelected] = React.useState({});
+  const [resultSelected, setResultSelected] = React.useState({});
   const [dateSelected, setDateSelected] = React.useState("");
   const [filter, setFilter] = React.useState({});
   const [quizSelected, setQuizSelected] = React.useState(null);
@@ -85,6 +88,7 @@ export default function UserQuiz() {
     const res = await UserQuizService.find({ ...filter, include: ['area'] });
     let allUsersQuizzes = res.data;
     localUserType.current !== '2' ? allUsersQuizzes = allUsersQuizzes.filter(userQuiz => userQuiz.customUser.type !== '2') : null
+    console.log('userQuizzes', usersQuizzes);
     setUsersQuizzes(allUsersQuizzes);
   };
 
@@ -103,10 +107,17 @@ export default function UserQuiz() {
 
   }
 
+  function pickerResult(evt, value) {
+    console.log('value', value);
+    setResultSelected(value?.value);
+    addFilter({ valid: value?.value });
+
+  }
+
   function pickerArea(evt, value) {
     const area = areas.find((a) => a.id === value?.id)
     setAreaSelected(area);
-    addFilter({ areaId: area.id });
+    addFilter({ areaId: area?.id });
 
   }
 
@@ -115,11 +126,11 @@ export default function UserQuiz() {
   function pickerUser(evt, value) {
     for (let i = 0; i < users.length; i++) {
       const user = users[i];
-      if (user.id === value.id) {
+      if (user.id === value?.id) {
         setUserSelected(user);
       }
     }
-    const user = users.find((u) => u.id === value.id);
+    const user = users.find((u) => u.id === value?.id);
 
     // setFilter({
     //   ...filter,
@@ -128,7 +139,7 @@ export default function UserQuiz() {
     //     customUserId: user.id,
     //   },
     // });
-    addFilter({ customUserId: user.id });
+    addFilter({ customUserId: user?.id });
   }
 
   function addFilter(newFilter) {
@@ -173,6 +184,11 @@ export default function UserQuiz() {
     // setDateSelected(getDateTime());
     window.location.reload();
   }
+  function formatDateUtc(strDate) {
+
+    return moment.utc(new Date(strDate)).format("DD/MM/YYYY, HH:mm");
+  }
+
 
   const getDateTime = () => {
     const date = new Date().toISOString();
@@ -276,7 +292,8 @@ export default function UserQuiz() {
             }}
           >
             Fecha de realizacion del test:{" "}
-            {moment.utc(new Date(quizSelected?.date)).format("DD/MM/YYYY, HH:mm")}
+            {/* {moment.utc(new Date(quizSelected?.date)).format("DD/MM/YYYY, HH:mm")} */}
+            {formatDateUtc(quizSelected?.date)}
           </span>
           <TableContainer component={Paper} style={{ maxHeight: 500 }}>
             <Table aria-label="customized table" stickyHeader>
@@ -368,33 +385,46 @@ export default function UserQuiz() {
             background: "#2196F3",
           }}
         >
-          <Stack spacing={2} sx={{ width: 300 }}>
+
+          <Stack spacing={0} direction={'row'}>
             <Autocomplete
               id="free-solo-demo"
               disablePortal
               options={areas.map((option) => { return { label: option.name, id: option.id } })}
               renderInput={(params) => (
-                <TextField {...params} label="Seleccionar área" />
+                <TextField style={pickerStyle}{...params} label="Seleccionar área" />
               )}
               onChange={pickerArea}
               value={areaSelected?.name}
-              style={pickerStyle}
+
             />
-          </Stack>
-          <Stack spacing={2} sx={{ width: 300 }}>
+
             <Autocomplete
               id="free-solo-demo"
               disablePortal
               //options={users.map((option) => option.firstName)}¨
               options={users.map((option) => { return { label: option.lastName + " " + option.firstName + " - " + option.username, id: option.id } })}
               renderInput={(params) => (
-                <TextField {...params} label="Seleccionar usuario" />
+                <TextField style={pickerStyle} {...params} label="Seleccionar usuario" />
               )}
               onChange={pickerUser}
               value={userSelected.firstName}
-              style={pickerStyle}
+              
+            />
+
+            <Autocomplete
+              id="free-solo-demo"
+              disablePortal
+              options={[{ label: "✔", value: true }, { label: "❌", value: false }]}
+              renderInput={(params) => (
+                <TextField style={{ ...pickerStyle, width: "150px" }}{...params} label="Resultado" />
+              )}
+              onChange={pickerResult}
+              value={resultSelected?.label}
+
             />
           </Stack>
+
           <div>
             <TextField
               id="date"
@@ -476,7 +506,7 @@ export default function UserQuiz() {
                   <TableCell>
                     {q?.customUser?.lastName + ", " + q?.customUser?.firstName}
                   </TableCell>
-                  <TableCell>{q?.date}</TableCell>
+                  <TableCell>{formatDateUtc(q?.date)}</TableCell>
                   <TableCell>
                     {q?.valid ? <span>✔</span> : <span>❌</span>}
                   </TableCell>
