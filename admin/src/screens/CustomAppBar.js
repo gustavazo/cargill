@@ -5,9 +5,9 @@ import instalros from "../images/logo-instalros-400.png"
 import Typography from '@mui/material/Typography';
 
 const CustomAppBar = (props) => {
-  console.log("que llega para la appbar", props)
+  console.log("AppBar Props", props)
   return (
-    <AppBar {...props} color={'secondary'} userMenu={false} 
+    <AppBar {...props} color={'secondary'} userMenu={false}
       sx={{
         "& .RaAppBar-title": {
           flex: 1,
