@@ -33,9 +33,9 @@ const Login = (props) => {
         try {
             const user = await UserService.login({
                 // username: email.toLocaleLowerCase(),
-                username: email,
+                username: email.trim(),
                 // password: password.toLocaleLowerCase()
-                password: password
+                password: password.trim()
             });
             context.setCurrentUser(user)
             props.navigation.navigate('Home')
