@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/static/css/main.079e2676.css",
-    "main.js": "/static/js/main.55c96c79.js",
+    "main.js": "/static/js/main.b19c280d.js",
     "static/js/787.3ce4cc4d.chunk.js": "/static/js/787.3ce4cc4d.chunk.js",
     "static/media/logo.png": "/static/media/logo.62d7ef69670af3cfa287.png",
     "static/media/logo-instalros-400.png": "/static/media/logo-instalros-400.f74eb16906714e934b7a.png",
     "index.html": "/index.html",
     "main.079e2676.css.map": "/static/css/main.079e2676.css.map",
-    "main.55c96c79.js.map": "/static/js/main.55c96c79.js.map",
+    "main.b19c280d.js.map": "/static/js/main.b19c280d.js.map",
     "787.3ce4cc4d.chunk.js.map": "/static/js/787.3ce4cc4d.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.079e2676.css",
-    "static/js/main.55c96c79.js"
+    "static/js/main.b19c280d.js"
   ]
 }
