@@ -6,11 +6,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Autocomplete from "@mui/material/Autocomplete";
-
+import DownloadIcon from '@mui/icons-material/Download';
 import UserQuizService from "../services/UserQuizService";
 import UserService from "../services/UserService";
 
@@ -18,7 +18,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-
+import { useNotify } from "react-admin";
 import { IconButton } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import RefreshIcon from "@mui/icons-material/Refresh";
@@ -28,6 +28,8 @@ import { styled } from "@mui/material/styles";
 import { Title, Confirm } from "react-admin";
 import moment from "moment";
 import AreaService from "../services/AreaService";
+import { ExportModal } from "./Export";
+import { UserQuizToExport } from "./UserQuizToExport";
 
 const style = {
   position: "absolute",
@@ -50,6 +52,10 @@ const pickerStyle = {
 
 }
 
+export function formatDateUtc(strDate) {
+
+  return moment.utc(new Date(strDate)).format("DD/MM/YYYY, HH:mm");
+}
 
 
 export default function UserQuiz() {
@@ -64,11 +70,19 @@ export default function UserQuiz() {
   const [quizSelected, setQuizSelected] = React.useState(null);
   const localUserType = React.useRef();
   const [open, setOpen] = React.useState(false);
+  const [openExport, setOpenExport] = React.useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
+  const notify = useNotify();
   const handleOpen = (q) => () => {
     setQuizSelected(q);
     setOpen(true);
   };
+
+  const handleOpenExport = (q) => () => {
+    setQuizSelected(q);
+    setOpenExport(true);
+  };
+
   const handleOpenDeleteDialog = (q) => {
     console.log('q', q)
     setQuizSelected(q);
@@ -85,7 +99,7 @@ export default function UserQuiz() {
   const handleClose = () => setOpen(false);
 
   const fetchUsersQuizzes = async () => {
-    const res = await UserQuizService.find({ ...filter, include: ['area'] });
+    const res = await UserQuizService.find({ ...filter, order: 'id DESC', include: ['area'] });
     let allUsersQuizzes = res.data;
     localUserType.current !== '2' ? allUsersQuizzes = allUsersQuizzes.filter(userQuiz => userQuiz.customUser.type !== '2') : null
     console.log('userQuizzes', usersQuizzes);
@@ -132,13 +146,6 @@ export default function UserQuiz() {
     }
     const user = users.find((u) => u.id === value?.id);
 
-    // setFilter({
-    //   ...filter,
-    //   where: {
-    //     ...(filter.where || {}),//en javascript una operación and u or no devuelve un booleano si no el valor de la variable verdadera en si
-    //     customUserId: user.id,
-    //   },
-    // });
     addFilter({ customUserId: user?.id });
   }
 
@@ -183,10 +190,6 @@ export default function UserQuiz() {
     setUserSelected({});
     // setDateSelected(getDateTime());
     window.location.reload();
-  }
-  function formatDateUtc(strDate) {
-
-    return moment.utc(new Date(strDate)).format("DD/MM/YYYY, HH:mm");
   }
 
 
@@ -249,14 +252,17 @@ export default function UserQuiz() {
 
   return (
     <div>
+      <ExportModal fileName={`${quizSelected?.quiz?.title} -${quizSelected?.area?.name} - ${quizSelected?.date}`} open={openExport} onClose={() => setOpenExport(false)} onError={() => notify("Reporte no generado", { type: "error" })}>
+        <UserQuizToExport userQuiz={quizSelected} ></UserQuizToExport>
+      </ExportModal>
       <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
-      //sx={{display: 'flex'}}
       >
         <Box sx={style} style={{ width: "auto", maxHeight: '90vh', display: "flex", flexDirection: 'column' }}>
+
           <div
             style={{
               fontSize: 35,
@@ -363,7 +369,7 @@ export default function UserQuiz() {
       </Modal>
       <Confirm
         isOpen={openDeleteDialog}
-        title={"Borrar Test de " + quizSelected?.customUser.firstName + " " + quizSelected?.customUser.lastName}
+        title={"Borrar Test de " + quizSelected?.customUser?.firstName + " " + quizSelected?.customUser.lastName}
         content={"¿Está seguro que desea borrar el test de forma permanente?"}
         onConfirm={() => handleDelete(quizSelected)}
         onClose={() => setOpenDeleteDialog(false)}
@@ -403,13 +409,13 @@ export default function UserQuiz() {
               id="free-solo-demo"
               disablePortal
               //options={users.map((option) => option.firstName)}¨
-              options={users.map((option) => { return { label: option.lastName + " " + option.firstName + " - " + option.username, id: option.id } })}
+              options={users.map((option) => { return { label: option.lastName + " " + option?.firstName + " - " + option?.username, id: option?.id } })}
               renderInput={(params) => (
                 <TextField style={pickerStyle} {...params} label="Seleccionar usuario" />
               )}
               onChange={pickerUser}
-              value={userSelected.firstName}
-              
+              value={userSelected?.firstName}
+
             />
 
             <Autocomplete
@@ -512,13 +518,18 @@ export default function UserQuiz() {
                   </TableCell>
                   <TableCell>{q?.observations}</TableCell>
                   <TableCell>
-                    <Button variant="contained" style={{ margin: 5, width: '40px', height: '40px' }} onClick={handleOpen(q)}>
-                      VER
-                    </Button>
-                    {(localUserType.current === '2') ?
-                      <Button color='error' style={{ margin: 5, width: '40px', height: '40px' }} onClick={() => handleOpenDeleteDialog(q)} variant='contained'><DeleteIcon style={{ fontSize: 20 }} /></Button>
-                      : null
-                    }
+                    <div style={{ display: 'flex' }}>
+                      <Button variant="contained" style={styles.actionButtons} onClick={handleOpen(q)}>
+                        <RemoveRedEye />
+                      </Button>
+                      <Button variant="contained" style={styles.actionButtons} onClick={handleOpenExport(q)}>
+                        <DownloadIcon />
+                      </Button>
+                      {(localUserType.current === '2') ?
+                        <Button color='error' style={styles.actionButtons} onClick={() => handleOpenDeleteDialog(q)} variant='contained'><DeleteIcon style={{ fontSize: 20 }} /></Button>
+                        : null
+                      }
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}
@@ -526,10 +537,13 @@ export default function UserQuiz() {
           </Table>
         </TableContainer>
       </Paper>
-    </div>
+    </div >
   );
 }
 
+const styles = {
+  actionButtons: { margin: 5, width: '35px', minWidth: 0, height: '35px' }
+}
 // automcoplete para usuarios
 // input date para fechas
 // boton de buscar
