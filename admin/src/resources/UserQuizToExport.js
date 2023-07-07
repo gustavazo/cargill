@@ -135,7 +135,7 @@ export function UserQuizToExport({ userQuiz }) {
                     id="outlined-read-only-input"
                     label='Observaciones'
                     defaultValue={"Ninguna"}
-                    value={userQuiz?.observations}
+                    value={userQuiz?.observations ? userQuiz.observations : "Ninguna"}
                     InputProps={{
                         readOnly: true,
                     }}
